@@ -69,6 +69,4 @@ fc-mapping-sync = '1.0.0'
 substrate-build-script-utils = '3.0.0'
 
 [features]
-default = ["aura"]
-aura = ["glitch-node-runtime/aura"]
-manual-seal = ["glitch-node-runtime/manual-seal"]
+
