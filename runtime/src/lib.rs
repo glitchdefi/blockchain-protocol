@@ -9,7 +9,6 @@ include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 //use sp_std::prelude::*;
 
 use sp_std::{prelude::*, marker::PhantomData, convert::TryFrom};
-use codec::{Encode, Decode};
 use sp_runtime::curve::PiecewiseLinear;
 
 use sp_core::{U256, crypto::KeyTypeId, OpaqueMetadata, H160, H256, u32_trait::{_1, _2, _3, _4, _5}};
@@ -56,7 +55,7 @@ pub use pallet_timestamp::Call as TimestampCall;
 pub use pallet_balances::Call as BalancesCall;
 use smallvec::smallvec;
 pub use frame_support::{
-	construct_runtime, parameter_types, StorageValue,
+	construct_runtime, debug, parameter_types, StorageValue,
 	traits::{
 		Currency, FindAuthor, Imbalance, KeyOwnerProofSystem, LockIdentifier, OnUnbalanced, Randomness,
 		U128CurrencyToVote, Get
@@ -76,6 +75,7 @@ pub use primitives::{
 
 
 pub use sp_runtime::{Perbill, Permill};
+use codec::{Encode, Decode};
 
 /// Opaque types. These are used by the CLI to instantiate machinery that don't need to know
 /// the specifics of the runtime. They can then be made to be agnostic over specific formats
@@ -368,7 +368,6 @@ impl pallet_indices::Config for Runtime {
 	type WeightInfo = pallet_indices::weights::SubstrateWeight<Runtime>;
 }
 
-
 impl<LocalCall> frame_system::offchain::CreateSignedTransaction<LocalCall> for Runtime
 	where
 		Call: From<LocalCall>,
@@ -530,7 +529,7 @@ impl<F: FindAuthor<u32>> FindAuthor<H160> for EthereumFindAuthor<F>
 	{
 		if let Some(author_index) = F::find_author(digests) {
 			let authority_id = Babe::authorities()[author_index as usize].clone();
-			return Some(H160::from_slice(&authority_id.to_raw_vec()[4..24]));
+			return Some(H160::from_slice(&authority_id.0.to_raw_vec()[4..24]));
 		}
 		None
 	}
@@ -1018,16 +1017,18 @@ impl fp_rpc::ConvertTransaction<UncheckedExtrinsic> for TransactionConverter {
 	}
 }
 
-impl fp_rpc::ConvertTransaction<opaque::UncheckedExtrinsic> for TransactionConverter {
-	fn convert_transaction(&self, transaction: pallet_ethereum::Transaction) -> opaque::UncheckedExtrinsic {
-		let extrinsic = UncheckedExtrinsic::new_unsigned(pallet_ethereum::Call::<Runtime>::transact(transaction).into());
+impl fp_rpc::ConvertTransaction<OpaqueExtrinsic> for TransactionConverter {
+	fn convert_transaction(&self, transaction: pallet_ethereum::Transaction) -> OpaqueExtrinsic {
+		let extrinsic = UncheckedExtrinsic::new_unsigned(
+			pallet_ethereum::Call::<Runtime>::transact(transaction).into(),
+		);
 		let encoded = extrinsic.encode();
-		opaque::UncheckedExtrinsic::decode(&mut &encoded[..]).expect("Encoded extrinsic is always valid")
+		OpaqueExtrinsic::decode(&mut &encoded[..]).expect("Encoded extrinsic is always valid")
 	}
 }
 
 /// The address format for describing accounts.
-pub type Address = sp_runtime::MultiAddress<AccountId, ()>;
+pub type Address = sp_runtime::MultiAddress<AccountId, AccountIndex>;
 /// Block header type as expected by this runtime.
 pub type Header = generic::Header<BlockNumber, BlakeTwo256>;
 /// Block type as expected by this runtime.

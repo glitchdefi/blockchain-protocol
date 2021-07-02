@@ -1,13 +1,14 @@
 use sp_core::{H160, U256, Pair, Public, sr25519};
 use glitch_node_runtime::{
 	AccountId, BabeConfig, BalancesConfig, GenesisConfig, GrandpaConfig,ImOnlineId,
-	GrandpaConfig, SessionConfig, SessionKeys, StakingConfig, AuthorityDiscoveryConfig,
+	SessionConfig, SessionKeys, StakingConfig, AuthorityDiscoveryConfig,
 	SudoConfig, SystemConfig, WASM_BINARY, Signature, EVMConfig, EthereumConfig,
-	StakerStatus, IndicesConfig,
-	CouncilConfig, TechnicalCommitteeConfig
+	StakerStatus, IndicesConfig, CouncilConfig, TechnicalCommitteeConfig,
+	Balance
 };
 use sp_consensus_babe::AuthorityId as BabeId;
 use sp_finality_grandpa::AuthorityId as GrandpaId;
+use sp_authority_discovery::AuthorityId as AuthorityDiscoveryId;
 use sp_runtime::traits::{Verify, IdentifyAccount};
 use sp_runtime::Perbill;
 use sc_service::ChainType;
@@ -20,6 +21,15 @@ use serde_json as json;
 
 /// Specialized `ChainSpec`. This is a specialization of the general Substrate ChainSpec type.
 pub type ChainSpec = sc_service::GenericChainSpec<GenesisConfig>;
+
+fn session_keys(
+	grandpa: GrandpaId,
+	babe: BabeId,
+	im_online: ImOnlineId,
+	authority_discovery: AuthorityDiscoveryId,
+) -> SessionKeys {
+	SessionKeys { grandpa, babe, im_online, authority_discovery, }
+}
 
 /// Generate a crypto pair from seed.
 pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Public {
@@ -154,6 +164,11 @@ fn testnet_genesis(
 ) -> GenesisConfig {
 
 	let num_endowed_accounts = endowed_accounts.len();
+
+	const DOLLARS: Balance = 1_000_000_000_000_000_000;
+	const ENDOWMENT: Balance = 1_000 * DOLLARS;
+	const STASH: Balance = 100 * DOLLARS;
+	const AUTHOR_BALANCE: Balance = 200 * DOLLARS;
 
 	GenesisConfig {
 		frame_system: Some(SystemConfig {
