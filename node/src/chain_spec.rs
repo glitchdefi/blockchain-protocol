@@ -18,12 +18,21 @@ use std::collections::BTreeMap;
 use pallet_evm::GenesisAccount;
 use primitive_types::H160;
 use std::str::FromStr;
+use serde_json as json;
 
 // The URL for the telemetry server.
 const TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
 
 /// Specialized `ChainSpec`. This is a specialization of the general Substrate ChainSpec type.
 pub type ChainSpec = sc_service::GenericChainSpec<GenesisConfig>;
+
+const DEFAULT_PROPERTIES_TESTNET: &str = r#"
+{
+"tokenSymbol": "GLCH",
+"tokenDecimals": 18,
+"ss58Format": 42
+}
+"#;
 
 fn session_keys(
 	grandpa: GrandpaId,
@@ -133,10 +142,7 @@ pub fn development_config() -> Result<ChainSpec, String> {
 		// Protocol ID
 		Some("glitch_nodelocal"),
 		// Properties
-		Some(json!({
-      "tokenDecimals": 18,
-      "tokenSymbol": "CLV"
-    }).as_object().expect("Created an object").clone()),
+		Some(json::from_str(DEFAULT_PROPERTIES_TESTNET).unwrap()),
 		// Extensions
 		None,
 	))
@@ -185,10 +191,7 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 		// Protocol ID
 		Some("glitch_nodelocal"),
 		// Properties
-		Some(json!({
-      "tokenDecimals": 18,
-      "tokenSymbol": "CLV"
-    }).as_object().expect("Created an object").clone()),
+		Some(json::from_str(DEFAULT_PROPERTIES_TESTNET).unwrap()),
 		// Extensions
 		None,
 	))
