@@ -74,13 +74,14 @@ pub fn authority_keys_from_seed(s: &str) -> (AccountId, AccountId, BabeId, Grand
 fn endowed_evm_account() -> BTreeMap<H160, GenesisAccount>{
 	let endowed_account = vec![
 		// glitch_node fauct
-		H160::from_str("9157f0316f375e4ccf67f8d21ae0881d0abcbb21").unwrap()
+		H160::from_str("8097c3C354652CB1EEed3E5B65fBa2576470678A").unwrap()
 	];
 	get_endowed_evm_accounts(endowed_account)
 }
 
 fn dev_endowed_evm_accounts() -> BTreeMap<H160, GenesisAccount>{
 	let endowed_account = vec![
+		H160::from_str("8097c3C354652CB1EEed3E5B65fBa2576470678A").unwrap(),
 		H160::from_str("6be02d1d3665660d22ff9624b7be0551ee1ac91b").unwrap(),
 		H160::from_str("e6206C7f064c7d77C6d8e3eD8601c9AA435419cE").unwrap(),
 		// the dev account key
