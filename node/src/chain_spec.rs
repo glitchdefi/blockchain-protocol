@@ -100,7 +100,7 @@ fn get_endowed_evm_accounts(endowed_account: Vec<H160>) -> BTreeMap<H160, Genesi
 			account,
 			GenesisAccount {
 				nonce: U256::from(0),
-				balance: U256::from(1_000 * DOLLARS),
+				balance: U256::from(1_000_000_000 * DOLLARS),
 				storage: Default::default(),
 				code: vec![],
 			},
