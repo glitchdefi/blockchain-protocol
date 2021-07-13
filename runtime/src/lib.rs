@@ -77,6 +77,7 @@ pub use primitives::{
 
 pub use sp_runtime::{Perbill, Permill};
 use codec::{Encode, Decode};
+use sp_arithmetic::{traits::{BaseArithmetic, Unsigned}};
 
 /// Opaque types. These are used by the CLI to instantiate machinery that don't need to know
 /// the specifics of the runtime. They can then be made to be agnostic over specific formats
@@ -335,22 +336,62 @@ impl<C> WeightToFeePolynomial for LinearWeightToFee<C> where C: Get<Balance>, {
     }
 }
 
-parameter_types! {
-pub const TransactionByteFee: Balance = 1;
-pub const FeeWeightRatio: Balance = 1_000;
+type NegativeImbalance = <Balances as Currency<AccountId>>::NegativeImbalance;
 
-pub const TargetBlockFullness: Perquintill = Perquintill::from_percent(25);
-pub AdjustmentVariable: Multiplier = Multiplier::saturating_from_rational(1, 100_000);
-pub MinimumMultiplier: Multiplier = Multiplier::saturating_from_rational(1, 1_000_000_000u128);
+
+pub struct WeightToFee<T>(sp_std::marker::PhantomData<T>);
+
+impl<T> WeightToFeePolynomial for WeightToFee<T> where
+    T: BaseArithmetic + From<u32> + Copy + Unsigned
+{
+    type Balance = T;
+
+    fn polynomial() -> WeightToFeeCoefficients<Self::Balance> {
+        smallvec::smallvec!(WeightToFeeCoefficient {
+      coeff_integer: 10_000u32.into(),
+      coeff_frac: Perbill::zero(),
+      negative: false,
+      degree: 1,
+    })
+    }
+}
+
+pub struct Author;
+impl OnUnbalanced<NegativeImbalance> for Author {
+    fn on_nonzero_unbalanced(amount: NegativeImbalance) {
+        Balances::resolve_creating(&Authorship::author(), amount);
+    }
+}
+
+pub struct DealWithFees;
+impl OnUnbalanced<NegativeImbalance> for DealWithFees {
+    fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance>) {
+        if let Some(fees) = fees_then_tips.next() {
+            // for fees, 80% to treasury, 20% to author
+            let mut split = fees.ration(80, 20);
+            if let Some(tips) = fees_then_tips.next() {
+                // for tips, if any, 80% to treasury, 20% to author (though this can be anything)
+                tips.ration_merge_into(80, 20, &mut split);
+            }
+            Treasury::on_unbalanced(split.0);
+            Author::on_unbalanced(split.1);
+        }
+    }
+}
+
+parameter_types! {
+  pub const TransactionByteFee: Balance = MILLICENTS;
+  pub const TargetBlockFullness: Perquintill = Perquintill::from_percent(25);
+  pub AdjustmentVariable: Multiplier = Multiplier::saturating_from_rational(1, 100_000);
+  pub MinimumMultiplier: Multiplier = Multiplier::saturating_from_rational(1, 1_000_000_000u128);
 }
 
 impl pallet_transaction_payment::Config for Runtime {
-    type OnChargeTransaction = CurrencyAdapter<Balances, ()>;
+    type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, DealWithFees>;
     type TransactionByteFee = TransactionByteFee;
-    //	type WeightToFee = LinearWeightToFee<FeeWeightRatio>;
-    type WeightToFee = IdentityFee<Balance>;
-    type FeeMultiplierUpdate = ();
-//	type FeeMultiplierUpdate = TargetedFeeAdjustment<Self, TargetBlockFullness, AdjustmentVariable, MinimumMultiplier>;
+    type WeightToFee = WeightToFee<Balance>;
+    type FeeMultiplierUpdate =
+    TargetedFeeAdjustment<Self, TargetBlockFullness, AdjustmentVariable, MinimumMultiplier>;
 }
 
 impl pallet_sudo::Config for Runtime {
@@ -656,8 +697,8 @@ parameter_types! {
 	pub const SpendPeriod: BlockNumber = 1 * DAYS;
 	pub const Burn: Permill = Permill::from_percent(50);
 	pub const TipCountdown: BlockNumber = 1 * DAYS;
-	// pub const TipFindersFee: Percent = Percent::from_percent(20);
-	// pub const TipReportDepositBase: Balance = 1 * DOLLARS;
+	pub const TipFindersFee: Percent = Percent::from_percent(20);
+	pub const TipReportDepositBase: Balance = 1 * DOLLARS;
 	pub const DataDepositPerByte: Balance = 1 * CENTS;
 	pub const BountyDepositBase: Balance = 1 * DOLLARS;
 	pub const BountyDepositPayoutDelay: BlockNumber = 1 * DAYS;
@@ -703,6 +744,17 @@ impl pallet_bounties::Config for Runtime {
     type DataDepositPerByte = DataDepositPerByte;
     type MaximumReasonLength = MaximumReasonLength;
     type WeightInfo = pallet_bounties::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_tips::Config for Runtime {
+    type Event = Event;
+    type DataDepositPerByte = DataDepositPerByte;
+    type MaximumReasonLength = MaximumReasonLength;
+    type Tippers = ElectionsPhragmen;
+    type TipCountdown = TipCountdown;
+    type TipFindersFee = TipFindersFee;
+    type TipReportDepositBase = TipReportDepositBase;
+    type WeightInfo = pallet_tips::weights::SubstrateWeight<Runtime>;
 }
 
 parameter_types! {
@@ -1054,6 +1106,7 @@ construct_runtime!(
 		Democracy: pallet_democracy::{Module, Call, Storage, Config, Event<T>},
     	ElectionsPhragmen: pallet_elections_phragmen::{Module, Call, Storage, Event<T>, Config<T>},
     	TechnicalMembership: pallet_membership::<Instance1>::{Module, Call, Storage, Event<T>, Config<T>},
+        Tips: pallet_tips::{Module, Call, Storage, Event<T>},
 
 		// Utility
 		MultiSig: pallet_multisig::{Module, Call, Storage, Event<T>},
