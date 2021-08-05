@@ -18,15 +18,17 @@ name = 'glitch-node'
 [dependencies]
 
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = ["derive"] }
-ethereum = { version = "0.7.1", features = ["with-codec"] }
-ethereum-types = "0.11.0"
-fc-consensus = '1.0.0'
-fc-db = '1.0.0'
-fc-mapping-sync = '1.0.0'
-fc-rpc = '1.0.0'
-fc-rpc-core = '1.0.0'
-fp-consensus = '1.0.0'
-fp-rpc = '1.0.0'
+
+pallet-evm = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover"  }
+pallet-ethereum = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fc-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", features = ["rpc_binary_search_estimate"] }
+fp-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fc-consensus = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fp-consensus = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fc-db = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fc-rpc-core = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fc-mapping-sync = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+
 futures = "0.3.4"
 glitch-node-runtime = { path = "../runtime", package="glitch-node-runtime", default-features = false, features = ["std"] }
 jsonrpc-core = "15.1.0"
@@ -34,8 +36,6 @@ jsonrpc-pubsub = "15.1.0"
 log = "0.4.8"
 pallet-contracts = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0", default-features = false }
 pallet-contracts-rpc = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
-pallet-ethereum = '1.0.0'
-pallet-evm = '3.0.0'
 pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
 primitives = { package = 'glitch-primitives', path = '../primitives', version = '3.0.0'}
 sc-authority-discovery = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }

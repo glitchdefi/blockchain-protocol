@@ -1,7 +1,6 @@
 [workspace]
 members = [
     'node',
-    'pallets/*',
     'runtime',
     'primitives',
 ]
@@ -44,7 +43,6 @@ pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.gi
 pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-pallet-utility = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-basic-authorship = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-chain-spec = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-cli = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }

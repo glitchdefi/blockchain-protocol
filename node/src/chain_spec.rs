@@ -1,4 +1,3 @@
-use serde_json::json;
 use sp_core::{Pair, Public, sr25519, U256};
 use glitch_node_runtime::{
 	AccountId, BabeConfig, Balance, AuthorityDiscoveryConfig, BalancesConfig, ContractsConfig, IndicesConfig, GenesisConfig, ImOnlineId,
@@ -11,9 +10,6 @@ use sp_consensus_babe::AuthorityId as BabeId;
 use sp_finality_grandpa::AuthorityId as GrandpaId;
 use sp_runtime::{traits::{IdentifyAccount, Verify}, Perbill};
 use sc_service::ChainType;
-use hex_literal::hex;
-use sc_telemetry::TelemetryEndpoints;
-use sp_core::crypto::UncheckedInto;
 use std::collections::BTreeMap;
 use pallet_evm::GenesisAccount;
 use primitive_types::H160;
@@ -21,7 +17,7 @@ use std::str::FromStr;
 use serde_json as json;
 
 // The URL for the telemetry server.
-const TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
+// const TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
 
 /// Specialized `ChainSpec`. This is a specialization of the general Substrate ChainSpec type.
 pub type ChainSpec = sc_service::GenericChainSpec<GenesisConfig>;
@@ -209,7 +205,7 @@ fn testnet_genesis(
 ) -> GenesisConfig {
 	let enable_println = true;
 
-	const ENDOWMENT: Balance = 1_000 * DOLLARS;
+	const ENDOWMENT: Balance = 1_000_0000_0000 * DOLLARS;
 	const STASH: Balance = 100 * DOLLARS;
 	const AUTHOR_BALANCE: Balance = 200 * DOLLARS;
 

@@ -154,6 +154,7 @@ pub fn new_partial(config: &Configuration, cli: &Cli) -> Result<sc_service::Part
 		let pending = pending_transactions.clone();
 		let filter_pool_clone = filter_pool.clone();
 		let backend = frontier_backend.clone();
+		let max_past_logs = cli.run.max_past_logs;
 
 		let rpc_extensions_builder = move |deny_unsafe, _subscription_executor: sc_rpc::SubscriptionTaskExecutor, network: Arc<sc_network::NetworkService<Block, <Block as BlockT>::Hash>>| {
 
@@ -179,6 +180,7 @@ pub fn new_partial(config: &Configuration, cli: &Cli) -> Result<sc_service::Part
 				filter_pool: filter_pool_clone.clone(),
 				backend: backend.clone(),
 				is_authority,
+				max_past_logs,
 				network: network,
 			};
 
