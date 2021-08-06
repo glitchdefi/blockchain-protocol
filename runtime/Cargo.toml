@@ -80,6 +80,9 @@ sp-transaction-pool = { git = "https://github.com/paritytech/substrate.git",  ta
 sp-version = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 sp-authority-discovery = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 
+# custom
+pallet-revenue-sharing = { path = '../pallets/pallet-revenue-sharing', default-features = false }
+
 [build-dependencies]
 substrate-wasm-builder = '4.0.0'
 
@@ -141,4 +144,6 @@ std = [
 	"sp-transaction-pool/std",
 	"sp-version/std",
 	'sp-authority-discovery/std',
+
+	"pallet-revenue-sharing/std"
 ]

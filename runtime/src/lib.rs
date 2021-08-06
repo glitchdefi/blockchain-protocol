@@ -31,7 +31,7 @@ use sp_core::crypto::Public;
 pub use pallet_im_online::sr25519::AuthorityId as ImOnlineId;
 use pallet_session::historical as pallet_session_historical;
 use sp_authority_discovery::AuthorityId as AuthorityDiscoveryId;
-
+use pallet_revenue_sharing;
 //pub mod impls;
 //use impls::{LinearWeightToFee};
 
@@ -1061,6 +1061,16 @@ impl pallet_contracts::Config for Runtime {
     type DeletionWeightLimit = DeletionWeightLimit;
 }
 
+parameter_types! {
+    pub const RevenueSharingModuleId: ModuleId = ModuleId(*b"py/rvnsr");
+}
+
+impl pallet_revenue_sharing::Config for Runtime {
+    type ModuleId = RevenueSharingModuleId;
+
+    type Currency = Balances;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
@@ -1113,6 +1123,9 @@ construct_runtime!(
 		// Utility
 		MultiSig: pallet_multisig::{Module, Call, Storage, Event<T>},
 		Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
+
+        // Custom
+        RevenueSharing: pallet_revenue_sharing::{Module, Call, Storage}
 	}
 );
 
