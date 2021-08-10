@@ -1,4 +1,4 @@
-#[cfg(feature = "std")]
+#![cfg_attr(not(feature = "std"), no_std)]
 
 use frame_support::{decl_module, decl_storage, decl_error, ensure};
 use sp_runtime::{ModuleId, traits::{
@@ -14,6 +14,7 @@ use frame_support::{
 	}
 };
 use codec::{Encode, Decode};
+use sp_std::prelude::*;
 
 pub type BalanceOf<T, I=DefaultInstance> =
 <<T as Config<I>>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
@@ -42,13 +43,20 @@ decl_storage! {
 
 		pub RevenueSharingAccount get(fn revenue_sharing_account): T::AccountId;
 
-		pub AcceptedMap get(fn accepted_map):
-			map hasher(blake2_128_concat)
-			T::AccountId => Option<Proposal<T::AccountId, BalanceOf<T, I>>>;
+		// TODO: should pre-set this field (or need to make tx to set it after starting chain --> very dangerous)
+		pub PalletOwner get(fn pallet_owner): T::AccountId;
 
-		pub PendingMap get(fn pending_map):
+		pub AcceptedProposal get(fn accepted_proposal):
 			map hasher(blake2_128_concat)
-			T::AccountId => Option<Proposal<T::AccountId, BalanceOf<T, I>>>;
+			u32 => Proposal<T::AccountId, BalanceOf<T, I>>;
+
+		pub NumberAcceptedProposal get(fn number_accepted_proposal): u32;
+
+		pub PendingProposal get(fn pending_proposal):
+			map hasher(blake2_128_concat)
+			u32 => Proposal<T::AccountId, BalanceOf<T, I>>;
+
+		pub NumberPendingProposal get(fn number_pending_proposal): u32;
 
 		pub TotalLocked get(fn total_locked): BalanceOf<T, I>;
 
@@ -80,7 +88,9 @@ decl_storage! {
 decl_error! {
 	pub enum Error for Module<T: Config<I>, I: Instance> {
 		InsufficientFunds,
-		ExceedAmountLocked
+		ExceedAmountLocked,
+		InvalidServiceType,
+		NotOwner,
 	}
 }
 
@@ -89,40 +99,63 @@ decl_module! {
 		for enum Call
 		where origin: T::Origin
 	{
-		// #[weight = 10_000]
-		// pub fn proposal(origin, value: BalanceOf<T, I>, service_type: u32) -> DispatchResult {
-		// 	let sender = ensure_signed(origin)?;
-		//
-		// 	ensure!(T::Currency::transfer(&sender, &Self::account_id(), value, AllowDeath)? == (), <Error<T, I>>::InsufficientFunds);
-		//
-		// 	let current_locked = Self::lock_amount(&sender);
-		// 	<LockAmount<T, I>>::insert(&sender, current_locked.saturating_add(value));
-		// 	//
-		// 	let current_total_locked = Self::total_locked();
-		// 	<TotalLocked<T, I>>::put(current_total_locked.saturating_add(value));
-		//
-		// 	Ok(())
-		// }
-		//
-		// #[weight = 10_000]
-		// fn claim_revenue(origin, value: BalanceOf<T, I>) -> DispatchResult {
-		// 	let sender = ensure_signed(origin)?;
-		//
-		// 	let current_locked = Self::lock_amount(&sender);
-		// 	ensure!(current_locked >= value, <Error<T, I>>::ExceedAmountLocked);
-		// 	<LockAmount<T, I>>::insert(&sender, current_locked.saturating_sub(value));
-		//
-		// 	T::Currency::transfer(&Self::account_id(), &sender, value, AllowDeath)?;
-		//
-		// 	let current_total_locked = Self::total_locked();
-		// 	<TotalLocked<T, I>>::put(current_total_locked.saturating_sub(value));
-		//
-		// 	Ok(())
-		// }
+
+		#[weight = 10_000]
+		pub fn proposal(origin, value: BalanceOf<T, I>, service_type: u32) -> DispatchResult {
+			let sender = ensure_signed(origin)?;
+
+			ensure!((service_type == 2) || (service_type == 3) || (service_type == 4), <Error<T, I>>::InvalidServiceType);
+			ensure!(T::Currency::transfer(&sender, &Self::account_id(), value, AllowDeath)? == (), <Error<T, I>>::InsufficientFunds);
+
+			let current_total_locked = Self::total_locked();
+			<TotalLocked<T, I>>::put(current_total_locked.saturating_add(value));
+
+			let current_total_pending = Self::total_pending();
+			<TotalPending<T, I>>::put(current_total_pending.saturating_add(value));
+
+			let current_number_pending_proposal = Self::number_pending_proposal().saturating_add(1);
+			<NumberPendingProposal<I>>::put(current_number_pending_proposal);
+
+			let new_proposal = Proposal {
+				proposer: sender,
+				value,
+				service_type
+			};
+
+			<PendingProposal<T, I>>::insert(current_number_pending_proposal, new_proposal);
+
+			Ok(())
+		}
+
+		#[weight = 10_000]
+		fn set_pallet_owner(origin, owner: T::AccountId) -> DispatchResult {
+			let sender = ensure_signed(origin)?;
+			<PalletOwner<T, I>>::put(owner);
+			Ok(())
+		}
+
+		#[weight = 10_000]
+		fn owner_judge(origin, accept: bool) -> DispatchResult {
+			let sender = ensure_signed(origin)?;
+
+			// Currently, Alice is owner of this pallet
+			ensure!(sender == Self::pallet_owner(), <Error<T, I>>::NotOwner);
+
+			let current_number_pending_proposal = Self::number_pending_proposal().saturating_add(1);
+			<NumberPendingProposal<I>>::put(current_number_pending_proposal);
+
+			if accept == true {
+
+			} else {
+
+			}
+			Ok(())
+		}
 	}
 }
 
 impl<T: Config<I>, I: Instance> Module<T, I> {
+	// TODO: Can get the private key from this account?
 	pub fn account_id() -> T::AccountId {
 		T::ModuleId::get().into_account()
 	}
