@@ -27,5 +27,7 @@ std = [
     "sp-runtime/std",
     "codec/std",
     "frame-system/std",
-    "sp-std/std"
+    "sp-std/std",
+    "sp-io/std",
+    "sp-core/std"
 ]

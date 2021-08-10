@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# This script meant to be run on Unix/Linux based systems
+# This script is meant to be run on Unix/Linux based systems
 set -e
 
-echo "*** Start Substrate node template ***"
+echo "*** Initializing WASM build environment"
 
-cd $(dirname ${BASH_SOURCE[0]})/..
+if [ -z $CI_PROJECT_NAME ] ; then
+   rustup update nightly
+   rustup update stable
+fi
 
-docker-compose down --remove-orphans
-docker-compose run --rm --service-ports dev $@
+rustup target add wasm32-unknown-unknown --toolchain nightly
