@@ -111,13 +111,15 @@ decl_error! {
 		InsufficientFunds,
 		InvalidServiceType,
 		NotOwner,
-		PendingInsertFailed,
 		Decision,
-		InvalidPendingProposalID,
-		AcceptedInsertFailed,
-		PendingDeleteFailed,
 		InvalidAcceptedProposalID,
-		AcceptedDeleteFailed
+		InvalidPendingProposalID,
+		PendingInsertFailed,
+		PendingDeleteFailed,
+		AcceptedInsertFailed,
+		AcceptedDeleteFailed,
+		OfProposerInsertFailed,
+		OfProposerDeleteFailed
 	}
 }
 
@@ -216,6 +218,20 @@ decl_module! {
 					<PriorityPool<I>>::insert(eth_address.clone(), new_priority_contract);
 				}
 
+				let proposer = current_pending_proposal.proposer.clone();
+
+				// update AcceptedProposalIdOfProposer
+				let mut vec_accepted_proposal_id_of_proposer = Self::accepted_proposal_id_of_proposer(proposer.clone());
+				let ok = match vec_accepted_proposal_id_of_proposer.binary_search(&new_id) {
+					Ok(_) => 0,
+					Err(index) => {
+						vec_accepted_proposal_id_of_proposer.insert(index, new_id);
+						<AcceptedProposalIdOfProposer<T, I>>::insert(proposer, vec_accepted_proposal_id_of_proposer);
+						1
+					}
+				};
+				ensure!(ok == 1, <Error<T, I>>::OfProposerInsertFailed);
+
 			} else {
 				T::Currency::transfer(&Self::revenue_sharing_account(), &current_pending_proposal.clone().proposer,
 																current_pending_proposal.clone().value, AllowDeath)?;
@@ -245,8 +261,8 @@ decl_module! {
 			let sender = ensure_signed(origin)?;
 
 			// Check if accepted_proposal_id is valid
-			let acc_proposal_id_of_sender = Self::accepted_proposal_id_of_proposer(sender);
-			let ok = match acc_proposal_id_of_sender.binary_search(&accepted_proposal_id) {
+			let mut vec_acc_proposal_id_of_sender = Self::accepted_proposal_id_of_proposer(sender.clone());
+			let ok = match vec_acc_proposal_id_of_sender.binary_search(&accepted_proposal_id) {
 				Ok(_) => 1,
 				Err(_) => 0
 			};
@@ -254,7 +270,7 @@ decl_module! {
 
 			let proposal = <AcceptedProposal<T, I>>::get(accepted_proposal_id).clone();
 
-			// delete pending_proposal_id from PendingProposalID
+			// delete accepted_proposal_id from AcceptedProposalID
 			let mut vec_accepted_proposal_id = Self::accepted_proposal_id();
 			let ok = match vec_accepted_proposal_id.binary_search(&accepted_proposal_id) {
 				Ok(index) => {
@@ -273,6 +289,18 @@ decl_module! {
 			for eth_address in proposal.smart_contract_address.clone() {
 				<PriorityPool<I>>::remove(eth_address);
 			}
+
+			// update AcceptedProposalIdOfProposer
+			let ok = match vec_acc_proposal_id_of_sender.binary_search(&accepted_proposal_id) {
+				Ok(index) => {
+					vec_acc_proposal_id_of_sender.remove(index);
+					<AcceptedProposalIdOfProposer<T, I>>::insert(sender, vec_acc_proposal_id_of_sender);
+					1
+				},
+				Err(_) => 0
+			};
+			ensure!(ok == 1, <Error<T, I>>::OfProposerDeleteFailed);
+
 			Ok(())
 		}
 
