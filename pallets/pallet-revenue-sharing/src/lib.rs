@@ -49,14 +49,14 @@ pub trait Config<I=DefaultInstance>: frame_system::Config {
 
 
 decl_storage! {
-	// TODO: Currently, this pallet have a problem related to frontend (reading data from map)
+	// TODO: Currently, this pallet has a problem related to frontend (reading data from map)
 	// TODO: may need to add custom rpc
 
     trait Store for Module<T: Config<I>, I: Instance=DefaultInstance> as RevenueSharing {
 
 		pub RevenueSharingAccount get(fn revenue_sharing_account): T::AccountId;
 
-		// TODO: should pre-set this field (or need to make tx to set it after starting chain --> very dangerous)
+		// TODO: should pre-set this field (or need to make tx to set it after starting chain --> not so dangerous)
 		pub PalletOwner get(fn pallet_owner): T::AccountId;
 
 		SetOwner get(fn set_owner): bool = false;
