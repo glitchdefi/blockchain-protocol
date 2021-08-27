@@ -20,10 +20,6 @@ use sp_core::H160;
 
 pub type BalanceOf<T, I=DefaultInstance> =
 <<T as Config<I>>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
-pub type PositiveImbalanceOf<T, I=DefaultInstance> =
-<<T as Config<I>>::Currency as Currency<<T as frame_system::Config>::AccountId>>::PositiveImbalance;
-pub type NegativeImbalanceOf<T, I=DefaultInstance> =
-<<T as Config<I>>::Currency as Currency<<T as frame_system::Config>::AccountId>>::NegativeImbalance;
 
 #[derive(codec::Encode, codec::Decode, Default, Clone, PartialEq, Eq, RuntimeDebug)]
 #[cfg_attr(feature = "with-serde", derive(serde::Serialize, serde::Deserialize))]
@@ -190,10 +186,10 @@ decl_module! {
 			// check if "pending_proposal_id" is valid
 			let vec_pending_proposal_id = Self::pending_proposal_id();
 			let ok = match vec_pending_proposal_id.binary_search(&pending_proposal_id) {
-				Ok(_) => 0,
-				Err(_) => 1
+				Ok(_) => 1,
+				Err(_) => 0
 			};
-			ensure!(ok == 0, <Error<T, I>>::InvalidPendingProposalID);
+			ensure!(ok == 1, <Error<T, I>>::InvalidPendingProposalID);
 
 			let current_pending_proposal = <PendingProposal<T, I>>::get(pending_proposal_id);
 
