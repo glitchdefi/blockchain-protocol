@@ -20,10 +20,6 @@ use sp_core::H160;
 
 pub type BalanceOf<T, I=DefaultInstance> =
 <<T as Config<I>>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
-pub type PositiveImbalanceOf<T, I=DefaultInstance> =
-<<T as Config<I>>::Currency as Currency<<T as frame_system::Config>::AccountId>>::PositiveImbalance;
-pub type NegativeImbalanceOf<T, I=DefaultInstance> =
-<<T as Config<I>>::Currency as Currency<<T as frame_system::Config>::AccountId>>::NegativeImbalance;
 
 #[derive(codec::Encode, codec::Decode, Default, Clone, PartialEq, Eq, RuntimeDebug)]
 #[cfg_attr(feature = "with-serde", derive(serde::Serialize, serde::Deserialize))]
@@ -49,12 +45,17 @@ pub trait Config<I=DefaultInstance>: frame_system::Config {
 
 
 decl_storage! {
+	// TODO: Currently, this pallet has a problem related to frontend (reading data from map)
+	// TODO: may need to add custom rpc
+
     trait Store for Module<T: Config<I>, I: Instance=DefaultInstance> as RevenueSharing {
 
 		pub RevenueSharingAccount get(fn revenue_sharing_account): T::AccountId;
 
-		// TODO: should pre-set this field (or need to make tx to set it after starting chain --> very dangerous)
+		// TODO: should pre-set this field (or need to make tx to set it after starting chain --> not so dangerous)
 		pub PalletOwner get(fn pallet_owner): T::AccountId;
+
+		SetOwner get(fn set_owner): bool = false;
 
 		pub PriorityPool get(fn priority_pool):
 			map hasher(blake2_128_concat)
@@ -119,7 +120,8 @@ decl_error! {
 		AcceptedInsertFailed,
 		AcceptedDeleteFailed,
 		OfProposerInsertFailed,
-		OfProposerDeleteFailed
+		OfProposerDeleteFailed,
+		AlreadySetOwner
 	}
 }
 
@@ -132,6 +134,8 @@ decl_module! {
 		#[weight = 10_000]
 		fn set_pallet_owner(origin, owner: T::AccountId) -> DispatchResult {
 			let _sender = ensure_signed(origin)?;
+			ensure!(Self::set_owner() == false, <Error<T, I>>::AlreadySetOwner);
+			<SetOwner<I>>::put(true);
 			<PalletOwner<T, I>>::put(owner);
 			Ok(())
 		}
@@ -182,10 +186,10 @@ decl_module! {
 			// check if "pending_proposal_id" is valid
 			let vec_pending_proposal_id = Self::pending_proposal_id();
 			let ok = match vec_pending_proposal_id.binary_search(&pending_proposal_id) {
-				Ok(_) => 0,
-				Err(_) => 1
+				Ok(_) => 1,
+				Err(_) => 0
 			};
-			ensure!(ok == 0, <Error<T, I>>::InvalidPendingProposalID);
+			ensure!(ok == 1, <Error<T, I>>::InvalidPendingProposalID);
 
 			let current_pending_proposal = <PendingProposal<T, I>>::get(pending_proposal_id);
 
@@ -308,13 +312,9 @@ decl_module! {
 }
 
 impl<T: Config<I>, I: Instance> Module<T, I> {
-	// TODO: Can get the private key from this account?
+
 	pub fn account_id() -> T::AccountId {
 		T::ModuleId::get().into_account()
-	}
-
-	pub fn pot() -> BalanceOf<T, I> {
-		T::Currency::free_balance(&Self::account_id())
 	}
 
 }
