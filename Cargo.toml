@@ -25,6 +25,7 @@ pallet-contracts-rpc = { git = "https://github.com/paritytech/substrate.git",  t
 pallet-contracts-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
 pallet-democracy = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-elections-phragmen = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+pallet-revenue-sharing = {path="./pallets/pallet-revenue-sharing"}
 pallet-grandpa = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-im-online = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-indices = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
