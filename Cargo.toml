@@ -3,7 +3,8 @@ members = [
     'node',
     'runtime',
     'primitives',
-    'pallets/pallet-revenue-sharing'
+    'pallets/pallet-revenue-sharing',
+    'pallets/pallet-ethereum'
 ]
 [profile.release]
 panic = 'unwind'
@@ -95,3 +96,4 @@ sp-trie = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"
 sp-version = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sp-runtime-interface-proc-macro = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+
