@@ -4,6 +4,7 @@ members = [
     'runtime',
     'primitives',
     'pallets/pallet-staking',
+    'pallets/pallet-treasury',
 ]
 [profile.release]
 panic = 'unwind'
@@ -43,7 +44,7 @@ pallet-timestamp = { git = "https://github.com/paritytech/substrate.git",  tag =
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+# pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-basic-authorship = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-chain-spec = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-cli = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
