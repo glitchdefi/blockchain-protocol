@@ -2360,6 +2360,7 @@ dependencies = [
  "pallet-multisig",
  "pallet-offences",
  "pallet-randomness-collective-flip",
+ "pallet-revenue",
  "pallet-revenue-sharing",
  "pallet-scheduler",
  "pallet-session",
@@ -4641,6 +4642,21 @@ dependencies = [
  "frame-system",
  "parity-scale-codec 2.2.0",
  "safe-mix",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "pallet-revenue"
+version = "3.0.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "hex-literal",
+ "parity-scale-codec 2.2.0",
+ "rustc-hex",
+ "serde",
+ "sp-core",
  "sp-runtime",
  "sp-std",
 ]

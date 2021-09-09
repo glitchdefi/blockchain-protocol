@@ -82,6 +82,7 @@ sp-authority-discovery = { git = "https://github.com/paritytech/substrate.git", 
 
 # custom
 pallet-revenue-sharing = { path = '../pallets/pallet-revenue-sharing', default-features = false }
+pallet-revenue = { path = '../pallets/pallet-revenue', default-features = false, version = '3.0.0' }
 
 [build-dependencies]
 substrate-wasm-builder = '4.0.0'

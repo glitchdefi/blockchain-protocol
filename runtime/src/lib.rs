@@ -1066,14 +1066,16 @@ impl pallet_contracts::Config for Runtime {
 }
 
 parameter_types! {
-    pub const RevenueSharingModuleId: ModuleId = ModuleId(*b"py/rvnsr");
+    pub const RevenueModuleId: ModuleId = ModuleId(*b"py/rvnsr");
 }
 
-impl pallet_revenue_sharing::Config for Runtime {
-    type ModuleId = RevenueSharingModuleId;
-
-    type Currency = Balances;
+/// Configure the pallet-template in pallets/template.
+impl pallet_revenue::Config for Runtime {
+    type ModuleId = RevenueModuleId;
+    type Event = Event;
+    type Currency = Balance;
 }
+
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -1129,7 +1131,7 @@ construct_runtime!(
         Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
         // Custom
-        RevenueSharing: pallet_revenue_sharing::{Module, Call, Storage}
+        Revenue: pallet_revenue::{Module, Call, Storage, Event<T>}
     }
 );
 
