@@ -20,8 +20,6 @@ pub mod pallet {
     /// Configure the pallet by specifying the parameters and types on which it depends.
     #[pallet::config]
     pub trait Config: frame_system::Config {
-        /// Because this pallet emits events, it depends on the runtime's definition of an event.
-        type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
 
         // Using for generate address to store balance
         type ModuleId: Get<ModuleId>;
@@ -46,15 +44,6 @@ pub mod pallet {
     #[pallet::storage]
     #[pallet::getter(fn proposal_count)]
     pub(super) type ProposalCount<T: Config> = StorageValue<_, u32, ValueQuery>;
-
-    #[pallet::event]
-    #[pallet::metadata(T::AccountId = "AccountId")]
-    #[pallet::generate_deposit(pub(super) fn deposit_event)]
-    pub enum Event<T: Config> {
-        /// Event documentation should end with an array that provides descriptive names for event
-        /// parameters. [something, who]
-        SomethingStored(u32, T::AccountId),
-    }
 
     // Errors inform users that something went wrong.
     #[pallet::error]

@@ -18,7 +18,6 @@ name = 'glitch-node'
 [dependencies]
 
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = ["derive"] }
-pallet-revenue-sharing = {path="../pallets/pallet-revenue-sharing"}
 pallet-evm = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover"  }
 pallet-ethereum = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
 fc-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", features = ["rpc_binary_search_estimate"] }

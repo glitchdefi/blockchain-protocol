@@ -14,7 +14,6 @@ use sp_std::{convert::TryFrom, marker::PhantomData, prelude::*};
 use pallet_grandpa::fg_primitives;
 use pallet_grandpa::{AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList};
 pub use pallet_im_online::sr25519::AuthorityId as ImOnlineId;
-use pallet_revenue_sharing;
 use pallet_session::historical as pallet_session_historical;
 use sp_api::impl_runtime_apis;
 use sp_authority_discovery::AuthorityId as AuthorityDiscoveryId;
@@ -1072,8 +1071,7 @@ parameter_types! {
 /// Configure the pallet-template in pallets/template.
 impl pallet_revenue::Config for Runtime {
     type ModuleId = RevenueModuleId;
-    type Event = Event;
-    type Currency = Balance;
+    type Currency = Balances;
 }
 
 
@@ -1131,7 +1129,7 @@ construct_runtime!(
         Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
         // Custom
-        Revenue: pallet_revenue::{Module, Call, Storage, Event<T>}
+        Revenue: pallet_revenue::{Module, Call, Storage}
     }
 );
 
