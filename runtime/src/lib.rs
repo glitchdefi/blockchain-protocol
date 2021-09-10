@@ -1129,7 +1129,7 @@ construct_runtime!(
         Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
         // Custom
-        Revenue: pallet_revenue::{Module, Call, Storage}
+        Revenue: pallet_revenue::{Module, Call, Storage, Config<T>}
     }
 );
 

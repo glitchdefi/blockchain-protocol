@@ -1,6 +1,6 @@
 use glitch_node_runtime::{
     AccountId, AuthorityDiscoveryConfig, BabeConfig, Balance, BalancesConfig, ContractsConfig,
-    EVMConfig, EthereumConfig, GenesisConfig, GrandpaConfig, ImOnlineId, IndicesConfig,
+    EVMConfig, EthereumConfig, GenesisConfig, GrandpaConfig, ImOnlineId, IndicesConfig, RevenueConfig,
     SessionConfig, SessionKeys, Signature, StakerStatus, StakingConfig, SudoConfig, SystemConfig,
     DOLLARS, WASM_BINARY,
 };
@@ -307,5 +307,8 @@ fn testnet_genesis(
         pallet_treasury: Some(Default::default()),
         pallet_elections_phragmen: Some(Default::default()),
         pallet_membership_Instance1: Some(Default::default()),
+        pallet_revenue: Some(RevenueConfig {
+            admin_genesis: get_account_id_from_seed::<sr25519::Public>("Alice")
+        })
     }
 }
