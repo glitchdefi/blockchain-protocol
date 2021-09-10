@@ -1,0 +1,60 @@
+[package]
+name = "pallet-ethereum"
+version = "2.0.0-clover"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+description = "Ethereum compatibility full block processing emulation pallet for Substrate."
+license = "Apache-2.0"
+
+[dependencies]
+log = "0.4.0"
+rustc-hex = { version = "2.1.0", default-features = false }
+serde = { version = "1.0.101", optional = true }
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
+frame-support = {  default-features = false, git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+frame-system = {  default-features = false, git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+pallet-balances = {  default-features = false, git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+pallet-timestamp = {  default-features = false, git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+pallet-evm = {  default-features = false, git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+sp-runtime = {  default-features = false, git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sp-std = {  default-features = false, git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sp-io = {  default-features = false, git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+fp-evm = { default-features = false, git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+evm = { git = "https://github.com/clover-network/evm.git", tag = "v0.27.1-clover", default-features = false, features = ["with-codec"] }
+ethereum = { version = "0.7.1", default-features = false, features = ["with-codec"] }
+ethereum-types = { version = "0.11", default-features = false }
+rlp = { version = "0.5", default-features = false }
+sha3 = { version = "0.8", default-features = false }
+libsecp256k1 = { version = "0.3", default-features = false }
+fp-consensus = { version = "1.0.1-clover", git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", default-features = false }
+fp-rpc = { version = "2.0.0-clover", git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", default-features = false }
+fp-storage = { version = "1.0.1-clover", git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", default-features = false}
+
+[dev-dependencies]
+sp-core = {  git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+
+[features]
+default = ["std"]
+std = [
+	"serde",
+	"rustc-hex/std",
+	"codec/std",
+	"sp-runtime/std",
+	"frame-support/std",
+	"frame-system/std",
+	"pallet-balances/std",
+	"pallet-timestamp/std",
+	"pallet-evm/std",
+	"sp-io/std",
+	"sp-std/std",
+	"fp-evm/std",
+	"ethereum/std",
+	"ethereum-types/std",
+	"rlp/std",
+	"sha3/std",
+	"libsecp256k1/std",
+	"fp-consensus/std",
+	"fp-rpc/std",
+	"fp-storage/std",
+	"evm/std",
+]

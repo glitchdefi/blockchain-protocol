@@ -3,9 +3,9 @@
 extern crate num_derive;
 
 use sp_runtime::{
-	generic,
-	traits::{BlakeTwo256, IdentifyAccount, Verify},
-	MultiSignature
+    generic,
+    traits::{BlakeTwo256, IdentifyAccount, Verify},
+    MultiSignature,
 };
 
 /// An index to a block.
@@ -59,9 +59,9 @@ pub type BlockId = generic::BlockId<Block>;
 pub use sp_runtime::OpaqueExtrinsic as UncheckedExtrinsic;
 
 pub mod currency {
-	use super::*;
-	pub const DOLLARS: Balance = 1_000_000_000_000_000_000;
-	pub const CENTS: Balance = DOLLARS / 100; // 10_000_000_000_000_000
-pub const MILLICENTS: Balance = CENTS / 1000; // 10_000_000_000_000
-pub const MICROCENTS: Balance = MILLICENTS / 1000; // 10_000_000_000
+    use super::*;
+    pub const DOLLARS: Balance = 1_000_000_000_000_000_000;
+    pub const CENTS: Balance = DOLLARS / 100; // 10_000_000_000_000_000
+    pub const MILLICENTS: Balance = CENTS / 1000; // 10_000_000_000_000
+    pub const MICROCENTS: Balance = MILLICENTS / 1000; // 10_000_000_000
 }

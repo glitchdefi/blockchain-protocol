@@ -1,6 +1,7 @@
 **/target/
 .idea/
 **/*.rs.bk
+
 tests/**/node_modules
 tests/truffle-tests/build/contracts/*
 rust-toolchain
