@@ -1070,8 +1070,7 @@ parameter_types! {
 
 /// Configure the pallet-template in pallets/template.
 impl pallet_revenue::Config for Runtime {
-    type ModuleId = RevenueModuleId;
-    type Currency = Balances;
+    type Event = Event;
 }
 
 
@@ -1129,7 +1128,7 @@ construct_runtime!(
         Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
         // Custom
-        Revenue: pallet_revenue::{Module, Call, Storage, Config<T>}
+        Revenue: pallet_revenue::{Module, Call, Storage, Event<T>}
     }
 );
 
