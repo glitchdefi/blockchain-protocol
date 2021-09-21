@@ -18,6 +18,9 @@ sp-runtime = {default-features = false, git = "https://github.com/paritytech/sub
 sp-core = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
 sp-std = {default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
 
+# local dependency
+support-lib = { path = "../support-lib"}
+
 [dev-dependencies]
 hex-literal = "0.3.1"
 
