@@ -4612,6 +4612,7 @@ dependencies = [
  "sp-core",
  "sp-runtime",
  "sp-std",
+ "support-lib",
 ]
 
 [[package]]
@@ -8075,6 +8076,13 @@ name = "subtle"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e81da0851ada1f3e9d4312c704aa4f8806f0f9d69faaf8df2f3464b4a9437c2"
+
+[[package]]
+name = "support-lib"
+version = "0.1.0"
+dependencies = [
+ "sp-core",
+]
 
 [[package]]
 name = "syn"
