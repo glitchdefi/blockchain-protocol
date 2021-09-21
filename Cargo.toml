@@ -3,6 +3,8 @@ members = [
     'node',
     'runtime',
     'primitives',
+    'pallets/pallet-staking',
+    'pallets/pallet-treasury',
     'pallets/pallet-ethereum',
     'pallets/pallet-revenue',
 ]
@@ -37,14 +39,14 @@ pallet-randomness-collective-flip = { git = "https://github.com/paritytech/subst
 # pallet-recovery = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-scheduler = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-session = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-pallet-staking = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+# pallet-staking = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-staking-reward-curve = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-sudo = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-timestamp = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+# pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-basic-authorship = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-chain-spec = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-cli = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }

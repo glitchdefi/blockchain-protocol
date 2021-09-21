@@ -47,13 +47,13 @@ pallet-timestamp = { git = "https://github.com/paritytech/substrate.git",  tag =
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-collective = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
-pallet-bounties = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
-pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
+#pallet-bounties = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
+#pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-authority-discovery = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-im-online = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-randomness-collective-flip = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-session = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false, features = ["historical"] }
-pallet-staking = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
+#pallet-staking = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-democracy = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-elections-phragmen = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-offences = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
@@ -61,7 +61,7 @@ pallet-authorship = { git = "https://github.com/paritytech/substrate.git",  tag 
 pallet-membership = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-indices = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-staking-reward-curve = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
-pallet-tips = {default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
+pallet-tips = { default-features = false, path = "../pallets/pallet-tips" }
 
 # Primitives
 sp-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
@@ -82,6 +82,11 @@ sp-authority-discovery = { git = "https://github.com/paritytech/substrate.git", 
 
 # custom
 pallet-revenue = { path = '../pallets/pallet-revenue', default-features = false, version = '3.0.0' }
+
+# Local
+pallet-staking = { path = "../pallets/pallet-staking", default-features = false }
+pallet-treasury = { path = "../pallets/pallet-treasury", default-features = false }
+pallet-bounties = { path = "../pallets/pallet-bounties", default-features = false }
 
 [build-dependencies]
 substrate-wasm-builder = '4.0.0'
@@ -145,5 +150,5 @@ std = [
 	"sp-version/std",
 	'sp-authority-discovery/std',
 
-	"pallet-revenue/std"
+	"pallet-revenue/std",
 ]
