@@ -1624,7 +1624,6 @@ dependencies = [
 [[package]]
 name = "fc-rpc"
 version = "2.0.0-clover"
-source = "git+https://github.com/clover-network/frontier.git?tag=v2.0.1-clover#a943c0e08f7bd6e6c220ad5f48f9cfcb6f62e6df"
 dependencies = [
  "ethereum",
  "ethereum-types",
@@ -1643,7 +1642,7 @@ dependencies = [
  "jsonrpc-pubsub 15.1.0",
  "libsecp256k1",
  "log",
- "pallet-ethereum 2.0.0-clover (git+https://github.com/clover-network/frontier.git?tag=v2.0.1-clover)",
+ "pallet-ethereum",
  "pallet-evm",
  "parity-scale-codec",
  "rand 0.7.3",
@@ -2264,7 +2263,7 @@ dependencies = [
  "log",
  "pallet-contracts",
  "pallet-contracts-rpc",
- "pallet-ethereum 2.0.0-clover (git+https://github.com/clover-network/frontier.git?tag=v2.0.1-clover)",
+ "pallet-ethereum",
  "pallet-evm",
  "pallet-transaction-payment-rpc",
  "parity-scale-codec",
@@ -2333,7 +2332,7 @@ dependencies = [
  "pallet-contracts-rpc-runtime-api",
  "pallet-democracy",
  "pallet-elections-phragmen",
- "pallet-ethereum 2.0.0-clover",
+ "pallet-ethereum",
  "pallet-evm",
  "pallet-evm-precompile-simple",
  "pallet-grandpa",
@@ -4445,34 +4444,6 @@ dependencies = [
  "serde",
  "sha3 0.8.2",
  "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "pallet-ethereum"
-version = "2.0.0-clover"
-source = "git+https://github.com/clover-network/frontier.git?tag=v2.0.1-clover#a943c0e08f7bd6e6c220ad5f48f9cfcb6f62e6df"
-dependencies = [
- "ethereum",
- "ethereum-types",
- "evm",
- "fp-consensus",
- "fp-evm",
- "fp-rpc",
- "fp-storage",
- "frame-support",
- "frame-system",
- "libsecp256k1",
- "pallet-balances",
- "pallet-evm",
- "pallet-timestamp",
- "parity-scale-codec",
- "rlp",
- "rustc-hex",
- "serde",
- "sha3 0.8.2",
  "sp-io",
  "sp-runtime",
  "sp-std",
