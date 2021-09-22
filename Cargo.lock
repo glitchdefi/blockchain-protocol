@@ -2336,6 +2336,7 @@ dependencies = [
  "pallet-ethereum 2.0.0-clover",
  "pallet-evm",
  "pallet-evm-precompile-simple",
+ "pallet-fund",
  "pallet-grandpa",
  "pallet-im-online",
  "pallet-indices",
@@ -4518,6 +4519,21 @@ dependencies = [
  "ripemd160",
  "sp-core",
  "sp-io",
+]
+
+[[package]]
+name = "pallet-fund"
+version = "3.0.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]
