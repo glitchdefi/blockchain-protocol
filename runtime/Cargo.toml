@@ -152,5 +152,5 @@ std = [
 	'sp-authority-discovery/std',
 
 	"pallet-revenue/std",
-	"pallet-fund/std"
+#	"pallet-fund/std"
 ]

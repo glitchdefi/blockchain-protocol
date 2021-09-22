@@ -18,7 +18,7 @@ type NegativeImbalanceOf<T> = <<T as Config>::Currency as Currency<
 
 /// Hardcoded pallet ID; used to create the special Pot Account
 /// Must be exactly 8 characters long
-const PALLET_ID: ModuleId = ModuleId(*b"Charity!");
+const PALLET_ID: ModuleId = ModuleId(*b"fundreve");
 
 pub trait Config: frame_system::Config {
 	/// The overarching event type.

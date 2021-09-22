@@ -1074,6 +1074,13 @@ impl pallet_revenue::Config for Runtime {
     type Currency = Balances;
 }
 
+//Config pallet-fund
+
+impl pallet_fund::Config for Runtime {
+    type Currency = Balance;
+    type Event = Event;
+}
+
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -1130,6 +1137,7 @@ construct_runtime!(
 
         // Custom
         Revenue: pallet_revenue::{Module, Call, Storage, Config<T>}
+        Fund: pallet_fund::{Module, Call, Storage, Event<T>}
     }
 );
 
