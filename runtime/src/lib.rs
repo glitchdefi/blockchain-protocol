@@ -1077,7 +1077,7 @@ impl pallet_revenue::Config for Runtime {
 //Config pallet-fund
 
 impl pallet_fund::Config for Runtime {
-    type Currency = Balance;
+    type Currency = Balances;
     type Event = Event;
 }
 
@@ -1136,7 +1136,7 @@ construct_runtime!(
         Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
         // Custom
-        Revenue: pallet_revenue::{Module, Call, Storage, Config<T>}
+        Revenue: pallet_revenue::{Module, Call, Storage, Config<T>},
         Fund: pallet_fund::{Module, Call, Storage, Event<T>}
     }
 );

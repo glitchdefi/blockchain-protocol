@@ -3,16 +3,23 @@
 use sp_runtime::{traits::AccountIdConversion, ModuleId};
 use sp_std::prelude::*;
 
+
+
 use frame_support::{
 	decl_event, decl_module, decl_storage,
 	dispatch::{DispatchError, DispatchResult},
 	traits::{Currency, ExistenceRequirement::AllowDeath, Imbalance, OnUnbalanced},
 };
 use frame_system::{ensure_root, ensure_signed};
+use frame_support::pallet_prelude::Get;
+use pallet_balances::*;
+use pallet_staking::*;
+use pallet_staking::StakerStatus::Validator;
+use pallet_session as session;
 
-type BalanceOf<T> =
+pub type BalanceOf<T> =
 	<<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
-type NegativeImbalanceOf<T> = <<T as Config>::Currency as Currency<
+pub type NegativeImbalanceOf<T> = <<T as Config>::Currency as Currency<
 	<T as frame_system::Config>::AccountId,
 >>::NegativeImbalance;
 
@@ -25,6 +32,7 @@ pub trait Config: frame_system::Config {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
 	/// The currency type that the charity deals in
 	type Currency: Currency<Self::AccountId>;
+
 }
 
 decl_storage! {
@@ -52,8 +60,6 @@ decl_event!(
 		DonationReceived(AccountId, Balance, Balance),
 		/// An imbalance from elsewhere in the runtime has been absorbed by the Charity
 		ImbalanceAbsorbed(Balance, Balance),
-		/// Charity has allocated funds to a cause
-		FundsAllocated(AccountId, Balance, Balance),
 	}
 );
 
@@ -76,29 +82,12 @@ decl_module! {
 			Ok(())
 		}
 
-		/// Allocate the Charity's funds
-		///
-		/// Take funds from the Charity's pot and send them somewhere. This call requires root origin,
-		/// which means it must come from a governance mechanism such as Substrate's Democracy pallet.
 		#[weight = 10_000]
-		fn allocate(
-			origin,
-			dest: T::AccountId,
-			amount: BalanceOf<T>,
-		) -> DispatchResult {
-			ensure_root(origin)?;
+		fn send_reward (origin, members: Vec<T::AccountId>, _value: u64) -> DispatchResult {
+			let sender =  &Self::account_id();
+			let balance = T::Currency::free_balance(&Self::account_id());
+			let count_member = members.len();
 
-			// Make the transfer requested
-			T::Currency::transfer(
-				&Self::account_id(),
-				&dest,
-				amount,
-				AllowDeath,
-			).map_err(|_| DispatchError::Other("Can't make allocation"))?;
-
-			//TODO what about errors here??
-
-			Self::deposit_event(RawEvent::FundsAllocated(dest, amount, Self::pot()));
 			Ok(())
 		}
 	}
