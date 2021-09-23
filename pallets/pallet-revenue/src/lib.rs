@@ -2,13 +2,22 @@
 
 // Re-export pallet items so that they can be accessed from the crate namespace.
 pub use pallet::*;
+use pallet_ethereum::RevenueWhiteList;
+// use sp_core::H160;
+use ethereum_types::H160;
+use log::warn;
+
+#[cfg(feature = "std")]
+use frame_support::traits::GenesisBuild;
 
 #[frame_support::pallet]
 pub mod pallet {
     use frame_support::{dispatch::DispatchResultWithPostInfo, pallet_prelude::*};
     use frame_system::pallet_prelude::*;
-    use sp_core::H160;
     use sp_std::vec::Vec;
+    // use sp_core::H160;
+    use ethereum_types::H160;
+
 
     #[pallet::config]
     pub trait Config: frame_system::Config {
@@ -16,7 +25,7 @@ pub mod pallet {
     }
 
     #[pallet::event]
-    #[pallet::metadata(H160 = "address")]
+    // #[pallet::metadata(H160 = "address")]
     #[pallet::generate_deposit(pub(super) fn deposit_event)]
     pub enum Event<T: Config> {
         /// Event emitted when an address has been added to white list. [address]
@@ -39,10 +48,34 @@ pub mod pallet {
     pub struct Pallet<T>(_);
 
     #[pallet::storage]
-    // #[pallet::getter(fn whitelist)]
     pub(super) type Whitelist<T: Config> = StorageMap<
         _, Blake2_128Concat, H160, bool, ValueQuery
     >;
+
+    #[pallet::storage]
+    #[pallet::getter(fn admin_address)]
+    pub(super) type AdminAccountID<T: Config> = StorageValue<_, T::AccountId, ValueQuery>;
+
+    #[pallet::genesis_config]
+    pub struct GenesisConfig<T: Config> {
+        pub admin_genesis: T::AccountId,
+    }
+
+    #[cfg(feature = "std")]
+    impl<T: Config> Default for GenesisConfig<T> {
+        fn default() -> Self {
+            Self {
+                admin_genesis: Default::default(),
+            }
+        }
+    }
+
+    #[pallet::genesis_build]
+    impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
+        fn build(&self) {
+            AdminAccountID::<T>::put(self.admin_genesis.clone());
+        }
+    }
 
 
     #[pallet::hooks]
@@ -56,6 +89,8 @@ pub mod pallet {
             origin: OriginFor<T>,
             addresses: Vec<H160>
         ) -> DispatchResultWithPostInfo {
+            let who = ensure_signed(origin)?;
+            ensure!(who == Self::admin_address(), Error::<T>::NoPermission);
             for address in addresses.into_iter() {
                 if Whitelist::<T>::contains_key(&address) {
                     Self::deposit_event(Event::AddressExisted(address));
@@ -72,6 +107,8 @@ pub mod pallet {
             origin: OriginFor<T>,
             addresses: Vec<H160>
         ) -> DispatchResultWithPostInfo {
+            let who = ensure_signed(origin)?;
+            ensure!(who == Self::admin_address(), Error::<T>::NoPermission);
             for address in addresses.into_iter() {
                 if !Whitelist::<T>::contains_key(&address) {
                     Self::deposit_event(Event::AddressNotExisted(address));
@@ -83,5 +120,12 @@ pub mod pallet {
             Ok(().into())
         }
 
+    }
+}
+
+impl<T: Config> RevenueWhiteList for Module<T> {
+    fn is_in_white_list(address: H160) -> bool {
+        let result = Whitelist::<T>::contains_key(&address);
+        result
     }
 }

@@ -5,9 +5,13 @@ members = [
     'primitives',
     'pallets/pallet-ethereum',
     'pallets/pallet-revenue',
+#    'pallets/support-lib'
 ]
 [profile.release]
 panic = 'unwind'
+
+[profile.dev]
+opt-level = 0
 
 [patch.crates-io]
 frame-benchmarking = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }

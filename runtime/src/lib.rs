@@ -587,6 +587,7 @@ impl pallet_ethereum::Config for Runtime {
     type Event = Event;
     type FindAuthor = EthereumFindAuthor<Babe>;
     type StateRoot = pallet_ethereum::IntermediateStateRoot;
+    type RevenueSharing = Revenue;
 }
 
 parameter_types! {
@@ -1128,7 +1129,7 @@ construct_runtime!(
         Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
         // Custom
-        Revenue: pallet_revenue::{Module, Call, Storage, Event<T>}
+        Revenue: pallet_revenue::{Module, Call, Storage, Event<T>, Config<T>}
     }
 );
 

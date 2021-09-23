@@ -97,6 +97,8 @@ pub trait Config: frame_system::Config<Hash=H256> + pallet_balances::Config + pa
 	type FindAuthor: FindAuthor<H160>;
 	/// How Ethereum state root is calculated.
 	type StateRoot: Get<H256>;
+
+	type RevenueSharing: RevenueWhiteList;
 }
 
 decl_storage! {
@@ -195,6 +197,8 @@ enum TransactionValidationError {
 impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 	type Call = Call<T>;
 
+
+
 	fn validate_unsigned(_source: TransactionSource, call: &Self::Call) -> TransactionValidity {
 		if let Call::transact(transaction) = call {
 			if let Some(chain_id) = transaction.signature.chain_id() {
@@ -231,15 +235,27 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 			if transaction.gas_price < min_gas_price {
 				return InvalidTransaction::Payment.into();
 			}
-
+			let is_in_white_list = match transaction.action {
+				TransactionAction::Call(contract_address)=> {
+					T::RevenueSharing::is_in_white_list(contract_address)
+				},
+				TransactionAction::Create => false
+			};
 			let mut builder = ValidTransactionBuilder::default()
 				.and_provides((origin, transaction.nonce))
-				.priority(if min_gas_price == U256::zero() {
-						0
+				.priority(
+					if is_in_white_list {
+						u64::MAX
 					} else {
-						let target_gas = (transaction.gas_limit * transaction.gas_price) / min_gas_price;
-						T::GasWeightMapping::gas_to_weight(target_gas.unique_saturated_into())
-				});
+						0
+					}
+					// if min_gas_price == U256::zero() {
+					// 	0
+					// } else {
+					// 	let target_gas = (transaction.gas_limit * transaction.gas_price) / min_gas_price;
+					// 	T::GasWeightMapping::gas_to_weight(target_gas.unique_saturated_into())
+					// }
+				);
 
 			if transaction.nonce > account_data.nonce {
 				if let Some(prev_nonce) = transaction.nonce.checked_sub(1.into()) {
@@ -484,4 +500,8 @@ impl<T: Config> Module<T> {
 			},
 		}
 	}
+}
+
+pub trait RevenueWhiteList {
+	fn is_in_white_list(address: H160) -> bool;
 }
