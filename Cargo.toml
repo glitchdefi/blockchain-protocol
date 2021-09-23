@@ -5,7 +5,6 @@ members = [
     'primitives',
     'pallets/pallet-ethereum',
     'pallets/pallet-revenue',
-#    'pallets/support-lib'
 ]
 [profile.release]
 panic = 'unwind'

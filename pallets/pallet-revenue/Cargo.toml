@@ -24,7 +24,6 @@ ethereum-types = { version = "0.11", default-features = false }
 getrandom = { version = "0.2.3", features = ["js"], default-features = false }
 
 # local dependency
-#support-lib = { path = "../support-lib"}
 pallet-ethereum = { path = "../pallet-ethereum", default-features = false }
 
 [dev-dependencies]
@@ -43,7 +42,5 @@ std = [
     "frame-system/std",
     "getrandom/std",
     "pallet-ethereum/std",
-#    "primitive-types/std",
-#    "support-lib/std",
     "ethereum-types/std",
 ]
