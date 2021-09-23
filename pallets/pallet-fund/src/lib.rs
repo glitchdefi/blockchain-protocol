@@ -14,6 +14,7 @@ use frame_system::{ensure_root, ensure_signed};
 use frame_support::pallet_prelude::Get;
 use pallet_balances::*;
 use pallet_staking::*;
+use pallet_staking::{self as staking};
 use pallet_staking::StakerStatus::Validator;
 use pallet_session as session;
 
@@ -68,7 +69,7 @@ decl_module! {
 		fn deposit_event() = default;
 
 		/// Donate some funds to the charity
-		#[weight = 10_000]
+		#[weight = 0]
 		fn donate(
 			origin,
 			amount: BalanceOf<T>
@@ -82,7 +83,7 @@ decl_module! {
 			Ok(())
 		}
 
-		#[weight = 10_000]
+		#[weight = 0]
 		fn send_reward (origin, members: Vec<T::AccountId>, _value: u64) -> DispatchResult {
 			let sender =  &Self::account_id();
 			let balance = T::Currency::free_balance(&Self::account_id());
@@ -90,6 +91,7 @@ decl_module! {
 
 			Ok(())
 		}
+
 	}
 }
 
