@@ -13,9 +13,7 @@ use frame_support::{
 use frame_system::{ensure_root, ensure_signed};
 use frame_support::pallet_prelude::Get;
 use pallet_balances::*;
-use pallet_staking::*;
-use pallet_staking::{self as staking};
-use pallet_staking::StakerStatus::Validator;
+use pallet_staking::SpendAllFund;
 use pallet_session as session;
 
 pub type BalanceOf<T> =
@@ -43,6 +41,7 @@ decl_storage! {
 	add_extra_genesis {
 		build(|_config| {
 			// Create the charity's pot of funds, and ensure it has the minimum required deposit
+			let account_id = <Module<T>>::account_id();
 			let _ = T::Currency::make_free_balance_be(
 				&<Module<T>>::account_id(),
 				T::Currency::minimum_balance(),
@@ -61,6 +60,8 @@ decl_event!(
 		DonationReceived(AccountId, Balance, Balance),
 		/// An imbalance from elsewhere in the runtime has been absorbed by the Charity
 		ImbalanceAbsorbed(Balance, Balance),
+		/// Spend all fund
+		SpendAll(Balance),
 	}
 );
 
@@ -121,6 +122,12 @@ impl<T: Config> OnUnbalanced<NegativeImbalanceOf<T>> for Module<T> {
 	}
 }
 
-pub trait SpendAllFund<T: Config> {
-	fn spend_all() -> BalanceOf<T>;
+
+
+impl<T: Config> SpendAllFund<T> for Module<T> {
+	fn spend_all() -> BalanceOf<T> {
+		let mut budget_remaining = Self::pot();
+		Self::deposit_event(RawEvent::SpendAll(budget_remaining));
+		budget_remaining
+	}
 }

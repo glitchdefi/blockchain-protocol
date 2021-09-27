@@ -611,6 +611,10 @@ impl<AccountId, Balance> StakingLedger<AccountId, Balance> where
 	}
 }
 
+pub trait SpendAllFund<T: Config> {
+	fn spend_all() -> BalanceOf<T>;
+}
+
 /// A record of the nominations made by a specific account.
 #[derive(PartialEq, Eq, Clone, Encode, Decode, RuntimeDebug)]
 pub struct Nominations<AccountId> {
@@ -874,6 +878,9 @@ pub trait Config: frame_system::Config + SendTransactionTypes<Call<Self>> {
 
 	/// Weight information for extrinsics in this pallet.
 	type WeightInfo: WeightInfo;
+
+	/// Funding
+	const RevenueFund: dyn SpendAllFund<T: Config>;
 }
 
 /// Mode of era-forcing.
@@ -1267,6 +1274,7 @@ decl_error! {
 
 decl_module! {
 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+
 		/// Number of sessions per era.
 		const SessionsPerEra: SessionIndex = T::SessionsPerEra::get();
 
@@ -3559,3 +3567,4 @@ fn to_invalid(error_with_post_info: DispatchErrorWithPostInfo) -> InvalidTransac
 	};
 	InvalidTransaction::Custom(error_number)
 }
+

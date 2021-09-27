@@ -276,7 +276,7 @@ impl pallet_timestamp::Config for Runtime {
 }
 
 parameter_types! {
-    pub const ExistentialDeposit: u128 = 500;
+    pub const ExistentialDeposit: u128 = 0;
     pub const MaxLocks: u32 = 50;
 }
 
@@ -922,6 +922,7 @@ pallet_staking_reward_curve::build! {
 }
 
 impl pallet_staking::Config for Runtime {
+    type RevenueFund = Fund;
     type Currency = Balances;
     type UnixTime = Timestamp;
     type CurrencyToVote = U128CurrencyToVote;
@@ -1137,7 +1138,7 @@ construct_runtime!(
 
         // Custom
         Revenue: pallet_revenue::{Module, Call, Storage, Config<T>},
-        Fund: pallet_fund::{Module, Call, Storage, Event<T>}
+        Fund: pallet_fund::{Module, Call, Storage, Event<T>, Config}
     }
 );
 
