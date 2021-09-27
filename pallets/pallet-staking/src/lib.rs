@@ -2817,10 +2817,10 @@ impl<T: Config> Module<T> {
 			Self::deposit_event(RawEvent::EraPayout(active_era.index, zero_balance, zero_balance));
 
 			// Set ending era reward.
-			<ErasValidatorReward<T>>::insert(&active_era.index, validator_payout);
-			// <ErasValidatorReward<T>>::insert(&active_era.index, zero_balance);
-			// T::RewardRemainder::on_unbalanced(T::Currency::issue(zero_balance));
-			T::RewardRemainder::on_unbalanced(T::Currency::issue(rest));
+			// <ErasValidatorReward<T>>::insert(&active_era.index, validator_payout);
+			<ErasValidatorReward<T>>::insert(&active_era.index, zero_balance);
+			T::RewardRemainder::on_unbalanced(T::Currency::issue(zero_balance));
+			// T::RewardRemainder::on_unbalanced(T::Currency::issue(rest));
 		}
 	}
 

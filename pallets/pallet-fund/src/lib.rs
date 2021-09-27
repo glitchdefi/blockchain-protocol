@@ -120,3 +120,7 @@ impl<T: Config> OnUnbalanced<NegativeImbalanceOf<T>> for Module<T> {
 		Self::deposit_event(RawEvent::ImbalanceAbsorbed(numeric_amount, Self::pot()));
 	}
 }
+
+pub trait SpendAllFund<T: Config> {
+	fn spend_all() -> BalanceOf<T>;
+}
