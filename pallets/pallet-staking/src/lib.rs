@@ -611,10 +611,6 @@ impl<AccountId, Balance> StakingLedger<AccountId, Balance> where
 	}
 }
 
-pub trait SpendAllFund<T: Config> {
-	fn spend_all() -> BalanceOf<T>;
-}
-
 /// A record of the nominations made by a specific account.
 #[derive(PartialEq, Eq, Clone, Encode, Decode, RuntimeDebug)]
 pub struct Nominations<AccountId> {
@@ -880,7 +876,7 @@ pub trait Config: frame_system::Config + SendTransactionTypes<Call<Self>> {
 	type WeightInfo: WeightInfo;
 
 	/// Funding
-	const RevenueFund: dyn SpendAllFund<T: Config>;
+	type RevenueFund: OnUnbalanced<PositiveImbalanceOf<Self>>;
 }
 
 /// Mode of era-forcing.
@@ -2270,6 +2266,12 @@ decl_module! {
 }
 
 impl<T: Config> Module<T> {
+	// get pallet fund balance
+	fn pot() -> BalanceOf<T> {
+		let fund_account_id = 1;
+		T::Currency::free_balance(&Self::account_id())
+	}
+
 	/// The total balance that can be slashed from a stash account as of right now.
 	pub fn slashable_balance_of(stash: &T::AccountId) -> BalanceOf<T> {
 		// Weight note: consider making the stake accessible through stash.
@@ -2415,6 +2417,7 @@ impl<T: Config> Module<T> {
 			validator_staking_payout + validator_commission_payout
 		) {
 			Self::deposit_event(RawEvent::Reward(ledger.stash, imbalance.peek()));
+			T::Reward::on_unbalanced(imbalance);
 		}
 
 		// Lets now calculate how this is split to the nominators.
@@ -2429,6 +2432,7 @@ impl<T: Config> Module<T> {
 			// We can now make nominator payout:
 			if let Some(imbalance) = Self::make_payout(&nominator.who, nominator_reward) {
 				Self::deposit_event(RawEvent::Reward(nominator.who.clone(), imbalance.peek()));
+				T::Reward::on_unbalanced(imbalance);
 			}
 		}
 
@@ -2825,8 +2829,8 @@ impl<T: Config> Module<T> {
 			Self::deposit_event(RawEvent::EraPayout(active_era.index, zero_balance, zero_balance));
 
 			// Set ending era reward.
-			// <ErasValidatorReward<T>>::insert(&active_era.index, validator_payout);
-			<ErasValidatorReward<T>>::insert(&active_era.index, zero_balance);
+			<ErasValidatorReward<T>>::insert(&active_era.index, validator_payout);
+			// <ErasValidatorReward<T>>::insert(&active_era.index, zero_balance);
 			T::RewardRemainder::on_unbalanced(T::Currency::issue(zero_balance));
 			// T::RewardRemainder::on_unbalanced(T::Currency::issue(rest));
 		}

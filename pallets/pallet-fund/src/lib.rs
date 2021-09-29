@@ -6,21 +6,20 @@ use sp_std::prelude::*;
 
 
 use frame_support::{
-	decl_event, decl_module, decl_storage,
+	decl_event, decl_module, decl_storage, print,
 	dispatch::{DispatchError, DispatchResult},
-	traits::{Currency, ExistenceRequirement::AllowDeath, Imbalance, OnUnbalanced},
+	traits::{Currency, ExistenceRequirement, Imbalance, OnUnbalanced, WithdrawReasons},
 };
 use frame_system::{ensure_root, ensure_signed};
 use frame_support::pallet_prelude::Get;
 use pallet_balances::*;
-use pallet_staking::SpendAllFund;
 use pallet_session as session;
 
 pub type BalanceOf<T> =
 	<<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
-pub type NegativeImbalanceOf<T> = <<T as Config>::Currency as Currency<
+pub type PositiveImbalanceOf<T> = <<T as Config>::Currency as Currency<
 	<T as frame_system::Config>::AccountId,
->>::NegativeImbalance;
+>>::PositiveImbalance;
 
 /// Hardcoded pallet ID; used to create the special Pot Account
 /// Must be exactly 8 characters long
@@ -77,7 +76,7 @@ decl_module! {
 		) -> DispatchResult {
 			let donor = ensure_signed(origin)?;
 
-			T::Currency::transfer(&donor, &Self::account_id(), amount, AllowDeath)
+			T::Currency::transfer(&donor, &Self::account_id(), amount, ExistenceRequirement::AllowDeath)
 				.map_err(|_| DispatchError::Other("Can't make donation"))?;
 
 			Self::deposit_event(RawEvent::DonationReceived(donor, amount, Self::pot()));
@@ -111,23 +110,24 @@ impl<T: Config> Module<T> {
 // This implementation allows the charity to be the recipient of funds that are burned elsewhere in
 // the runtime. For eample, it could be transaction fees, consensus-related slashing, or burns that
 // align incentives in other pallets.
-impl<T: Config> OnUnbalanced<NegativeImbalanceOf<T>> for Module<T> {
-	fn on_nonzero_unbalanced(amount: NegativeImbalanceOf<T>) {
+impl<T: Config> OnUnbalanced<PositiveImbalanceOf<T>> for Module<T> {
+	fn on_nonzero_unbalanced(amount: PositiveImbalanceOf<T>) {
 		let numeric_amount = amount.peek();
 
-		// Must resolve into existing but better to be safe.
-		let _ = T::Currency::resolve_creating(&Self::account_id(), amount);
-
-		Self::deposit_event(RawEvent::ImbalanceAbsorbed(numeric_amount, Self::pot()));
+		// // Must resolve into existing but better to be safe.
+		// let _ = T::Currency::resolve_creating(&Self::account_id(), amount);
+		//
+		// Self::deposit_event(RawEvent::ImbalanceAbsorbed(numeric_amount, Self::pot()));
+		if let Err(problem) = T::Currency::settle(
+			&Self::account_id(),
+			amount,
+			WithdrawReasons::TRANSFER,
+			ExistenceRequirement::KeepAlive
+		) {
+			print("Inconsistent state - couldn't settle imbalance for funds");
+			// Nothing else to do here.
+			drop(problem);
+		}
 	}
 }
 
-
-
-impl<T: Config> SpendAllFund<T> for Module<T> {
-	fn spend_all() -> BalanceOf<T> {
-		let mut budget_remaining = Self::pot();
-		Self::deposit_event(RawEvent::SpendAll(budget_remaining));
-		budget_remaining
-	}
-}

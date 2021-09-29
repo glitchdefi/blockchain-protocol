@@ -929,7 +929,7 @@ impl pallet_staking::Config for Runtime {
     type RewardRemainder = Treasury;
     type Event = Event;
     type Slash = Treasury;
-    type Reward = ();
+    type Reward = Fund;
     // rewards are minted from the void
     type SessionsPerEra = SessionsPerEra;
     type BondingDuration = BondingDuration;
