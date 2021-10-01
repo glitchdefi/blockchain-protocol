@@ -305,7 +305,7 @@ use frame_support::{
 };
 use pallet_session::historical;
 use sp_runtime::{
-	Percent, Perbill, PerU16, RuntimeDebug, DispatchError,
+	Percent, Perbill, PerU16, RuntimeDebug, DispatchError, ModuleId, traits::AccountIdConversion,
 	curve::PiecewiseLinear,
 	traits::{
 		Convert, Zero, StaticLookup, CheckedSub, Saturating, SaturatedConversion,
@@ -917,6 +917,10 @@ impl Default for Releases {
 
 decl_storage! {
 	trait Store for Module<T: Config> as Staking {
+		///
+		ErasNotClaimedReward get(fn eras_not_claimed_reward):
+			map hasher(twox_64_concat) EraIndex => Option<BalanceOf<T>>;
+
 		/// Number of eras to keep in history.
 		///
 		/// Information is kept for eras in `[current_era - history_depth; current_era]`.
@@ -2266,10 +2270,44 @@ decl_module! {
 }
 
 impl<T: Config> Module<T> {
+	// Update eras not claimed reward
+	fn update_not_claimed_reward(era: EraIndex, claimed_value: BalanceOf<T>) {
+		let current_reward = <ErasNotClaimedReward<T>>::get(&era);
+		match current_reward {
+			None => {
+				warn!("Invalid era {} to update not claimed reward", era);
+			},
+			Some(reward) => {
+				let new_reward = reward.saturating_sub(claimed_value);
+				<ErasNotClaimedReward<T>>::insert(era, new_reward);
+			}
+		}
+
+	}
+
+	fn get_total_not_claimed_reward(current_era: EraIndex) -> BalanceOf<T> {
+		let history_depth = Self::history_depth();
+		let mut current_check_era = current_era.saturating_sub(history_depth - 1);
+		let mut result: BalanceOf<T> = Zero::zero();
+		while current_check_era <= current_era {
+			let era_reward = <ErasNotClaimedReward<T>>::get(&current_check_era);
+			match era_reward {
+				None => {
+					warn!("Invalid era {} to calculate not claimed reward", current_check_era);
+				},
+				Some(reward) => {
+					result = result.saturating_add(reward);
+				}
+			}
+			current_check_era += 1;
+		}
+		result
+	}
+
 	// get pallet fund balance
-	fn pot() -> BalanceOf<T> {
-		let fund_account_id = 1;
-		T::Currency::free_balance(&Self::account_id())
+	fn fund_balance() -> BalanceOf<T> {
+		let fund_account_id = ModuleId(*b"fundreve").into_account();
+		T::Currency::free_balance(&fund_account_id)
 	}
 
 	/// The total balance that can be slashed from a stash account as of right now.
@@ -2417,6 +2455,7 @@ impl<T: Config> Module<T> {
 			validator_staking_payout + validator_commission_payout
 		) {
 			Self::deposit_event(RawEvent::Reward(ledger.stash, imbalance.peek()));
+			Self::update_not_claimed_reward(era, imbalance.peek());
 			T::Reward::on_unbalanced(imbalance);
 		}
 
@@ -2432,6 +2471,7 @@ impl<T: Config> Module<T> {
 			// We can now make nominator payout:
 			if let Some(imbalance) = Self::make_payout(&nominator.who, nominator_reward) {
 				Self::deposit_event(RawEvent::Reward(nominator.who.clone(), imbalance.peek()));
+				Self::update_not_claimed_reward(era, imbalance.peek());
 				T::Reward::on_unbalanced(imbalance);
 			}
 		}
@@ -2815,22 +2855,28 @@ impl<T: Config> Module<T> {
 			let now_as_millis_u64 = T::UnixTime::now().as_millis().saturated_into::<u64>();
 
 			let era_duration = now_as_millis_u64 - active_era_start;
-			let (validator_payout, max_payout) = inflation::compute_total_payout(
-				&T::RewardCurve::get(),
-				Self::eras_total_stake(&active_era.index),
-				T::Currency::total_issuance(),
-				// Duration of era; more than u64::MAX is rewarded as u64::MAX.
-				era_duration.saturated_into::<u64>(),
-			);
-			let rest = max_payout.saturating_sub(validator_payout);
+			// let (validator_payout, max_payout) = inflation::compute_total_payout(
+			// 	&T::RewardCurve::get(),
+			// 	Self::eras_total_stake(&active_era.index),
+			// 	T::Currency::total_issuance(),
+			// 	// Duration of era; more than u64::MAX is rewarded as u64::MAX.
+			// 	era_duration.saturated_into::<u64>(),
+			// );
+			// let rest = max_payout.saturating_sub(validator_payout);
+			// warn!("Era reward {:#?}", validator_payout);
+			let total_fund = Self::fund_balance();
+			let not_claimed_reward = Self::get_total_not_claimed_reward(active_era.index);
+			let era_reward = total_fund.saturating_sub(not_claimed_reward);
+			warn!("Era reward {:#?}", era_reward);
 			let zero_balance: BalanceOf<T> = Zero::zero();
-			warn!("Era reward {:#?}", validator_payout);
 			// Self::deposit_event(RawEvent::EraPayout(active_era.index, validator_payout, rest));
-			Self::deposit_event(RawEvent::EraPayout(active_era.index, zero_balance, zero_balance));
+			Self::deposit_event(RawEvent::EraPayout(active_era.index, era_reward, zero_balance));
 
 			// Set ending era reward.
-			<ErasValidatorReward<T>>::insert(&active_era.index, validator_payout);
+			// <ErasValidatorReward<T>>::insert(&active_era.index, validator_payout);
 			// <ErasValidatorReward<T>>::insert(&active_era.index, zero_balance);
+			<ErasValidatorReward<T>>::insert(&active_era.index, era_reward);
+			<ErasNotClaimedReward<T>>::insert(&active_era.index, era_reward);
 			T::RewardRemainder::on_unbalanced(T::Currency::issue(zero_balance));
 			// T::RewardRemainder::on_unbalanced(T::Currency::issue(rest));
 		}
@@ -3125,6 +3171,7 @@ impl<T: Config> Module<T> {
 		<ErasValidatorReward<T>>::remove(era_index);
 		<ErasRewardPoints<T>>::remove(era_index);
 		<ErasTotalStake<T>>::remove(era_index);
+		<ErasNotClaimedReward<T>>::remove(era_index);
 		ErasStartSessionIndex::remove(era_index);
 	}
 

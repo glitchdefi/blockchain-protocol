@@ -112,9 +112,9 @@ impl<T: Config> Module<T> {
 // align incentives in other pallets.
 impl<T: Config> OnUnbalanced<PositiveImbalanceOf<T>> for Module<T> {
 	fn on_nonzero_unbalanced(amount: PositiveImbalanceOf<T>) {
-		let numeric_amount = amount.peek();
+		// let numeric_amount = amount.peek();
 
-		// // Must resolve into existing but better to be safe.
+		// // Must withdraw from existing but better to be safe.
 		// let _ = T::Currency::resolve_creating(&Self::account_id(), amount);
 		//
 		// Self::deposit_event(RawEvent::ImbalanceAbsorbed(numeric_amount, Self::pot()));
