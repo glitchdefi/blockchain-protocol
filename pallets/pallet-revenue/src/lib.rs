@@ -1,71 +1,60 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
+// Re-export pallet items so that they can be accessed from the crate namespace.
 pub use pallet::*;
+use pallet_ethereum::RevenueWhiteList;
+// use sp_core::H160;
+use ethereum_types::H160;
+use log::warn;
 
 #[cfg(feature = "std")]
 use frame_support::traits::GenesisBuild;
 
 #[frame_support::pallet]
 pub mod pallet {
-    use super::*;
-    use frame_support::pallet_prelude::*;
+    use frame_support::{dispatch::DispatchResultWithPostInfo, pallet_prelude::*};
     use frame_system::pallet_prelude::*;
-    use frame_system::ensure_signed;
-    use frame_support::traits::{Currency, ExistenceRequirement::AllowDeath, ReservableCurrency};
-    use sp_runtime::ModuleId;
-    use sp_runtime::traits::AccountIdConversion;
-    use sp_core::H160;
-    use frame_support::traits::Vec;
+    use sp_std::vec::Vec;
+    // use sp_core::H160;
+    use ethereum_types::H160;
 
-    pub type BalanceOf<T> =
-    <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
 
     #[pallet::config]
     pub trait Config: frame_system::Config {
+        type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
+    }
 
-        type ModuleId: Get<ModuleId>;
+    #[pallet::event]
+    // #[pallet::metadata(H160 = "address")]
+    #[pallet::generate_deposit(pub(super) fn deposit_event)]
+    pub enum Event<T: Config> {
+        /// Event emitted when an address has been added to white list. [address]
+        AddressAdded(H160),
+        /// Event emitted when an address has been removed from white list [address]
+        AddressRemoved(H160),
+        /// Event emitted when an existed address has been added to white list. [address]
+        AddressExisted(H160),
+        /// Event emitted when an address has been removed from white list but it wasn't in white list. [address]
+        AddressNotExisted(H160)
+    }
 
-        type Currency: Currency<Self::AccountId> + ReservableCurrency<Self::AccountId>;
+    #[pallet::error]
+    pub enum Error<T> {
+        NoPermission,
     }
 
     #[pallet::pallet]
-    pub struct Pallet<T>(sp_std::marker::PhantomData<T>);
-
-    // TODO Propose feature
-    // #[pallet::storage]
-    // #[pallet::getter(fn proposal_map)]
-    // pub(super) type ProposalMap<T: Config> = StorageMap<
-    //     _,
-    //     Blake2_128Concat,
-    //     u32,
-    //     Option<(bool, BalanceOf<T>, T::AccountId, Vec<H160>)>,
-    //     ValueQuery
-    // >;
-    //
-    // #[pallet::storage]
-    // #[pallet::getter(fn proposal_count)]
-    // pub(super) type ProposalCount<T: Config> = StorageValue<_, u32, ValueQuery>;
+    #[pallet::generate_store(pub(super) trait Store)]
+    pub struct Pallet<T>(_);
 
     #[pallet::storage]
-    #[pallet::getter(fn whitelist)]
     pub(super) type Whitelist<T: Config> = StorageMap<
-        _,
-        Blake2_128Concat,
-        H160,
-        bool,
-        ValueQuery
+        _, Blake2_128Concat, H160, bool, ValueQuery
     >;
 
     #[pallet::storage]
     #[pallet::getter(fn admin_address)]
-    pub(super) type AdminAddress<T: Config> = StorageValue<_, T::AccountId, ValueQuery>;
-
-    #[pallet::error]
-    pub enum Error<T> {
-        InsufficientFunds,
-        NoPermission,
-        NoExist,
-    }
+    pub(super) type AdminAccountID<T: Config> = StorageValue<_, T::AccountId, ValueQuery>;
 
     #[pallet::genesis_config]
     pub struct GenesisConfig<T: Config> {
@@ -84,9 +73,10 @@ pub mod pallet {
     #[pallet::genesis_build]
     impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
         fn build(&self) {
-            AdminAddress::<T>::put(self.admin_genesis.clone());
+            AdminAccountID::<T>::put(self.admin_genesis.clone());
         }
     }
+
 
     #[pallet::hooks]
     impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {}
@@ -94,63 +84,48 @@ pub mod pallet {
     #[pallet::call]
     impl<T: Config> Pallet<T> {
 
-        // TODO Propose feature
-        // #[pallet::weight(10_000)]
-        // pub fn propose(origin: OriginFor<T>, smart_contract_address: Vec<H160>, value: BalanceOf<T>) -> DispatchResultWithPostInfo {
-        //     let who = ensure_signed(origin)?;
-        //
-        //     ensure!(T::Currency::transfer(&who, &Self::account_id(), value, AllowDeath)? == (), <Error<T>>::InsufficientFunds);
-        //
-        //     let new_proposal = Some((false, value, who, smart_contract_address.clone()));
-        //
-        //     ProposalCount::<T>::put(Self::proposal_count().saturating_add(1));
-        //
-        //     let new_id = Self::proposal_count();
-        //
-        //     ProposalMap::<T>::insert(new_id, new_proposal);
-        //
-        //     Ok(().into())
-        // }
-        //
-        // #[pallet::weight(10_000)]
-        // pub fn approve_proposal(origin: OriginFor<T>, proposal_id: u32, is_accept: bool) -> DispatchResultWithPostInfo {
-        //     let who = ensure_signed(origin)?;
-        //
-        //     ensure!(who == Self::admin_address(), <Error<T>>::NoPermission);
-        //
-        //     let proposal = Self::proposal_map(proposal_id);
-        //
-        //     let new_data_proposal = match proposal {
-        //         None => None,
-        //         Some(proposalTuple) => if is_accept {
-        //             Some((true, proposalTuple.1, proposalTuple.2, proposalTuple.3))
-        //         } else {
-        //             None
-        //         }
-        //     };
-        //
-        //     ProposalMap::<T>::insert(proposal_id, new_data_proposal);
-        //
-        //
-        //     Ok(().into())
-        // }
-
-        #[pallet::weight(10_000)]
-        pub fn update_whitelist(origin: OriginFor<T>, smart_contract_address: Vec<H160>, is_add: bool) -> DispatchResultWithPostInfo {
+        #[pallet::weight(1_000)]
+        pub fn add_addresses(
+            origin: OriginFor<T>,
+            addresses: Vec<H160>
+        ) -> DispatchResultWithPostInfo {
             let who = ensure_signed(origin)?;
-
-            ensure!(who == Self::admin_address(), <Error<T>>::NoPermission);
-
-            smart_contract_address.iter().for_each(|addr| Whitelist::<T>::insert(addr, is_add));
-
+            ensure!(who == Self::admin_address(), Error::<T>::NoPermission);
+            for address in addresses.into_iter() {
+                if Whitelist::<T>::contains_key(&address) {
+                    Self::deposit_event(Event::AddressExisted(address));
+                } else {
+                    Whitelist::<T>::insert(address, true);
+                    Self::deposit_event(Event::AddressAdded(address));
+                }
+            }
             Ok(().into())
         }
-    }
 
-    impl<T: Config> Pallet<T> {
-        pub fn account_id() -> T::AccountId {
-            T::ModuleId::get().into_account()
+        #[pallet::weight(1_000)]
+        pub fn remove_addresses(
+            origin: OriginFor<T>,
+            addresses: Vec<H160>
+        ) -> DispatchResultWithPostInfo {
+            let who = ensure_signed(origin)?;
+            ensure!(who == Self::admin_address(), Error::<T>::NoPermission);
+            for address in addresses.into_iter() {
+                if !Whitelist::<T>::contains_key(&address) {
+                    Self::deposit_event(Event::AddressNotExisted(address));
+                } else {
+                    Whitelist::<T>::remove(address);
+                    Self::deposit_event(Event::AddressRemoved(address));
+                }
+            }
+            Ok(().into())
         }
+
     }
 }
 
+impl<T: Config> RevenueWhiteList for Module<T> {
+    fn is_in_white_list(address: H160) -> bool {
+        let result = Whitelist::<T>::contains_key(&address);
+        result
+    }
+}

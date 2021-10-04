@@ -1,0 +1,46 @@
+[package]
+name = "fc-rpc"
+version = "2.0.0-clover"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+description = "Ethereum RPC (web3) compatibility layer for Substrate."
+license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
+
+[dependencies]
+jsonrpc-core = "15.0.0"
+jsonrpc-derive = "14.0.3"
+jsonrpc-core-client = "14.0.3"
+jsonrpc-pubsub = "15.0.0"
+log = "0.4.8"
+ethereum-types = "0.11.0"
+evm = { git = "https://github.com/clover-network/evm.git", tag = "v0.27.1-clover", features = ["with-codec"] }
+fc-consensus = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fc-db = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fc-rpc-core = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fp-consensus = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fp-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fp-storage = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+sp-io = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sp-runtime = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sp-api = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sp-transaction-pool = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sp-storage = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" } 
+sp-blockchain = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" } 
+sc-service = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sc-client-api = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sc-rpc = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sc-network = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+pallet-evm = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+fp-evm = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+pallet-ethereum = { path = "../../pallets/pallet-ethereum" }
+ethereum = { version = "0.7.1", features = ["with-codec"] }
+codec = { package = "parity-scale-codec", version = "2.0.0" }
+rlp = "0.5"
+futures = { version = "0.3.1", features = ["compat"] }
+sha3 = "0.8"
+rustc-hex = { version = "2.1.0", default-features = false }
+libsecp256k1 = "0.3"
+rand = "0.7"
+
+[features]
+rpc_binary_search_estimate = []

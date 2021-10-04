@@ -7,9 +7,11 @@ name = 'pallet-revenue'
 version = '3.0.0'
 
 [dependencies]
+log = { version = "0.4" }
 serde = { default-features = false, version = "1.0.101" }
 codec = { package = "parity-scale-codec", default-features = false, version = "2.0.0" }
 rustc-hex = { default-features = false, version = "2.0.1" }
+#primitive-types = { version = "0.9", features = ["byteorder", "rustc-hex"],  default-features = false}
 
 # substrate frame dependencies
 frame-support = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
@@ -17,6 +19,12 @@ frame-system = {default-features = false, git = "https://github.com/paritytech/s
 sp-runtime = {default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
 sp-core = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
 sp-std = {default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
+ethereum-types = { version = "0.11", default-features = false }
+
+getrandom = { version = "0.2.3", features = ["js"], default-features = false }
+
+# local dependency
+pallet-ethereum = { path = "../pallet-ethereum", default-features = false }
 
 [dev-dependencies]
 hex-literal = "0.3.1"
@@ -32,4 +40,7 @@ std = [
     "sp-std/std",
     "frame-support/std",
     "frame-system/std",
+    "getrandom/std",
+    "pallet-ethereum/std",
+    "ethereum-types/std",
 ]
