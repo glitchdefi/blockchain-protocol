@@ -360,13 +360,6 @@ where
     }
 }
 
-// pub struct Author;
-// impl OnUnbalanced<NegativeImbalance> for Author {
-//     fn on_nonzero_unbalanced(amount: NegativeImbalance) {
-//         Balances::resolve_creating(&Authorship::author(), amount);
-//     }
-// }
-
 pub struct FundBalance;
 impl OnUnbalanced<NegativeImbalance> for FundBalance {
     fn on_nonzero_unbalanced(amount: NegativeImbalance) {
@@ -378,15 +371,12 @@ pub struct DealWithFees;
 impl OnUnbalanced<NegativeImbalance> for DealWithFees {
     fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance>) {
         if let Some(fees) = fees_then_tips.next() {
-            // for fees, 0% to treasury, 100% to fund
-            let mut split = fees.ration(0, 100);
+            // Deposit all fees and tips to fund
+            let mut amount = fees;
             if let Some(tips) = fees_then_tips.next() {
-                // for tips, if any, 0% to treasury, 100% to fund (though this can be anything)
-                tips.ration_merge_into(0, 100, &mut split);
+                amount = amount.merge(tips);
             }
-            // Treasury::on_unbalanced(split.0);
-            // Author::on_unbalanced(split.1);
-            FundBalance::on_unbalanced(split.1);
+            FundBalance::on_unbalanced(amount);
         }
     }
 }
