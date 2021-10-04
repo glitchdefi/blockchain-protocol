@@ -19,8 +19,8 @@ name = 'glitch-node'
 
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = ["derive"] }
 pallet-evm = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover"  }
-pallet-ethereum = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
-fc-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", features = ["rpc_binary_search_estimate"] }
+# pallet-ethereum = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+# fc-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", features = ["rpc_binary_search_estimate"] }
 fp-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
 fc-consensus = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
 fp-consensus = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
@@ -76,6 +76,10 @@ substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate", 
 sc-keystore = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 hex-literal = { version = '0.3.1' }
 primitive-types = { version = "0.9", default-features = false, features = ["rlp", "byteorder"] }
+
+# local dependencies
+fc-rpc = { path = "../client/fc-rpc", features = ["rpc_binary_search_estimate"] }
+pallet-ethereum = { path = "../pallets/pallet-ethereum"}
 
 [build-dependencies]
 substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
