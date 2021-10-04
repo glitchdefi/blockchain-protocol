@@ -2,7 +2,8 @@
 // `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
 #![recursion_limit = "256"]
 
-// Make the WASM binary available.
+mod impls;// Make the WASM binary available.
+mod weights;
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
@@ -40,6 +41,7 @@ use sp_version::RuntimeVersion;
 use pallet_evm::{
     Account as EVMAccount, EnsureAddressTruncated, FeeCalculator, HashedAddressMapping, Runner,
 };
+use evm_accounts::EvmAddressMapping;
 
 use fp_rpc::TransactionStatus;
 use pallet_transaction_payment::{Multiplier, TargetedFeeAdjustment};
@@ -75,6 +77,7 @@ pub use primitives::{
 use codec::{Decode, Encode};
 use sp_arithmetic::traits::{BaseArithmetic, Unsigned};
 pub use sp_runtime::{Perbill, Permill};
+use impls::{Author as OtherAuthor, MergeAccountEvm,  WeightToFee as OtherWeightToFee};
 
 /// Opaque types. These are used by the CLI to instantiate machinery that don't need to know
 /// the specifics of the runtime. They can then be made to be agnostic over specific formats
@@ -200,7 +203,10 @@ impl frame_system::Config for Runtime {
     /// What to do if a new account is created.
     type OnNewAccount = ();
     /// What to do if an account is fully reaped from the system.
-    type OnKilledAccount = ();
+    type OnKilledAccount = (
+        pallet_evm::CallKillAccount<Runtime>,
+        evm_accounts::CallKillAccount<Runtime>,
+    );
     /// The data to be stored in an account.
     type AccountData = pallet_balances::AccountData<Balance>;
     /// Weight information for the extrinsics of this pallet.
@@ -794,6 +800,16 @@ impl pallet_session::historical::Config for Runtime {
     type FullIdentificationOf = pallet_staking::ExposureOf<Runtime>;
 }
 
+/// glitch account
+impl evm_accounts::Config for Runtime {
+  type Event = Event;
+  type Currency = Balances;
+  type KillAccount = frame_system::Consumer<Runtime>;
+  type AddressMapping = EvmAddressMapping<Runtime>;
+  type MergeAccount = MergeAccountEvm;
+  type WeightInfo = weights::evm_accounts::WeightInfo<Runtime>;
+}
+
 parameter_types! {
   // session: 10 minutes
   pub const SessionsPerEra: sp_staking::SessionIndex = 36;  // 18 sessions in an era, (6 hours)
@@ -1130,6 +1146,9 @@ construct_runtime!(
         ElectionsPhragmen: pallet_elections_phragmen::{Module, Call, Storage, Event<T>, Config<T>},
         TechnicalMembership: pallet_membership::<Instance1>::{Module, Call, Storage, Event<T>, Config<T>},
         Tips: pallet_tips::{Module, Call, Storage, Event<T>},
+
+        // account module
+        EvmAccounts: evm_accounts::{Module, Call, Storage, Event<T>},
 
         // Utility
         MultiSig: pallet_multisig::{Module, Call, Storage, Event<T>},

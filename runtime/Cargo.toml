@@ -80,6 +80,10 @@ sp-transaction-pool = { git = "https://github.com/paritytech/substrate.git",  ta
 sp-version = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 sp-authority-discovery = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 
+#
+evm-accounts = { path = "../modules/evm-accounts", default-features = false }
+glitch-traits = { path = "../modules/traits", default-features = false }
+
 # custom
 pallet-revenue = { path = '../pallets/pallet-revenue', default-features = false, version = '3.0.0' }
 
@@ -152,5 +156,6 @@ std = [
 	'sp-authority-discovery/std',
 
 	"pallet-revenue/std",
+	"evm-accounts/std",
 #	"pallet-fund/std"
 ]
