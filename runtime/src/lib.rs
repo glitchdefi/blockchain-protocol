@@ -587,6 +587,7 @@ impl pallet_ethereum::Config for Runtime {
     type Event = Event;
     type FindAuthor = EthereumFindAuthor<Babe>;
     type StateRoot = pallet_ethereum::IntermediateStateRoot;
+    type RevenueSharing = Revenue;
 }
 
 parameter_types! {
@@ -728,7 +729,7 @@ impl pallet_treasury::Config for Runtime {
         pallet_collective::EnsureProportionMoreThan<_1, _2, AccountId, CouncilCollective>,
     >;
     type Event = Event;
-    type OnSlash = Treasury;
+    type OnSlash = ();
     type ProposalBond = ProposalBond;
     type ProposalBondMinimum = ProposalBondMinimum;
     type SpendPeriod = SpendPeriod;
@@ -1071,8 +1072,7 @@ parameter_types! {
 
 /// Configure the pallet-template in pallets/template.
 impl pallet_revenue::Config for Runtime {
-    type ModuleId = RevenueModuleId;
-    type Currency = Balances;
+    type Event = Event;
 }
 
 //Config pallet-fund
