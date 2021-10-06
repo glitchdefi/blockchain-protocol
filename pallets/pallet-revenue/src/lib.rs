@@ -9,20 +9,19 @@ use frame_support::traits::GenesisBuild;
 pub mod pallet {
     use super::*;
     use frame_support::pallet_prelude::*;
-    use frame_system::pallet_prelude::*;
-    use frame_system::ensure_signed;
-    use frame_support::traits::{Currency, ExistenceRequirement::AllowDeath, ReservableCurrency};
-    use sp_runtime::ModuleId;
-    use sp_runtime::traits::AccountIdConversion;
-    use sp_core::H160;
     use frame_support::traits::Vec;
+    use frame_support::traits::{Currency, ExistenceRequirement::AllowDeath, ReservableCurrency};
+    use frame_system::ensure_signed;
+    use frame_system::pallet_prelude::*;
+    use sp_core::H160;
+    use sp_runtime::traits::AccountIdConversion;
+    use sp_runtime::ModuleId;
 
     pub type BalanceOf<T> =
-    <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
+        <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
 
     #[pallet::config]
     pub trait Config: frame_system::Config {
-
         type ModuleId: Get<ModuleId>;
 
         type Currency: Currency<Self::AccountId> + ReservableCurrency<Self::AccountId>;
@@ -48,13 +47,7 @@ pub mod pallet {
 
     #[pallet::storage]
     #[pallet::getter(fn whitelist)]
-    pub(super) type Whitelist<T: Config> = StorageMap<
-        _,
-        Blake2_128Concat,
-        H160,
-        bool,
-        ValueQuery
-    >;
+    pub(super) type Whitelist<T: Config> = StorageMap<_, Blake2_128Concat, H160, bool, ValueQuery>;
 
     #[pallet::storage]
     #[pallet::getter(fn admin_address)]
@@ -93,7 +86,6 @@ pub mod pallet {
 
     #[pallet::call]
     impl<T: Config> Pallet<T> {
-
         // TODO Propose feature
         // #[pallet::weight(10_000)]
         // pub fn propose(origin: OriginFor<T>, smart_contract_address: Vec<H160>, value: BalanceOf<T>) -> DispatchResultWithPostInfo {
@@ -136,12 +128,18 @@ pub mod pallet {
         // }
 
         #[pallet::weight(10_000)]
-        pub fn update_whitelist(origin: OriginFor<T>, smart_contract_address: Vec<H160>, is_add: bool) -> DispatchResultWithPostInfo {
+        pub fn update_whitelist(
+            origin: OriginFor<T>,
+            smart_contract_address: Vec<H160>,
+            is_add: bool,
+        ) -> DispatchResultWithPostInfo {
             let who = ensure_signed(origin)?;
 
             ensure!(who == Self::admin_address(), <Error<T>>::NoPermission);
 
-            smart_contract_address.iter().for_each(|addr| Whitelist::<T>::insert(addr, is_add));
+            smart_contract_address
+                .iter()
+                .for_each(|addr| Whitelist::<T>::insert(addr, is_add));
 
             Ok(().into())
         }
@@ -153,4 +151,3 @@ pub mod pallet {
         }
     }
 }
-
