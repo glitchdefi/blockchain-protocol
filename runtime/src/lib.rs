@@ -2,7 +2,8 @@
 // `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
 #![recursion_limit = "256"]
 
-// Make the WASM binary available.
+mod impls; // Make the WASM binary available.
+mod weights;
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
@@ -37,6 +38,7 @@ use sp_version::RuntimeVersion;
 //pub mod impls;
 //use impls::{LinearWeightToFee};
 
+use evm_accounts::EvmAddressMapping;
 use pallet_evm::{
     Account as EVMAccount, EnsureAddressTruncated, FeeCalculator, HashedAddressMapping, Runner,
 };
@@ -73,6 +75,7 @@ pub use primitives::{
 };
 
 use codec::{Decode, Encode};
+use impls::{Author as OtherAuthor, MergeAccountEvm, WeightToFee as OtherWeightToFee};
 use sp_arithmetic::traits::{BaseArithmetic, Unsigned};
 pub use sp_runtime::{Perbill, Permill};
 
@@ -200,7 +203,10 @@ impl frame_system::Config for Runtime {
     /// What to do if a new account is created.
     type OnNewAccount = ();
     /// What to do if an account is fully reaped from the system.
-    type OnKilledAccount = ();
+    type OnKilledAccount = (
+        pallet_evm::CallKillAccount<Runtime>,
+        evm_accounts::CallKillAccount<Runtime>,
+    );
     /// The data to be stored in an account.
     type AccountData = pallet_balances::AccountData<Balance>;
     /// Weight information for the extrinsics of this pallet.
@@ -545,7 +551,7 @@ impl pallet_evm::Config for Runtime {
     type GasWeightMapping = GlitchGasWeightMapping;
     type CallOrigin = EnsureAddressTruncated;
     type WithdrawOrigin = EnsureAddressTruncated;
-    type AddressMapping = HashedAddressMapping<BlakeTwo256>;
+    type AddressMapping = EvmAddressMapping<Runtime>;
     type Currency = Balances;
     type Event = Event;
     type Runner = pallet_evm::runner::stack::Runner<Self>;
@@ -696,21 +702,21 @@ impl pallet_membership::Config<pallet_membership::Instance1> for Runtime {
 }
 
 parameter_types! {
-	pub const ProposalBond: Permill = Permill::from_percent(5);
-	pub const ProposalBondMinimum: Balance = 1 * DOLLARS;
-	pub const SpendPeriod: BlockNumber = 1 * DAYS;
-	pub const Burn: Permill = Permill::from_percent(0);
-	pub const TipCountdown: BlockNumber = 1 * DAYS;
-	pub const TipFindersFee: Percent = Percent::from_percent(20);
-	pub const TipReportDepositBase: Balance = 1 * DOLLARS;
-	pub const DataDepositPerByte: Balance = 1 * CENTS;
-	pub const BountyDepositBase: Balance = 1 * DOLLARS;
-	pub const BountyDepositPayoutDelay: BlockNumber = 1 * DAYS;
-	pub const TreasuryModuleId: ModuleId = ModuleId(*b"py/trsry");
-	pub const BountyUpdatePeriod: BlockNumber = 14 * DAYS;
-	pub const MaximumReasonLength: u32 = 16384;
-	pub const BountyCuratorDeposit: Permill = Permill::from_percent(50);
-	pub const BountyValueMinimum: Balance = 5 * DOLLARS;
+    pub const ProposalBond: Permill = Permill::from_percent(5);
+    pub const ProposalBondMinimum: Balance = 1 * DOLLARS;
+    pub const SpendPeriod: BlockNumber = 1 * DAYS;
+    pub const Burn: Permill = Permill::from_percent(0);
+    pub const TipCountdown: BlockNumber = 1 * DAYS;
+    pub const TipFindersFee: Percent = Percent::from_percent(20);
+    pub const TipReportDepositBase: Balance = 1 * DOLLARS;
+    pub const DataDepositPerByte: Balance = 1 * CENTS;
+    pub const BountyDepositBase: Balance = 1 * DOLLARS;
+    pub const BountyDepositPayoutDelay: BlockNumber = 1 * DAYS;
+    pub const TreasuryModuleId: ModuleId = ModuleId(*b"py/trsry");
+    pub const BountyUpdatePeriod: BlockNumber = 14 * DAYS;
+    pub const MaximumReasonLength: u32 = 16384;
+    pub const BountyCuratorDeposit: Permill = Permill::from_percent(50);
+    pub const BountyValueMinimum: Balance = 5 * DOLLARS;
 }
 
 impl pallet_treasury::Config for Runtime {
@@ -791,6 +797,16 @@ impl pallet_session::Config for Runtime {
 impl pallet_session::historical::Config for Runtime {
     type FullIdentification = pallet_staking::Exposure<AccountId, Balance>;
     type FullIdentificationOf = pallet_staking::ExposureOf<Runtime>;
+}
+
+/// glitch account
+impl evm_accounts::Config for Runtime {
+    type Event = Event;
+    type Currency = Balances;
+    type KillAccount = frame_system::Consumer<Runtime>;
+    type AddressMapping = EvmAddressMapping<Runtime>;
+    type MergeAccount = MergeAccountEvm;
+    type WeightInfo = weights::evm_accounts::WeightInfo<Runtime>;
 }
 
 parameter_types! {
@@ -1080,7 +1096,6 @@ impl pallet_fund::Config for Runtime {
     type Event = Event;
 }
 
-
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
     pub enum Runtime where
@@ -1129,6 +1144,9 @@ construct_runtime!(
         ElectionsPhragmen: pallet_elections_phragmen::{Module, Call, Storage, Event<T>, Config<T>},
         TechnicalMembership: pallet_membership::<Instance1>::{Module, Call, Storage, Event<T>, Config<T>},
         Tips: pallet_tips::{Module, Call, Storage, Event<T>},
+
+        // account module
+        EvmAccounts: evm_accounts::{Module, Call, Storage, Event<T>},
 
         // Utility
         MultiSig: pallet_multisig::{Module, Call, Storage, Event<T>},

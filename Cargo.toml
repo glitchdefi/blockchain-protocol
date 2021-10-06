@@ -7,7 +7,9 @@ members = [
     'pallets/pallet-treasury',
     'pallets/pallet-ethereum',
     'pallets/pallet-revenue',
-    'pallets/pallet-fund'
+    'pallets/pallet-fund',
+    'modules/evm-accounts',
+    'modules/traits',
 ]
 [profile.release]
 panic = 'unwind'
