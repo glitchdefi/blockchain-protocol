@@ -57,10 +57,8 @@ decl_event!(
 	{
 		/// Donor has made a charitable donation to the charity
 		DonationReceived(AccountId, Balance, Balance),
-		/// An imbalance from elsewhere in the runtime has been absorbed by the Charity
-		ImbalanceAbsorbed(Balance, Balance),
 		/// Spend all fund
-		SpendAll(Balance),
+		SpendFund(Balance),
 	}
 );
 
@@ -82,16 +80,6 @@ decl_module! {
 			Self::deposit_event(RawEvent::DonationReceived(donor, amount, Self::pot()));
 			Ok(())
 		}
-
-		#[weight = 0]
-		fn send_reward (origin, members: Vec<T::AccountId>, _value: u64) -> DispatchResult {
-			let sender =  &Self::account_id();
-			let balance = T::Currency::free_balance(&Self::account_id());
-			let count_member = members.len();
-
-			Ok(())
-		}
-
 	}
 }
 
@@ -112,12 +100,7 @@ impl<T: Config> Module<T> {
 // align incentives in other pallets.
 impl<T: Config> OnUnbalanced<PositiveImbalanceOf<T>> for Module<T> {
 	fn on_nonzero_unbalanced(amount: PositiveImbalanceOf<T>) {
-		// let numeric_amount = amount.peek();
-
-		// // Must withdraw from existing but better to be safe.
-		// let _ = T::Currency::resolve_creating(&Self::account_id(), amount);
-		//
-		// Self::deposit_event(RawEvent::ImbalanceAbsorbed(numeric_amount, Self::pot()));
+		let numeric_amount = amount.peek();
 		if let Err(problem) = T::Currency::settle(
 			&Self::account_id(),
 			amount,
@@ -127,7 +110,9 @@ impl<T: Config> OnUnbalanced<PositiveImbalanceOf<T>> for Module<T> {
 			print("Inconsistent state - couldn't settle imbalance for funds");
 			// Nothing else to do here.
 			drop(problem);
+			return;
 		}
+		Self::deposit_event(RawEvent::SpendFund(numeric_amount));
 	}
 }
 
