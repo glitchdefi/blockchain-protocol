@@ -10,13 +10,6 @@ use sp_arithmetic::traits::{BaseArithmetic, Unsigned};
 use sp_runtime::traits::Convert;
 use sp_runtime::{DispatchResult, FixedPointNumber, Perbill, Perquintill};
 
-pub struct Author;
-impl OnUnbalanced<NegativeImbalance> for Author {
-    fn on_nonzero_unbalanced(amount: NegativeImbalance) {
-        Balances::resolve_creating(&Authorship::author(), amount);
-    }
-}
-
 pub struct MergeAccountEvm;
 impl MergeAccount<AccountId> for MergeAccountEvm {
     #[transactional]
@@ -36,23 +29,6 @@ impl MergeAccount<AccountId> for MergeAccountEvm {
     }
 }
 
-pub struct WeightToFee<T>(sp_std::marker::PhantomData<T>);
-
-impl<T> WeightToFeePolynomial for WeightToFee<T>
-where
-    T: BaseArithmetic + From<u32> + Copy + Unsigned,
-{
-    type Balance = T;
-
-    fn polynomial() -> WeightToFeeCoefficients<Self::Balance> {
-        smallvec::smallvec!(WeightToFeeCoefficient {
-            coeff_integer: 10_000u32.into(),
-            coeff_frac: Perbill::zero(),
-            negative: false,
-            degree: 1,
-        })
-    }
-}
 
 /// Reset the fee multiplier to the fixed value
 /// this is required to perform the upgrade from a previously running chain

@@ -75,7 +75,7 @@ pub use primitives::{
 };
 
 use codec::{Decode, Encode};
-use impls::{Author as OtherAuthor, MergeAccountEvm, WeightToFee as OtherWeightToFee};
+use impls::{MergeAccountEvm};
 use sp_arithmetic::traits::{BaseArithmetic, Unsigned};
 pub use sp_runtime::{Perbill, Permill};
 
