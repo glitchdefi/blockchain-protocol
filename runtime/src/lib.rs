@@ -563,7 +563,7 @@ impl pallet_evm::Config for Runtime {
     );
     type ChainId = GlitchTestnetChainId;
     type BlockGasLimit = BlockGasLimit;
-    type OnChargeTransaction = ();
+    type OnChargeTransaction = pallet_evm::EVMCurrencyAdapter<Balances, FundBalance>;
     type BanlistChecker = ();
 
     /// EVM config used in the module.

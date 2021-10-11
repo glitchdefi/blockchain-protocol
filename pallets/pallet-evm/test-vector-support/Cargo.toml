@@ -1,0 +1,27 @@
+[package]
+name = "pallet-evm-test-vector-support"
+version = "1.0.0-dev"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+license = "Apache-2.0"
+homepage = "https://substrate.dev"
+repository = "https://github.com/paritytech/frontier/"
+description = "Test vector support for EVM pallet."
+
+[dependencies]
+hex = { version = "0.4.0", optional = true }
+serde = { version = "1.0.101", optional = true, features = ["derive"] }
+serde_json = { version = "1.0", optional = true }
+evm = { git = "https://github.com/clover-network/evm.git", tag = "v0.27.1-clover", default-features = false, features = ["with-codec"] }
+fp-evm = { default-features = false, git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
+
+
+[features]
+default = ["std"]
+std = [
+	"hex",
+	"serde",
+	"serde_json",
+	"evm/std",
+	"fp-evm/std",
+]
