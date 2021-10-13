@@ -35,11 +35,9 @@ pub trait Config: frame_system::Config {
 
 decl_storage! {
 	trait Store for Module<T: Config> as SimpleTreasury {
-		// No storage items of our own, but we still need decl_storage to initialize the pot
 	}
 	add_extra_genesis {
 		build(|_config| {
-			// Create the charity's pot of funds, and ensure it has the minimum required deposit
 			let account_id = <Module<T>>::account_id();
 			let _ = T::Currency::make_free_balance_be(
 				&<Module<T>>::account_id(),
