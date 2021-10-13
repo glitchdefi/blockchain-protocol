@@ -247,7 +247,12 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 					if is_in_white_list {
 						u64::MAX
 					} else {
-						0
+						if min_gas_price == U256::zero() {
+							0
+						} else {
+							let target_gas = (transaction.gas_limit * transaction.gas_price) / min_gas_price;
+							T::GasWeightMapping::gas_to_weight(target_gas.unique_saturated_into())
+						}
 					}
 					// if min_gas_price == U256::zero() {
 					// 	0
