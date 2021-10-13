@@ -25,8 +25,8 @@ frame-system = { git = "https://github.com/paritytech/substrate.git",  tag = "v3
 frame-system-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 
 # Frontier
-pallet-evm = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", default-features = false }
-pallet-evm-precompile-simple = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", default-features = false }
+pallet-evm = { path = "../pallets/pallet-evm", default-features = false }
+pallet-evm-precompile-simple = { path = "../pallets/pallet-evm/precompile/simple", default-features = false }
 pallet-ethereum = { path= "../pallets/pallet-ethereum", default-features  = false }
 fp-rpc = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover", default-features = false }
 evm = { git = "https://github.com/clover-network/evm.git", tag = "v0.27.1-clover", default-features = false, features = ["with-codec"] }

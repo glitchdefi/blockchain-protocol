@@ -4517,7 +4517,6 @@ dependencies = [
 [[package]]
 name = "pallet-evm"
 version = "4.0.0-clover"
-source = "git+https://github.com/clover-network/frontier.git?tag=v2.0.1-clover#a943c0e08f7bd6e6c220ad5f48f9cfcb6f62e6df"
 dependencies = [
  "evm",
  "evm-gasometer",
@@ -4543,13 +4542,24 @@ dependencies = [
 [[package]]
 name = "pallet-evm-precompile-simple"
 version = "2.0.0-dev"
-source = "git+https://github.com/clover-network/frontier.git?tag=v2.0.1-clover#a943c0e08f7bd6e6c220ad5f48f9cfcb6f62e6df"
 dependencies = [
  "evm",
  "fp-evm",
+ "pallet-evm-test-vector-support",
  "ripemd160",
  "sp-core",
  "sp-io",
+]
+
+[[package]]
+name = "pallet-evm-test-vector-support"
+version = "1.0.0-dev"
+dependencies = [
+ "evm",
+ "fp-evm",
+ "hex",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
