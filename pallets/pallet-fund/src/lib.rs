@@ -6,7 +6,7 @@ use sp_std::prelude::*;
 
 
 use frame_support::{
-	decl_event, decl_module, decl_storage, print,
+	decl_event, decl_module, decl_storage, print, weights::Pays,
 	dispatch::{DispatchError, DispatchResult},
 	traits::{Currency, ExistenceRequirement, Imbalance, OnUnbalanced, WithdrawReasons},
 };
@@ -65,7 +65,7 @@ decl_module! {
 		fn deposit_event() = default;
 
 		/// Donate some funds to the charity
-		#[weight = 0]
+		#[weight = (10, Pays::No)]
 		fn donate(
 			origin,
 			amount: BalanceOf<T>

@@ -11,7 +11,7 @@ use codec::Encode;
 use frame_support::{
     decl_error, decl_event, decl_module, decl_storage, ensure,
     traits::{Currency, HandleLifetime, OnKilledAccount, ReservableCurrency},
-    weights::Weight,
+    weights::{Weight, Pays},
     StorageMap,
 };
 use frame_system::ensure_signed;
@@ -97,7 +97,7 @@ decl_module! {
 
         /// Claim account mapping between Substrate accounts and EVM accounts.
         /// Ensure eth_address has not been mapped.
-        #[weight = T::WeightInfo::claim_account()]
+        #[weight = (T::WeightInfo::claim_account(), Pays::No)]
         pub fn claim_account(origin, eth_address: EvmAddress, eth_signature: EcdsaSignature) {
             let who = ensure_signed(origin)?;
 
