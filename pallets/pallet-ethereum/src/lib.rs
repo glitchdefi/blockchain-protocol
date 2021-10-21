@@ -244,14 +244,15 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 			let mut builder = ValidTransactionBuilder::default()
 				.and_provides((origin, transaction.nonce))
 				.priority(
-					if is_in_white_list {
-						u64::MAX
+					if min_gas_price == U256::zero() {
+						0
 					} else {
-						if min_gas_price == U256::zero() {
-							0
+						let target_gas = (transaction.gas_limit * transaction.gas_price) / min_gas_price;
+						let base_priority = T::GasWeightMapping::gas_to_weight(target_gas.unique_saturated_into());
+						if is_in_white_list {
+							base_priority
 						} else {
-							let target_gas = (transaction.gas_limit * transaction.gas_price) / min_gas_price;
-							T::GasWeightMapping::gas_to_weight(target_gas.unique_saturated_into())
+							base_priority / 100u64
 						}
 					}
 					// if min_gas_price == U256::zero() {
