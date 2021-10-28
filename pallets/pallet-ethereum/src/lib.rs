@@ -224,6 +224,8 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 				return InvalidTransaction::ExhaustsResources.into();
 			}
 
+
+
 			let fee = transaction.gas_price.saturating_mul(transaction.gas_limit);
 			let total_payment = transaction.value.saturating_add(fee);
 			if account_data.balance < total_payment {
@@ -252,7 +254,11 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 						if is_in_white_list {
 							base_priority
 						} else {
-							base_priority / 100u64
+							if transaction.input.len() > 0 {
+								0
+							} else {
+								base_priority
+							}
 						}
 					}
 					// if min_gas_price == U256::zero() {
