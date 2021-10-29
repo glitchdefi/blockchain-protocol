@@ -2843,8 +2843,7 @@ impl<T: Config> Module<T> {
 			let total_fund = Self::fund_balance();
 			let not_claimed_reward = Self::get_total_not_claimed_reward(active_era.index);
 			let era_reward = total_fund.saturating_sub(not_claimed_reward);
-			warn!("Era reward {:#?}", era_reward);
-			let zero_balance: BalanceOf<T> = Zero::zero();
+			warn!("Era {} reward {:#?}", active_era.index, era_reward);
 			Self::deposit_event(RawEvent::EraPayout(active_era.index, era_reward));
 
 			// Set ending era reward.
