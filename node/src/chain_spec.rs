@@ -18,6 +18,9 @@ use sp_runtime::{
 };
 use std::collections::BTreeMap;
 use std::str::FromStr;
+use sc_telemetry::TelemetryEndpoints;
+use hex_literal::hex;
+use sp_core::crypto::UncheckedInto;
 
 // The URL for the telemetry server.
 // const TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
@@ -30,6 +33,14 @@ const DEFAULT_PROPERTIES_TESTNET: &str = r#"
 "tokenSymbol": "GLCH",
 "tokenDecimals": 18,
 "ss58Format": 42
+}
+"#;
+
+const DEFAULT_PROPERTIES_MAINNET: &str = r#"
+{
+    "tokenSymbol": "GLCH",
+    "tokenDecimals": 18,
+    "ss58Format": 42
 }
 "#;
 
@@ -212,6 +223,86 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
         // Extensions
         None,
     ))
+}
+
+//Glitch testnet
+pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
+  let wasm_binary = WASM_BINARY.ok_or("Development wasm binary not available".to_string())?;
+  Ok(ChainSpec::from_genesis(
+      //Name
+      "Glitch",
+      //ID
+      "glitch_testnet",
+      ChainType::Custom(String::from("glitch_testnet")),
+      move || testnet_genesis(
+          wasm_binary,
+          // Initial PoA authories
+          vec![
+        // SECRET="release shoulder canyon agree mule snack genre scare furnace coffee fragile sun"
+        // 5CmEYEyMpoyKHWde8gZcPUo39dzzhD6y5jp9TxC23opLUzq4
+        // subkey inspect "$SECRET//glitch//1//validator"
+        // subkey inspect "$SECRET//glitch//1//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//1//grandpa"
+        // subkey inspect "$SECRET//glitch//1//imonline"
+        // subkey inspect "$SECRET//glitch//1//discovery"
+        (
+          hex!["0bfaaa2444388a6acaf2fa07c2a956e61d6b18ec2e2d23b367b90f74b214de1a"].into(),
+          hex!["17d7f7ce3f05bfcf8e17a46fa7bc1658447ad936fc961eb400a21ebb755736cb"].into(),
+          hex!["5408993d84a10d97d243769c1480fc63f51b685d176fe7cf201c6a60656caaa8"].unchecked_into(), // babe key
+          hex!["6575c1155089f6653206ffa533757ef71a9efb2738fb86bcc89128b1517788c0"].unchecked_into(), // grandpa
+          hex!["f8bc696eadcba0561c7a19af387b11f7db04e1d6457d344aa626476d6152a612"].unchecked_into(), // imonline
+          hex!["64f317d45163a8b4c1960c60550ea1f70506768a96eac2881f7805b9141d1b11"].unchecked_into(), // discovery
+        ),
+        // 5FNQoCoibJMAyqC77og9tSbhGUtaVt51SD7GdCxmMeWxPBvX
+        // subkey inspect "$SECRET//glitch//2//validator"5FNQoCoibJMAyqC77og9tSbhGUtaVt51SD7GdCxmMeWxPBvX
+        // subkey inspect "$SECRET//glitch//2//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//2//grandpa"
+        // subkey inspect "$SECRET//glitch//2//imonline"
+        // subkey inspect "$SECRET//glitch//2//discovery"
+        (
+          hex!["9235b080b6ca2e7b2a7af7a46ac4f677bfa394e29d83611324046c38eb14ee49"].into(),
+          hex!["9235b080b6ca2e7b2a7af7a46ac4f677bfa394e29d83611324046c38eb14ee49"].into(),
+          hex!["dcb5d89f40d57b9da9cd1f677c789584e4e88e1cdfd7a91d561757e23e73aa45"].unchecked_into(), // babe
+          hex!["c7925c95410d4ad451f9bc995852127f169bef4fd75f2c23f9472620ddd59f91"].unchecked_into(), // grandpa
+          hex!["14e2ecd186552e1dfb1f2d5233657b69e0b398d7ec405bb68071ee19d3009f04"].unchecked_into(), // imonline
+          hex!["e404b380c6bd7ab0577a5e6809a3338d28d191137e7581bdd23eb3e893ca9e6a"].unchecked_into(), // discovery
+        ),
+        // 5HQDFanwYwt3QtkAvaBHbaaLgSRER42PWAXCJqNoxyQFZXZJ
+        // subkey inspect "$SECRET//glitch//3//validator"
+        // subkey inspect "$SECRET//glitch//3//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//3//grandpa"
+        // subkey inspect "$SECRET//glitch//3//imonline"
+        // subkey inspect "$SECRET//glitch//3//discovery"
+        (
+          hex!["ec0dc859299bcc7146d9ba74956ff67334454e23c0d9fd3e55302f94b09a742b"].into(),
+          hex!["ec0dc859299bcc7146d9ba74956ff67334454e23c0d9fd3e55302f94b09a742b"].into(),
+          hex!["c08908eb1a58eb1df74e54415cdd4977c20023cc7f5dff771c38f26491367b6e"].unchecked_into(), // babe
+          hex!["0ec2a175b1efc3835a8d1497f914ef39ec4ba0ea7a60cf4cb440586fa74fcd99"].unchecked_into(), // grandpa
+          hex!["f49fda7f7db9af41fd4095a7bf37745e4cc30f9b592c1563ecc5fe2292e9f309"].unchecked_into(), // imonline
+          hex!["e0520566773304de5fd0d448b0ca76b6a2c7edd66d90b4dba36785e64ba65949"].unchecked_into(), // discovery
+        ),
+      ],
+          // 5CPQQYs3wf32fr5PhmmfFQEeVzD1Zy9Hdo8LFzQYuhP8XHW6
+          // subkey inspect "$SECRET//glitch//root"
+          hex!["0e42eb6f65a8ef5e3f3c3cdb5b2c3be646e791abd76e2224d5847cde786b2e01"].into(),
+          vec![
+        // 5CPQQYs3wf32fr5PhmmfFQEeVzD1Zy9Hdo8LFzQYuhP8XHW6
+        hex!["0e42eb6f65a8ef5e3f3c3cdb5b2c3be646e791abd76e2224d5847cde786b2e01"].into(),
+      ],
+          true,
+          endowed_evm_account()
+      ),
+      // Bootnodes
+      vec![],
+      //Telemetry
+      None,
+      // Protocol ID
+      Some("glitch_testnet"),
+      // Properties
+      Some(json::from_str(DEFAULT_PROPERTIES_TESTNET).unwrap()),
+      // Extension
+      None,
+  ))
 }
 
 /// Configure initial storage state for FRAME modules.
