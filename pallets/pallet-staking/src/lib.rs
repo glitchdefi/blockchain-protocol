@@ -174,19 +174,7 @@
 //!
 //! ### Era payout
 //!
-//! The era payout is computed using yearly inflation curve defined at
-//! [`T::RewardCurve`](./trait.Config.html#associatedtype.RewardCurve) as such:
-//!
-//! ```nocompile
-//! staker_payout = yearly_inflation(npos_token_staked / total_tokens) * total_tokens / era_per_year
-//! ```
-//! This payout is used to reward stakers as defined in next section
-//!
-//! ```nocompile
-//! remaining_payout = max_yearly_inflation * total_tokens / era_per_year - staker_payout
-//! ```
-//! The remaining reward is send to the configurable end-point
-//! [`T::RewardRemainder`](./trait.Config.html#associatedtype.RewardRemainder).
+//! The era payout = Transaction fee + Revenue Sharing model income
 //!
 //! ### Reward Calculation
 //!
@@ -875,8 +863,6 @@ pub trait Config: frame_system::Config + SendTransactionTypes<Call<Self>> {
 	/// Weight information for extrinsics in this pallet.
 	type WeightInfo: WeightInfo;
 
-	/// Funding
-	type RevenueFund: OnUnbalanced<PositiveImbalanceOf<Self>>;
 }
 
 /// Mode of era-forcing.
@@ -1164,10 +1150,9 @@ pub mod migrations {
 
 decl_event!(
 	pub enum Event<T> where Balance = BalanceOf<T>, <T as frame_system::Config>::AccountId {
-		/// The era payout has been set; the first balance is the validator-payout; the second is
-		/// the remainder from the maximum amount of reward.
+		/// The era payout has been set; the balance is the validator-payout
 		/// \[era_index, validator_payout, remainder\]
-		EraPayout(EraIndex, Balance, Balance),
+		EraPayout(EraIndex, Balance),
 		/// The staker has been rewarded by this amount. \[stash, amount\]
 		Reward(AccountId, Balance),
 		/// One validator (and its nominators) has been slashed by the given amount.
@@ -2855,30 +2840,16 @@ impl<T: Config> Module<T> {
 			let now_as_millis_u64 = T::UnixTime::now().as_millis().saturated_into::<u64>();
 
 			let era_duration = now_as_millis_u64 - active_era_start;
-			// let (validator_payout, max_payout) = inflation::compute_total_payout(
-			// 	&T::RewardCurve::get(),
-			// 	Self::eras_total_stake(&active_era.index),
-			// 	T::Currency::total_issuance(),
-			// 	// Duration of era; more than u64::MAX is rewarded as u64::MAX.
-			// 	era_duration.saturated_into::<u64>(),
-			// );
-			// let rest = max_payout.saturating_sub(validator_payout);
-			// warn!("Era reward {:#?}", validator_payout);
 			let total_fund = Self::fund_balance();
 			let not_claimed_reward = Self::get_total_not_claimed_reward(active_era.index);
 			let era_reward = total_fund.saturating_sub(not_claimed_reward);
 			warn!("Era reward {:#?}", era_reward);
 			let zero_balance: BalanceOf<T> = Zero::zero();
-			// Self::deposit_event(RawEvent::EraPayout(active_era.index, validator_payout, rest));
-			Self::deposit_event(RawEvent::EraPayout(active_era.index, era_reward, zero_balance));
+			Self::deposit_event(RawEvent::EraPayout(active_era.index, era_reward));
 
 			// Set ending era reward.
-			// <ErasValidatorReward<T>>::insert(&active_era.index, validator_payout);
-			// <ErasValidatorReward<T>>::insert(&active_era.index, zero_balance);
 			<ErasValidatorReward<T>>::insert(&active_era.index, era_reward);
 			<ErasNotClaimedReward<T>>::insert(&active_era.index, era_reward);
-			T::RewardRemainder::on_unbalanced(T::Currency::issue(zero_balance));
-			// T::RewardRemainder::on_unbalanced(T::Currency::issue(rest));
 		}
 	}
 

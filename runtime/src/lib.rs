@@ -705,7 +705,7 @@ parameter_types! {
     pub const ProposalBond: Permill = Permill::from_percent(5);
     pub const ProposalBondMinimum: Balance = 1 * DOLLARS;
     pub const SpendPeriod: BlockNumber = 1 * DAYS;
-    pub const Burn: Permill = Permill::from_percent(0);
+    pub const Burn: Permill = Permill::from_percent(1);
     pub const TipCountdown: BlockNumber = 1 * DAYS;
     pub const TipFindersFee: Percent = Percent::from_percent(20);
     pub const TipReportDepositBase: Balance = 1 * DOLLARS;
@@ -733,12 +733,12 @@ impl pallet_treasury::Config for Runtime {
         pallet_collective::EnsureProportionMoreThan<_1, _2, AccountId, CouncilCollective>,
     >;
     type Event = Event;
-    type OnSlash = ();
+    type OnSlash = Treasury;
     type ProposalBond = ProposalBond;
     type ProposalBondMinimum = ProposalBondMinimum;
     type SpendPeriod = SpendPeriod;
     type Burn = Burn;
-    type BurnDestination = ();
+    type BurnDestination = FundBalance;
     type SpendFunds = Bounties;
     type WeightInfo = pallet_treasury::weights::SubstrateWeight<Runtime>;
 }
@@ -937,11 +937,9 @@ pallet_staking_reward_curve::build! {
 }
 
 impl pallet_staking::Config for Runtime {
-    type RevenueFund = Fund;
     type Currency = Balances;
     type UnixTime = Timestamp;
     type CurrencyToVote = U128CurrencyToVote;
-    type RewardRemainder = Treasury;
     type Event = Event;
     type Slash = Treasury;
     type Reward = Fund;
