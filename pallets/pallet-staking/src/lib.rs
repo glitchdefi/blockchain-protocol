@@ -783,10 +783,6 @@ pub trait Config: frame_system::Config + SendTransactionTypes<Call<Self>> {
 	/// [`BalanceOf`].
 	type CurrencyToVote: CurrencyToVote<BalanceOf<Self>>;
 
-	/// Tokens have been minted and are unused for validator-reward.
-	/// See [Era payout](./index.html#era-payout).
-	type RewardRemainder: OnUnbalanced<NegativeImbalanceOf<Self>>;
-
 	/// The overarching event type.
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
 
