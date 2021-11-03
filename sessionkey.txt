@@ -1,0 +1,119 @@
+Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//babe` is account:
+  Secret seed:       0xbf4e1c4f0d1ad0177cf324121b1f562fdc14af6bf3f14885d6b5a9a0970a9a53
+      Public key (hex):  0x2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44
+  Account ID:        0x2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44
+  Public key (SS58): 5D8EcwASt7Ak22MiQBTEQ7o249Bg2i214LUgxExXsuasLVBi
+  SS58 Address:      5D8EcwASt7Ak22MiQBTEQ7o249Bg2i214LUgxExXsuasLVBi
+
+Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//grandpa` is account:
+  Secret seed:       0x9be6be317d6dbd972bc68e4961f5e7ef5f6f801f9406990aa2d3ab9b2c1a84e0
+  Public key (hex):  0x04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80
+  Account ID:        0x04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80
+  Public key (SS58): 5CAChgmkSLW7cq6mkhvDXtMyvAdAMrHgtrMWDABsNDjbDkrV
+  SS58 Address:      5CAChgmkSLW7cq6mkhvDXtMyvAdAMrHgtrMWDABsNDjbDkrV
+
+
+Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//imonline` is account:
+  Secret seed:       0xcad640b81a485a0f90bd54581e764f8e6fd0a96630f1c2bd18ce3bb6805ef91e
+  Public key (hex):  0xa86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057
+  Account ID:        0xa86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057
+  Public key (SS58): 5FsXbuMTXj55Kc23234t5Co3bHVCmxYPXAZBBKEiAnFfw89e
+  SS58 Address:      5FsXbuMTXj55Kc23234t5Co3bHVCmxYPXAZBBKEiAnFfw89e
+
+
+Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//discovery` is account:
+  Secret seed:       0xdcee792ef51dfb14312f638e3eae828b7a32a46a9f98a995e820ce51544ef94a
+  Public key (hex):  0x1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b
+  Account ID:        0x1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b
+  Public key (SS58): 5Ckuv96XBrEXcAymZpqSUg5NYf7g7fTSLYXQivcvt8emF27h
+  SS58 Address:      5Ckuv96XBrEXcAymZpqSUg5NYf7g7fTSLYXQivcvt8emF27h
+
+-------------------------
+
+Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//validator` is account:
+  Secret seed:       0x42a3cbcf2c5d767c8d15091fb9040806265191598e37e970a0bca2c4390c21b8
+  Public key (hex):  0x5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164
+  Account ID:        0x5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164
+  Public key (SS58): 5E74YR9ez1mqH448PNUSuQYjAtUgfD5UBNpMXQjtQcQcLk91
+  SS58 Address:      5E74YR9ez1mqH448PNUSuQYjAtUgfD5UBNpMXQjtQcQcLk91
+
+Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//babe` is account:
+  Secret seed:       0x286c907669579cd1b42908aa8be4de14843273d88e8ebc9abddf6ea5dce1db48
+  Public key (hex):  0x381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566
+  Account ID:        0x381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566
+  Public key (SS58): 5DLGkw4yZkK4FEhjLKW9HdgJ2Y2KWUsSU7w1LGxBY9Bx4cfJ
+  SS58 Address:      5DLGkw4yZkK4FEhjLKW9HdgJ2Y2KWUsSU7w1LGxBY9Bx4cfJ
+
+
+Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//grandpa` is account:
+  Secret seed:       0xa87ea07ec62087da0fd14a58045a0e94daec8535dc1ab79e30b954636acad9e6
+  Public key (hex):  0x72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d
+  Account ID:        0x72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d
+  Public key (SS58): 5EfRFjxpJnYyijabzCabLscejhxWwsoqaQ7nUaADN93MGyEV
+  SS58 Address:      5EfRFjxpJnYyijabzCabLscejhxWwsoqaQ7nUaADN93MGyEV
+
+
+Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//imonline` is account:
+  Secret seed:       0xab3611b37e3d2fed8c8f02f44746f9564582a365c765002f1e02b704e35bc7e0
+  Public key (hex):  0x46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a
+  Account ID:        0x46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a
+  Public key (SS58): 5DfTWvSnkjfLfR5YP1XUDHdNxQfT9xWXoxdLw3hrsLjmFTht
+  SS58 Address:      5DfTWvSnkjfLfR5YP1XUDHdNxQfT9xWXoxdLw3hrsLjmFTht
+
+"$SECRET//glitch//2//discovery"
+Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//discovery` is account:
+  Secret seed:       0x3f21f7f271024eb9dff9a2967dfcce12369fcbf117b47e2b50b7b405e28df4d0
+  Public key (hex):  0x98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328
+  Account ID:        0x98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328
+  Public key (SS58): 5FWs54pgx7uBZY8MuSEwz6MMoN1iYg5ynzGTZ8ohdoSo7dSE
+  SS58 Address:      5FWs54pgx7uBZY8MuSEwz6MMoN1iYg5ynzGTZ8ohdoSo7dSE
+
+----------------------------------------------------------------
+"$SECRET//glitch//3//validator"
+Secret Key URI `light file noodle black twenty mixed gesture trip desk business reason rural//glitch//3//validator` is account:
+  Secret seed:       0x80be3052b1ec921e8b676238ee81288627d9a565b00736986ec1b7f903c4e9d9
+  Public key (hex):  0x94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d
+  Account ID:        0x94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d
+  Public key (SS58): 5FRznGzMBgonGjMWpKmaqyvocRJB92sU2L3H6svVmMxSSBb9
+  SS58 Address:      5FRznGzMBgonGjMWpKmaqyvocRJB92sU2L3H6svVmMxSSBb9
+
+"$SECRET//glitch//3//babe"
+Secret Key URI `light file noodle black twenty mixed gesture trip desk business reason rural//glitch//3//babe` is account:
+  Secret seed:       0x0e36f1305428672c7205a9424b468ad1129f21281ece99f17781104d1c3b09fd
+      Public key (hex):  0x6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c
+  Account ID:        0x6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c
+  Public key (SS58): 5EZtHxjwTGFcKj5BxCHh1CEZvWZdHdTd6Ri6McknBVHhsFms
+  SS58 Address:      5EZtHxjwTGFcKj5BxCHh1CEZvWZdHdTd6Ri6McknBVHhsFms
+
+"$SECRET//glitch//3//grandpa"
+Secret Key URI `light file noodle black twenty mixed gesture trip desk business reason rural//glitch//3//grandpa` is account:
+  Secret seed:       0xa0a73101b53095d859b7d280349db566bff2e6d40c1108137c9c0fb734f2af54
+  Public key (hex):  0x0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3
+  Account ID:        0x0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3
+  Public key (SS58): 5CKwikmNa1CpvCQiJ5asVzGHVJkPrwcK56FSWFU5mQUGGMUo
+  SS58 Address:      5CKwikmNa1CpvCQiJ5asVzGHVJkPrwcK56FSWFU5mQUGGMUo
+
+"$SECRET//glitch//3//imonline"
+Secret Key URI `light file noodle black twenty mixed gesture trip desk business reason rural//glitch//3//imonline` is account:
+  Secret seed:       0xd723a67e1e9f05c9ddd0e5270c3b0b4756133610ab3c542e754617ba25ce3c12
+  Public key (hex):  0x1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d
+  Account ID:        0x1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d
+  Public key (SS58): 5CmLrxdsE6cJYmNnwjCVW5W77QYnZpzL7aS4pGp11X8sADtZ
+  SS58 Address:      5CmLrxdsE6cJYmNnwjCVW5W77QYnZpzL7aS4pGp11X8sADtZ
+
+"$SECRET//glitch//3//discovery"
+Secret Key URI `light file noodle black twenty mixed gesture trip desk business reason rural//glitch//3//discovery` is account:
+  Secret seed:       0x2d327e909a4d158c02040f70a9c72aaed708d283c7c344fae4c057281b5f1c89
+  Public key (hex):  0x82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b
+  Account ID:        0x82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b
+  Public key (SS58): 5F234tWmkKp6uhFcGkMtvPbtnc6PqWHDdbPNZvVagXgvgzGJ
+  SS58 Address:      5F234tWmkKp6uhFcGkMtvPbtnc6PqWHDdbPNZvVagXgvgzGJ
+
+------
+Glitch root account
+Secret Key URI `assume blanket feature indicate enhance lounge nation spray venture connect kidney dish//glitch//root` is account:
+  Secret seed:       0xe0be16824eaab1e92f95581a0b9660416551b52147bd412676baaad5d69e0cfe
+  Public key (hex):  0x9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c
+  Account ID:        0x9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c
+  Public key (SS58): 5Fbm4ZXRCBHCm4xVK3BBeg3i7zawB8C9Vi51drJQYuiQ2jHr
+  SS58 Address:      5Fbm4ZXRCBHCm4xVK3BBeg3i7zawB8C9Vi51drJQYuiQ2jHr

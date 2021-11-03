@@ -144,7 +144,7 @@ pub fn development_config() -> Result<ChainSpec, String> {
         "dev",
         ChainType::Development,
         move || {
-            testnet_genesis(
+            glitch_genesis(
                 wasm_binary,
                 // Initial PoA authorities
                 vec![authority_keys_from_seed("Alice")],
@@ -184,7 +184,7 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
         "local_testnet",
         ChainType::Local,
         move || {
-            testnet_genesis(
+            glitch_genesis(
                 wasm_binary,
                 // Initial PoA authorities
                 vec![
@@ -234,7 +234,7 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
       //ID
       "glitch_testnet",
       ChainType::Custom(String::from("glitch_testnet")),
-      move || testnet_genesis(
+      move || glitch_genesis(
           wasm_binary,
           // Initial PoA authories
           vec![
@@ -246,48 +246,51 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
         // subkey inspect "$SECRET//glitch//1//imonline"
         // subkey inspect "$SECRET//glitch//1//discovery"
         (
-          hex!["0bfaaa2444388a6acaf2fa07c2a956e61d6b18ec2e2d23b367b90f74b214de1a"].into(),
-          hex!["17d7f7ce3f05bfcf8e17a46fa7bc1658447ad936fc961eb400a21ebb755736cb"].into(),
-          hex!["5408993d84a10d97d243769c1480fc63f51b685d176fe7cf201c6a60656caaa8"].unchecked_into(), // babe key
-          hex!["6575c1155089f6653206ffa533757ef71a9efb2738fb86bcc89128b1517788c0"].unchecked_into(), // grandpa
-          hex!["f8bc696eadcba0561c7a19af387b11f7db04e1d6457d344aa626476d6152a612"].unchecked_into(), // imonline
-          hex!["64f317d45163a8b4c1960c60550ea1f70506768a96eac2881f7805b9141d1b11"].unchecked_into(), // discovery
+          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          hex!["2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44"].unchecked_into(), // babe key
+          hex!["04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80"].unchecked_into(), // grandpa
+          hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
+          hex!["1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b"].unchecked_into(), // discovery
         ),
-        // 5FNQoCoibJMAyqC77og9tSbhGUtaVt51SD7GdCxmMeWxPBvX
-        // subkey inspect "$SECRET//glitch//2//validator"5FNQoCoibJMAyqC77og9tSbhGUtaVt51SD7GdCxmMeWxPBvX
+        // SECRET="pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote"
+        // 5G6nMq5x8xm3PLxyKXkKEkzAjzQLGbuiDarjBWp6d5XHg3FM
+        // subkey inspect "$SECRET//glitch//2//validator"
         // subkey inspect "$SECRET//glitch//2//babe"
         // subkey inspect --scheme ed25519 "$SECRET//glitch//2//grandpa"
         // subkey inspect "$SECRET//glitch//2//imonline"
         // subkey inspect "$SECRET//glitch//2//discovery"
         (
-          hex!["9235b080b6ca2e7b2a7af7a46ac4f677bfa394e29d83611324046c38eb14ee49"].into(),
-          hex!["9235b080b6ca2e7b2a7af7a46ac4f677bfa394e29d83611324046c38eb14ee49"].into(),
-          hex!["dcb5d89f40d57b9da9cd1f677c789584e4e88e1cdfd7a91d561757e23e73aa45"].unchecked_into(), // babe
-          hex!["c7925c95410d4ad451f9bc995852127f169bef4fd75f2c23f9472620ddd59f91"].unchecked_into(), // grandpa
-          hex!["14e2ecd186552e1dfb1f2d5233657b69e0b398d7ec405bb68071ee19d3009f04"].unchecked_into(), // imonline
-          hex!["e404b380c6bd7ab0577a5e6809a3338d28d191137e7581bdd23eb3e893ca9e6a"].unchecked_into(), // discovery
+          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          hex!["381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566"].unchecked_into(), // babe
+          hex!["72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d"].unchecked_into(), // grandpa
+          hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
+          hex!["98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328"].unchecked_into(), // discovery
         ),
-        // 5HQDFanwYwt3QtkAvaBHbaaLgSRER42PWAXCJqNoxyQFZXZJ
+        // SECRET="light file noodle black twenty mixed gesture trip desk business reason rural"
+        // 5EcCtaankoR4eRuBFFbRKaydUWG7JFp7YPp9oVD7mSQpbhBV
         // subkey inspect "$SECRET//glitch//3//validator"
         // subkey inspect "$SECRET//glitch//3//babe"
         // subkey inspect --scheme ed25519 "$SECRET//glitch//3//grandpa"
         // subkey inspect "$SECRET//glitch//3//imonline"
         // subkey inspect "$SECRET//glitch//3//discovery"
         (
-          hex!["ec0dc859299bcc7146d9ba74956ff67334454e23c0d9fd3e55302f94b09a742b"].into(),
-          hex!["ec0dc859299bcc7146d9ba74956ff67334454e23c0d9fd3e55302f94b09a742b"].into(),
-          hex!["c08908eb1a58eb1df74e54415cdd4977c20023cc7f5dff771c38f26491367b6e"].unchecked_into(), // babe
-          hex!["0ec2a175b1efc3835a8d1497f914ef39ec4ba0ea7a60cf4cb440586fa74fcd99"].unchecked_into(), // grandpa
-          hex!["f49fda7f7db9af41fd4095a7bf37745e4cc30f9b592c1563ecc5fe2292e9f309"].unchecked_into(), // imonline
-          hex!["e0520566773304de5fd0d448b0ca76b6a2c7edd66d90b4dba36785e64ba65949"].unchecked_into(), // discovery
+          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          hex!["6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c"].unchecked_into(), // babe
+          hex!["0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3"].unchecked_into(), // grandpa
+          hex!["1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d"].unchecked_into(), // imonline
+          hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
         ),
       ],
-          // 5CPQQYs3wf32fr5PhmmfFQEeVzD1Zy9Hdo8LFzQYuhP8XHW6
+          // SECRET="assume blanket feature indicate enhance lounge nation spray venture connect kidney dish"
+          // 5CFPN3erbXSA7KyE8kM66QZ7izgMba7aHQApvZeT4VeNZYbv
           // subkey inspect "$SECRET//glitch//root"
-          hex!["0e42eb6f65a8ef5e3f3c3cdb5b2c3be646e791abd76e2224d5847cde786b2e01"].into(),
+          hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
           vec![
         // 5CPQQYs3wf32fr5PhmmfFQEeVzD1Zy9Hdo8LFzQYuhP8XHW6
-        hex!["0e42eb6f65a8ef5e3f3c3cdb5b2c3be646e791abd76e2224d5847cde786b2e01"].into(),
+        hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
       ],
           true,
           endowed_evm_account()
@@ -305,8 +308,91 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
   ))
 }
 
+//Glitch Mainnet
+pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
+  let wasm_binary = WASM_BINARY.ok_or("Development wasm binary not available".to_string())?;
+  Ok(ChainSpec::from_genesis(
+      //Name
+      "Glitch",
+      //ID
+      "glitch_mainnet",
+      ChainType::Custom(String::from("glitch_mainnet")),
+      move || glitch_genesis(
+          wasm_binary,
+          // Initial PoA authories
+          vec![
+        // SECRET="release shoulder canyon agree mule snack genre scare furnace coffee fragile sun"
+        // 5CmEYEyMpoyKHWde8gZcPUo39dzzhD6y5jp9TxC23opLUzq4
+        // subkey inspect "$SECRET//glitch//1//validator"
+        // subkey inspect "$SECRET//glitch//1//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//1//grandpa"
+        // subkey inspect "$SECRET//glitch//1//imonline"
+        // subkey inspect "$SECRET//glitch//1//discovery"
+        (
+          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          hex!["2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44"].unchecked_into(), // babe key
+          hex!["04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80"].unchecked_into(), // grandpa
+          hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
+          hex!["1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b"].unchecked_into(), // discovery
+        ),
+        // SECRET="pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote"
+        // 5G6nMq5x8xm3PLxyKXkKEkzAjzQLGbuiDarjBWp6d5XHg3FM
+        // subkey inspect "$SECRET//glitch//2//validator"
+        // subkey inspect "$SECRET//glitch//2//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//2//grandpa"
+        // subkey inspect "$SECRET//glitch//2//imonline"
+        // subkey inspect "$SECRET//glitch//2//discovery"
+        (
+          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          hex!["381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566"].unchecked_into(), // babe
+          hex!["72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d"].unchecked_into(), // grandpa
+          hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
+          hex!["98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328"].unchecked_into(), // discovery
+        ),
+        // SECRET="light file noodle black twenty mixed gesture trip desk business reason rural"
+        // 5EcCtaankoR4eRuBFFbRKaydUWG7JFp7YPp9oVD7mSQpbhBV
+        // subkey inspect "$SECRET//glitch//3//validator"
+        // subkey inspect "$SECRET//glitch//3//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//3//grandpa"
+        // subkey inspect "$SECRET//glitch//3//imonline"
+        // subkey inspect "$SECRET//glitch//3//discovery"
+        (
+          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          hex!["6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c"].unchecked_into(), // babe
+          hex!["0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3"].unchecked_into(), // grandpa
+          hex!["1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d"].unchecked_into(), // imonline
+          hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
+        ),
+      ],
+          // SECRET="assume blanket feature indicate enhance lounge nation spray venture connect kidney dish"
+          // 5CFPN3erbXSA7KyE8kM66QZ7izgMba7aHQApvZeT4VeNZYbv
+          // subkey inspect "$SECRET//glitch//root"
+          hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
+          vec![
+        // 5CPQQYs3wf32fr5PhmmfFQEeVzD1Zy9Hdo8LFzQYuhP8XHW6
+        hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
+      ],
+          true,
+          endowed_evm_account()
+      ),
+      // Bootnodes
+      vec![],
+      //Telemetry
+      None,
+      // Protocol ID
+      Some("glitch_mainnet"),
+      // Properties
+      Some(json::from_str(DEFAULT_PROPERTIES_MAINNET).unwrap()),
+      // Extension
+      None,
+  ))
+}
+
 /// Configure initial storage state for FRAME modules.
-fn testnet_genesis(
+fn glitch_genesis(
     wasm_binary: &[u8],
     initial_authorities: Vec<(
         AccountId,
@@ -323,9 +409,9 @@ fn testnet_genesis(
 ) -> GenesisConfig {
     let enable_println = true;
 
-    const ENDOWMENT: Balance = 1_000_0000_0000 * DOLLARS;
+    const ENDOWMENT: Balance = 10_000_0000 * DOLLARS;
     const STASH: Balance = 100 * DOLLARS;
-    const AUTHOR_BALANCE: Balance = 200 * DOLLARS;
+    const AUTHOR_BALANCE: Balance = 58_888_588 * DOLLARS;
 
     GenesisConfig {
         frame_system: Some(SystemConfig {

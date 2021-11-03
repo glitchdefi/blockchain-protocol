@@ -613,9 +613,9 @@ impl pallet_scheduler::Config for Runtime {
 
 // Implementation of multisig pallet
 
-pub const MILLICENTS: Balance = 1_000_000_000;
+pub const MILLICENTS: Balance = 1_000_000_000_000;
 pub const CENTS: Balance = 1_000 * MILLICENTS;
-pub const DOLLARS: Balance = 100 * CENTS;
+pub const DOLLARS: Balance = 1_000 * CENTS;
 
 parameter_types! {
     pub const DepositBase: Balance = 5 * CENTS;
