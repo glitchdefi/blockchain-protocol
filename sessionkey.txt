@@ -21,7 +21,7 @@ Secret Key URI `release shoulder canyon agree mule snack genre scare furnace cof
   SS58 Address:      5FsXbuMTXj55Kc23234t5Co3bHVCmxYPXAZBBKEiAnFfw89e
 
 
-Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//discovery` is account:
+    Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//discovery` is account:
   Secret seed:       0xdcee792ef51dfb14312f638e3eae828b7a32a46a9f98a995e820ce51544ef94a
   Public key (hex):  0x1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b
   Account ID:        0x1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b
@@ -45,7 +45,7 @@ Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious
   SS58 Address:      5DLGkw4yZkK4FEhjLKW9HdgJ2Y2KWUsSU7w1LGxBY9Bx4cfJ
 
 
-Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//grandpa` is account:
+    Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//grandpa` is account:
   Secret seed:       0xa87ea07ec62087da0fd14a58045a0e94daec8535dc1ab79e30b954636acad9e6
   Public key (hex):  0x72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d
   Account ID:        0x72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d
@@ -63,7 +63,7 @@ Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious
 "$SECRET//glitch//2//discovery"
 Secret Key URI `pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote//glitch//2//discovery` is account:
   Secret seed:       0x3f21f7f271024eb9dff9a2967dfcce12369fcbf117b47e2b50b7b405e28df4d0
-  Public key (hex):  0x98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328
+      Public key (hex):  0x98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328
   Account ID:        0x98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328
   Public key (SS58): 5FWs54pgx7uBZY8MuSEwz6MMoN1iYg5ynzGTZ8ohdoSo7dSE
   SS58 Address:      5FWs54pgx7uBZY8MuSEwz6MMoN1iYg5ynzGTZ8ohdoSo7dSE

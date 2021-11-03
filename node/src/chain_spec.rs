@@ -409,9 +409,9 @@ fn glitch_genesis(
 ) -> GenesisConfig {
     let enable_println = true;
 
-    const ENDOWMENT: Balance = 10_000_0000 * DOLLARS;
+    const ENDOWMENT: Balance = 58_888_588 * DOLLARS;
     const STASH: Balance = 100 * DOLLARS;
-    const AUTHOR_BALANCE: Balance = 58_888_588 * DOLLARS;
+    const AUTHOR_BALANCE: Balance = 10_000_0000 * DOLLARS;
 
     GenesisConfig {
         frame_system: Some(SystemConfig {
