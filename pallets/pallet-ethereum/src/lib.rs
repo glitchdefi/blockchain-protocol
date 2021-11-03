@@ -255,7 +255,8 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 							base_priority
 						} else {
 							if transaction.input.len() > 0 {
-								0
+								let restricted_target_gas = ( target_gas - transaction.gas_limit) / 2;
+								T::GasWeightMapping::gas_to_weight(restricted_target_gas.unique_saturated_into())
 							} else {
 								base_priority
 							}
