@@ -97,10 +97,7 @@ pub fn authority_keys_from_seed(
 }
 
 fn endowed_evm_account() -> BTreeMap<H160, GenesisAccount> {
-    let endowed_account = vec![
-        // glitch_node fauct
-        H160::from_str("8097c3C354652CB1EEed3E5B65fBa2576470678A").unwrap(),
-    ];
+    let endowed_account = vec![];
     get_endowed_evm_accounts(endowed_account)
 }
 
@@ -125,7 +122,7 @@ fn get_endowed_evm_accounts(endowed_account: Vec<H160>) -> BTreeMap<H160, Genesi
             account,
             GenesisAccount {
                 nonce: U256::from(0),
-                balance: U256::from(1_000_000_000 * DOLLARS),
+                balance: U256::from(0 * DOLLARS),
                 storage: Default::default(),
                 code: vec![],
             },
@@ -408,10 +405,9 @@ fn glitch_genesis(
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
     let enable_println = true;
-
     const ENDOWMENT: Balance = 58_888_588 * DOLLARS;
     const STASH: Balance = 100 * DOLLARS;
-    const AUTHOR_BALANCE: Balance = 10_000_0000 * DOLLARS;
+    const AUTHOR_BALANCE: Balance = 10_000_000 * DOLLARS;
 
     GenesisConfig {
         frame_system: Some(SystemConfig {

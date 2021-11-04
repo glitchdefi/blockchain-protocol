@@ -1,6 +1,13 @@
+Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//validator` is account:
+  Secret seed:       0x0bfaaa2444388a6acaf2fa07c2a956e61d6b18ec2e2d23b367b90f74b214de1a
+  Public key (hex):  0xaee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f
+  Account ID:        0xaee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f
+  Public key (SS58): 5G1zzNN83UJYrnycUkUFPmaEFPqaRWSyEaaRQ4sE39KipmmP
+  SS58 Address:      5G1zzNN83UJYrnycUkUFPmaEFPqaRWSyEaaRQ4sE39KipmmP
+
 Secret Key URI `release shoulder canyon agree mule snack genre scare furnace coffee fragile sun//glitch//1//babe` is account:
   Secret seed:       0xbf4e1c4f0d1ad0177cf324121b1f562fdc14af6bf3f14885d6b5a9a0970a9a53
-      Public key (hex):  0x2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44
+  Public key (hex):  0x2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44
   Account ID:        0x2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44
   Public key (SS58): 5D8EcwASt7Ak22MiQBTEQ7o249Bg2i214LUgxExXsuasLVBi
   SS58 Address:      5D8EcwASt7Ak22MiQBTEQ7o249Bg2i214LUgxExXsuasLVBi
@@ -94,7 +101,7 @@ Secret Key URI `light file noodle black twenty mixed gesture trip desk business 
   SS58 Address:      5CKwikmNa1CpvCQiJ5asVzGHVJkPrwcK56FSWFU5mQUGGMUo
 
 "$SECRET//glitch//3//imonline"
-Secret Key URI `light file noodle black twenty mixed gesture trip desk business reason rural//glitch//3//imonline` is account:
+    Secret Key URI `light file noodle black twenty mixed gesture trip desk business reason rural//glitch//3//imonline` is account:
   Secret seed:       0xd723a67e1e9f05c9ddd0e5270c3b0b4756133610ab3c542e754617ba25ce3c12
   Public key (hex):  0x1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d
   Account ID:        0x1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d
