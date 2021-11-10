@@ -293,7 +293,10 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
           endowed_evm_account()
       ),
       // Bootnodes
-      vec![],
+      // node-key=0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
+      vec!["/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+        .parse()
+        .unwrap(),],
       //Telemetry
       None,
       // Protocol ID
