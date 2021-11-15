@@ -80,6 +80,10 @@ impl Default for EthereumStorageSchema {
 /// A type alias for the balance type from this pallet's point of view.
 pub type BalanceOf<T> = <T as pallet_balances::Config>::Balance;
 
+/// An Adjustment Coefficient to ensure that standard evm transfer transaction have higher
+/// priority than standard transfer transaction
+const EVM_PRIORITY_COEFFICIENT: u64 = 200_000_000;
+
 pub struct IntermediateStateRoot;
 
 impl Get<H256> for IntermediateStateRoot {
@@ -237,37 +241,28 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 			if transaction.gas_price < min_gas_price {
 				return InvalidTransaction::Payment.into();
 			}
-			let is_in_white_list = match transaction.action {
+			let is_lower_priority = match transaction.action {
 				TransactionAction::Call(contract_address)=> {
-					T::RevenueSharing::is_in_white_list(contract_address)
+					if transaction.input.len() == 0 {
+						false
+					} else {
+						!T::RevenueSharing::is_in_white_list(contract_address)
+					}
 				},
 				TransactionAction::Create => false
 			};
 			let mut builder = ValidTransactionBuilder::default()
 				.and_provides((origin, transaction.nonce))
 				.priority(
-					if min_gas_price == U256::zero() {
-						0
-					} else {
-						let target_gas = (transaction.gas_limit * transaction.gas_price) / min_gas_price;
-						let base_priority = T::GasWeightMapping::gas_to_weight(target_gas.unique_saturated_into());
-						if is_in_white_list {
-							base_priority
+					{
+						let weight_from_gas_limit = T::GasWeightMapping::gas_to_weight(transaction.gas_limit.unique_saturated_into());
+						let gas_price_priority: u64 = EVM_PRIORITY_COEFFICIENT.saturating_mul(transaction.gas_price.unique_saturated_into());
+						if is_lower_priority {
+							gas_price_priority / 2 - weight_from_gas_limit
 						} else {
-							if transaction.input.len() > 0 {
-								let restricted_target_gas = ( target_gas - transaction.gas_limit);
-								T::GasWeightMapping::gas_to_weight(restricted_target_gas.unique_saturated_into()) / 2
-							} else {
-								base_priority
-							}
+							gas_price_priority - weight_from_gas_limit
 						}
 					}
-					// if min_gas_price == U256::zero() {
-					// 	0
-					// } else {
-					// 	let target_gas = (transaction.gas_limit * transaction.gas_price) / min_gas_price;
-					// 	T::GasWeightMapping::gas_to_weight(target_gas.unique_saturated_into())
-					// }
 				);
 
 			if transaction.nonce > account_data.nonce {
