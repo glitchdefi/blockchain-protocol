@@ -256,14 +256,8 @@
 #![recursion_limit = "128"]
 #![cfg_attr(not(feature = "std"), no_std)]
 
-#[cfg(test)]
-mod mock;
-#[cfg(test)]
-mod tests;
 #[cfg(any(feature = "runtime-benchmarks", test))]
 pub mod testing_utils;
-#[cfg(any(feature = "runtime-benchmarks", test))]
-pub mod benchmarking;
 
 pub mod slashing;
 pub mod offchain_election;

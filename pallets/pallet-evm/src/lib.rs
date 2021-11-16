@@ -54,8 +54,6 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 pub mod runner;
-mod tests;
-
 pub use crate::runner::Runner;
 pub use evm::{ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed};
 pub use fp_evm::{
