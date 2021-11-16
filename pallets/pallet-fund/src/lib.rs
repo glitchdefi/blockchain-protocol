@@ -1,4 +1,6 @@
 #![cfg_attr(not(feature = "std"), no_std)]
+#[cfg(test)]
+mod test;
 
 use sp_runtime::{traits::AccountIdConversion, ModuleId};
 use sp_std::prelude::*;
@@ -55,7 +57,7 @@ decl_event!(
 	{
 		/// Donor has made a charitable donation to the charity
 		DonationReceived(AccountId, Balance, Balance),
-		/// Spend all fund
+		/// Spend fund
 		SpendFund(Balance),
 	}
 );
