@@ -30,4 +30,5 @@ std = [
 	'frame-system/std',
 	'parity-scale-codec/std',
 	'sp-runtime/std',
+	'pallet-staking/std'
 ]
