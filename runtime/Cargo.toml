@@ -62,6 +62,7 @@ pallet-membership = { git = "https://github.com/paritytech/substrate.git",  tag 
 pallet-indices = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-staking-reward-curve = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-tips = { default-features = false, path = "../pallets/pallet-tips" }
+pallet-utility = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 
 # Primitives
 sp-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
@@ -139,6 +140,7 @@ std = [
 	"pallet-contracts-rpc-runtime-api/std",
 	"pallet-contracts/std",
 	'pallet-tips/std',
+	"pallet-utility/std",
 
 	"sp-api/std",
 	"sp-arithmetic/std",
