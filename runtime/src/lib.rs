@@ -611,6 +611,11 @@ impl pallet_scheduler::Config for Runtime {
     type WeightInfo = ();
 }
 
+impl pallet_utility::Config for Runtime {
+	type Event = Event;
+	type Call = Call;
+	type WeightInfo = pallet_utility::weights::SubstrateWeight<Runtime>;
+}
 // Implementation of multisig pallet
 
 pub const MILLICENTS: Balance = 1_000_000_000_000;
@@ -1147,7 +1152,8 @@ construct_runtime!(
         EvmAccounts: evm_accounts::{Module, Call, Storage, Event<T>},
 
         // Utility
-        MultiSig: pallet_multisig::{Module, Call, Storage, Event<T>},
+        Utility: pallet_utility::{Module, Call, Event},
+        Multisig: pallet_multisig::{Module, Call, Storage, Event<T>},
         Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
         // Custom
