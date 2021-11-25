@@ -24,7 +24,7 @@ use sc_service::PartialComponents;
 
 impl SubstrateCli for Cli {
     fn impl_name() -> String {
-        "Substrate Node".into()
+        "Glitch Node".into()
     }
 
     fn impl_version() -> String {
@@ -51,8 +51,10 @@ impl SubstrateCli for Cli {
         Ok(match id {
             "dev" => Box::new(chain_spec::development_config()?),
             "local" => Box::new(chain_spec::local_testnet_config()?),
-            "" | "testnet" => Box::new(chain_spec::glitch_testnet_config()?),
-            "mainnet" => Box::new(chain_spec::glitch_mainnet_config()?),
+            "glitch_testnet" => Box::new(chain_spec::glitch_testnet_config()?),
+            "glitch_mainnet" => Box::new(chain_spec::glitch_mainnet_config()?),
+            "" | "testnet" => Box::new(chain_spec::glitch_testnet()?),
+            "mainnet" => Box::new(chain_spec::glitch_mainnet()?),
             path => Box::new(chain_spec::ChainSpec::from_json_file(
                 std::path::PathBuf::from(path),
             )?),
