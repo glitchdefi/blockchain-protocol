@@ -1055,7 +1055,7 @@ impl<B, C, P, CT, BE, H: ExHashT> EthApiT for EthApi<B, C, P, CT, BE, H> where
 
 		match (block, statuses) {
 			(Some(block), Some(statuses)) => {
-				if block.transactions.len() > 0 {
+				if block.transactions.len() > 0 && index <= block.transactions.len() {
 					Ok(Some(transaction_build(
 						block.transactions[index].clone(),
 						Some(block),
