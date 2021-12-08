@@ -44,7 +44,7 @@ use pallet_evm::{
 };
 
 use fp_rpc::TransactionStatus;
-use pallet_transaction_payment::{Multiplier, TargetedFeeAdjustment};
+use pallet_transaction_payment::{Multiplier, TargetedFeeAdjustment, MultiplierUpdate};
 
 // A few exports that help ease life for downstream crates.
 #[cfg(any(feature = "std", test))]
@@ -282,7 +282,7 @@ impl pallet_timestamp::Config for Runtime {
 }
 
 parameter_types! {
-    pub const ExistentialDeposit: u128 = 0;
+    pub const ExistentialDeposit: u128 = DOLLARS / 2;
     pub const MaxLocks: u32 = 50;
 }
 
@@ -292,7 +292,7 @@ impl pallet_balances::Config for Runtime {
     type Balance = Balance;
     /// The ubiquitous event type.
     type Event = Event;
-    type DustRemoval = ();
+    type DustRemoval = FundBalance;
     type ExistentialDeposit = ExistentialDeposit;
     type AccountStore = System;
     type WeightInfo = ();
@@ -386,6 +386,23 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
         }
     }
 }
+pub struct ConstantFeeUpdate;
+impl MultiplierUpdate for ConstantFeeUpdate {
+    fn min() -> Multiplier {
+        1.into()
+    }
+    fn target() -> Perquintill {
+        Perquintill::one()
+    }
+    fn variability() -> Multiplier {
+        1.into()
+    }
+}
+impl Convert<Multiplier, Multiplier> for ConstantFeeUpdate{
+    fn convert(previous: Multiplier) -> Multiplier {
+        previous
+    }
+}
 
 parameter_types! {
   pub const TransactionByteFee: Balance = MILLICENTS;
@@ -398,8 +415,7 @@ impl pallet_transaction_payment::Config for Runtime {
     type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, DealWithFees>;
     type TransactionByteFee = TransactionByteFee;
     type WeightToFee = WeightToFee<Balance>;
-    type FeeMultiplierUpdate =
-        TargetedFeeAdjustment<Self, TargetBlockFullness, AdjustmentVariable, MinimumMultiplier>;
+    type FeeMultiplierUpdate = ConstantFeeUpdate;
 }
 
 impl pallet_sudo::Config for Runtime {
