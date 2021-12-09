@@ -1,9 +1,9 @@
 [package]
-name = "pallet-fund"
-version = "3.0.0"
-edition = "2018"
+name = "pallet-revenue-fund"
+version = "1.0.0"
+edition = "2021"
 authors = ['Tung La']
-description = "A reward fund to pay for network"
+description = "Revenue wallet"
 
 [dependencies]
 parity-scale-codec = { version = "2.0", features = ["derive"], default-features = false }

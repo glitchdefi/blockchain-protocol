@@ -87,6 +87,7 @@ glitch-traits = { path = "../modules/traits", default-features = false }
 
 # custom
 pallet-revenue = { path = '../pallets/pallet-revenue', default-features = false, version = '3.0.0' }
+pallet-revenue-fund = {path = '../pallets/pallet-revenue-fund', default-features = false, version = '1.0.0'}
 
 # Local
 pallet-staking = { path = "../pallets/pallet-staking", default-features = false }

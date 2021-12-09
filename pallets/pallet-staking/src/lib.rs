@@ -859,6 +859,8 @@ pub trait Config: frame_system::Config + SendTransactionTypes<Call<Self>> {
 	/// Weight information for extrinsics in this pallet.
 	type WeightInfo: WeightInfo;
 
+	type RevenueFund: RevenueWallet;
+
 }
 
 /// Mode of era-forcing.
@@ -2834,8 +2836,9 @@ impl<T: Config> Module<T> {
 		// Note: active_era_start can be None if end era is called during genesis config.
 		if let Some(active_era_start) = active_era.start {
 			let now_as_millis_u64 = T::UnixTime::now().as_millis().saturated_into::<u64>();
-
 			let era_duration = now_as_millis_u64 - active_era_start;
+			// Trigger wallet fund
+			// T::RevenueFund::trigger_wallet();
 			let total_fund = Self::fund_balance();
 			let not_claimed_reward = Self::get_total_not_claimed_reward(active_era.index);
 			let era_reward = total_fund.saturating_sub(not_claimed_reward);
@@ -3583,5 +3586,9 @@ fn to_invalid(error_with_post_info: DispatchErrorWithPostInfo) -> InvalidTransac
 		_ => 0,
 	};
 	InvalidTransaction::Custom(error_number)
+}
+
+pub trait RevenueWallet {
+	fn trigger_wallet();
 }
 

@@ -986,6 +986,7 @@ impl pallet_staking::Config for Runtime {
     type UnsignedPriority = StakingUnsignedPriority;
     type WeightInfo = pallet_staking::weights::SubstrateWeight<Runtime>;
     type OffchainSolutionWeightLimit = OffchainSolutionWeightLimit;
+    type RevenueFund = RevenueFund;
 }
 
 parameter_types! {
@@ -1115,6 +1116,12 @@ impl pallet_fund::Config for Runtime {
     type Event = Event;
 }
 
+// Config wallet revenue
+
+impl pallet_revenue_fund::Config for Runtime {
+    type Currency = Balances;
+    type Event = Event;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
     pub enum Runtime where
@@ -1174,7 +1181,8 @@ construct_runtime!(
 
         // Custom
         Revenue: pallet_revenue::{Module, Call, Storage, Config<T>, Event<T>},
-        Fund: pallet_fund::{Module, Call, Storage, Event<T>, Config}
+        Fund: pallet_fund::{Module, Call, Storage, Event<T>, Config},
+        RevenueFund: pallet_revenue_fund::{Module, Call, Storage, Event<T>, Config}
     }
 );
 
