@@ -502,6 +502,7 @@ fn glitch_genesis(
         pallet_democracy: Some(Default::default()),
         pallet_treasury: Some(Default::default()),
         pallet_fund: Some(Default::default()),
+        pallet_revenue_fund: Some(Default::default()),
         pallet_elections_phragmen: Some(Default::default()),
         pallet_membership_Instance1: Some(Default::default()),
         pallet_revenue: Some(RevenueConfig {

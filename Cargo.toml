@@ -10,6 +10,7 @@ members = [
     'pallets/pallet-fund',
     'modules/evm-accounts',
     'modules/traits',
+    'pallets/pallet-revenue-fund'
 ]
 [profile.release]
 panic = 'unwind'
