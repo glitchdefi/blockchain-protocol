@@ -2837,7 +2837,7 @@ impl<T: Config> Module<T> {
 		if let Some(active_era_start) = active_era.start {
 			let now_as_millis_u64 = T::UnixTime::now().as_millis().saturated_into::<u64>();
 			let era_duration = now_as_millis_u64 - active_era_start;
-			// Trigger wallet fund
+			// // Trigger wallet fund
 			// T::RevenueFund::trigger_wallet();
 			let total_fund = Self::fund_balance();
 			let not_claimed_reward = Self::get_total_not_claimed_reward(active_era.index);

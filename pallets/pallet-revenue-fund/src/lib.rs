@@ -107,21 +107,28 @@ impl<T: Config> Module<T> {
 		T::Currency::free_balance(&Self::account_id())
 	}
 
-	pub fn balance_to_u64(input: T::Balance) -> Option<u64> { TryInto::<u64>::try_into(input).ok() }
+	pub fn balance_to_u64(input: BalanceOf<T>) -> Option<u64> { TryInto::<u64>::try_into(input).ok() }
 
-	pub fn u64_to_balance_option(input: u64) -> Option<T::Balance> { input.try_into().ok() }
+	// pub fn u64_to_balance_option(input: u64) -> BalanceOf<T> { input.try_into().ok() }
+
+	fn check_empty(balance: Option<u64>) -> bool {
+		match balance {
+			Some(x) => x > 0,
+			None => false
+		}
+	}
 }
 
 impl<T:Config> RevenueWallet for Module<T> {
 	fn trigger_wallet() {
 		let amount = Self::pot();
-		if Self::balance_to_u64(amount) > 0 {
-			let result = T::Currency::transfer(&Self::account_id(),&Self::reward_fund_id(), amount,ExistenceRequirement::AllowDeath)
+		let amount_convert = Self::balance_to_u64(amount);
+
+		if Self::check_empty(amount_convert) == true {
+			T::Currency::transfer(&Self::account_id(),&Self::reward_fund_id(), amount,ExistenceRequirement::AllowDeath)
 				.map_err(|_| DispatchError::Other("Can't make donation"));
 			Self::deposit_event(RawEvent::RewardReceived(amount));
 		}
-		result;
-
 	}
 }
 

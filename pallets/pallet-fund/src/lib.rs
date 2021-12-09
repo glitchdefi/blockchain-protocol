@@ -52,8 +52,7 @@ decl_storage! {
 decl_event!(
 	pub enum Event<T>
 	where
-		Balance = BalanceOf<T>,
-		<T as frame_system::Config>::AccountId,
+		Balance = BalanceOf<T>
 	{
 		/// Spend fund
 		SpendFund(Balance),
