@@ -2,7 +2,7 @@ use glitch_node_runtime::{
     AccountId, AuthorityDiscoveryConfig, BabeConfig, Balance, BalancesConfig, ContractsConfig,
     EVMConfig, EthereumConfig, GenesisConfig, GrandpaConfig, ImOnlineId, IndicesConfig,
     SessionConfig, SessionKeys, Signature, StakerStatus, StakingConfig, SudoConfig, SystemConfig,
-    DOLLARS, WASM_BINARY, RevenueConfig
+    DOLLARS,CENTS,MILLICENTS, WASM_BINARY, RevenueConfig
 };
 use pallet_evm::GenesisAccount;
 use primitive_types::H160;
@@ -295,12 +295,12 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
       // Bootnodes
       // node-key=0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
       vec![
-           "/dns/p2p.glitch.sotatek.works/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+        "/dns/glitch-bootnode.sotatek.works/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
         .parse()
         .unwrap(),
-          "/ip4/10.2.15.53/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
-        .parse()
-        .unwrap(),
+        //   "/ip4/10.2.15.53/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+        // .parse()
+        // .unwrap(),
       ],
       //Telemetry
       None,
@@ -386,12 +386,12 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
       // Bootnodes
       // node-key=0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
       vec![
-          "/dns/p2p.glitch.sotatek.works/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
-        .parse()
-        .unwrap(),
-          "/ip4/10.2.15.53/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
-        .parse()
-        .unwrap(),
+        //   "/dns/p2p.glitch.sotatek.works/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+        // .parse()
+        // .unwrap(),
+        //   "/ip4/10.2.15.53/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+        // .parse()
+        // .unwrap(),
       ],
       //Telemetry
       None,
@@ -428,10 +428,9 @@ fn glitch_genesis(
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
     let enable_println = true;
-    const ENDOWMENT: Balance = 58_888_588 * DOLLARS;
-    const STASH: Balance = 100 * DOLLARS;
-    const AUTHOR_BALANCE: Balance = 10_000_000 * DOLLARS;
-
+    const ENDOWMENT: Balance = 88_888_884 * DOLLARS + 998 * CENTS + 500 * MILLICENTS ;
+    const STASH: Balance = 1 * DOLLARS;
+    const AUTHOR_BALANCE: Balance = 1 * DOLLARS;
     GenesisConfig {
         frame_system: Some(SystemConfig {
             // Add Wasm runtime to storage.
@@ -481,7 +480,7 @@ fn glitch_genesis(
                 .iter()
                 .map(|x| (x.0.clone(), x.1.clone(), STASH, StakerStatus::Validator))
                 .collect(),
-            invulnerables: initial_authorities.iter().map(|x| x.0.clone()).collect(),
+            invulnerables: vec![],
             slash_reward_fraction: Perbill::from_percent(10),
             ..Default::default()
         }),
