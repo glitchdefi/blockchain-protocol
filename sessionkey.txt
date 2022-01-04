@@ -124,3 +124,25 @@ Secret Key URI `assume blanket feature indicate enhance lounge nation spray vent
   Account ID:        0x9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c
   Public key (SS58): 5Fbm4ZXRCBHCm4xVK3BBeg3i7zawB8C9Vi51drJQYuiQ2jHr
   SS58 Address:      5Fbm4ZXRCBHCm4xVK3BBeg3i7zawB8C9Vi51drJQYuiQ2jHr
+
+________________
+
+Node key :
+1.
+Secret:  0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
+Public key : 12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1
+2.
+Secret: 5cbd80bc647ce2864b3be0e523d25e0944d234e312523cd624a4485c9840f967
+Public key: 12D3KooWPRSGH3LnwG5Uhj9Nm7qY7hkdrhd4vg4znb49ix9ADZwD
+3.
+Secret: 11434ba81d4808e49abc8c934bf9e45ffd9185477a950ec0fbef3a686bf642b3
+Public Key: 12D3KooWBEyY6ySQqjniaqVHH1JtiMVU5KmSPvoPgqkpp6XhBjEt
+4.
+Secret: 8ad99d59f8a09b087c261766b2c5da5c099029bca01d54bc520ba1dab76bce04
+Public Key: 12D3KooWKwDVXckeQ86PrNFCyrbaA4sEkg9hPY9a5fe2yZ3gSRX1
+5.
+Secret: ee535d7ee0793db3262327d8b388a8bf8db9fc4c06d6d8629e2c4fe6d42d8c3c
+Public Key: 12D3KooWRYMq2fD7cRikXXc9doocmBNw37tfQTKSnPfEfqeaMyG3
+6.
+Secret: 738dd93f4602bbfb26e69a25a23306fe5b63df7d64966fd3d9a6881b91feb2e3
+Public Key: 12D3KooWJoLZFCEAyibfjcyTCPrmw385nW2CdiVvqnJX5pE4VSDz
