@@ -108,7 +108,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
     spec_name: create_runtime_str!("node-template"),
     impl_name: create_runtime_str!("node-template"),
     authoring_version: 1,
-    spec_version: 101,
+    spec_version: 100,
     impl_version: 1,
     apis: RUNTIME_API_VERSIONS,
     transaction_version: 1,
@@ -634,7 +634,7 @@ impl pallet_utility::Config for Runtime {
 }
 // Implementation of multisig pallet
 
-pub const MILLICENTS: Balance = 1_000_000_000_0000;
+pub const MILLICENTS: Balance = 1_000_000_000_000;
 pub const CENTS: Balance = 1_000 * MILLICENTS;
 pub const DOLLARS: Balance = 1_000 * CENTS;
 
@@ -833,7 +833,7 @@ impl evm_accounts::Config for Runtime {
 parameter_types! {
   // session: 10 minutes
   pub const SessionsPerEra: sp_staking::SessionIndex = 6;  // 6 sessions in an era, (6 hours)
-  pub const BondingDuration: pallet_staking::EraIndex = 24; // 24 era for unbouding (24 * 6 hours)
+  pub const BondingDuration: pallet_staking::EraIndex = 1; // 24 era for unbouding (24 * 6 hours)
   pub const SlashDeferDuration: pallet_staking::EraIndex = 12; // 1/2 bonding duration
   pub const ElectionLookahead: BlockNumber = EPOCH_DURATION_IN_BLOCKS / 4;
   pub const MaxNominatorRewardedPerValidator: u32 = 64;
