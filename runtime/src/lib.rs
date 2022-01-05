@@ -108,7 +108,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
     spec_name: create_runtime_str!("node-template"),
     impl_name: create_runtime_str!("node-template"),
     authoring_version: 1,
-    spec_version: 100,
+    spec_version: 101,
     impl_version: 1,
     apis: RUNTIME_API_VERSIONS,
     transaction_version: 1,
@@ -634,7 +634,7 @@ impl pallet_utility::Config for Runtime {
 }
 // Implementation of multisig pallet
 
-pub const MILLICENTS: Balance = 1_000_000_000_000;
+pub const MILLICENTS: Balance = 1_000_000_000_0000;
 pub const CENTS: Balance = 1_000 * MILLICENTS;
 pub const DOLLARS: Balance = 1_000 * CENTS;
 
