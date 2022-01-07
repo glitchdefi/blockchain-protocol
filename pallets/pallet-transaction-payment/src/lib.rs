@@ -536,7 +536,7 @@ impl<T: Config> ChargeTransactionPayment<T> where
 		let len_saturation = max_block_length as u64 / (len as u64).max(1);
 		let coefficient: BalanceOf<T> = weight_saturation.min(len_saturation).saturated_into::<BalanceOf<T>>();
 		// This formular reduces the priority 10000 times. The default formular doesn't have the '.saturated_into::<u128>()/10000' part.
-		final_fee.saturated_into::<BalanceOf<T>>().saturating_mul(coefficient).saturated_into::<u128>()/10000.saturated_into::<TransactionPriority>()
+		(final_fee.saturated_into::<BalanceOf<T>>().saturating_mul(coefficient).saturated_into::<u128>()/10000).saturated_into::<TransactionPriority>()
 	}
 }
 
