@@ -435,27 +435,25 @@ impl<T: Config> Module<T> where
 			let base_fee = Self::weight_to_fee(T::BlockWeights::get().get(class).base_extrinsic);
 			
 			// Add warning logs
-			let total_fee = InclusionFee {
-				base_fee,
-				len_fee: fixed_len_fee,
-				adjusted_weight_fee
-			};
 			warn!("base tx: {:#?}", base_fee);
 			warn!("len tx: {:#?}", len);
 			warn!("len fee tx: {:#?}", fixed_len_fee);
 			warn!("weight tx: {:#?}", weight);
 			warn!("weight multiplier: {:#?}", multiplier);
 			warn!("weight fee tx: {:#?}", adjusted_weight_fee);
-			warn!("total fee: {:#?}", total_fee.inclusion_fee());
 
-			FeeDetails {
+			let final_fee = FeeDetails {
 				inclusion_fee: Some(InclusionFee {
 					base_fee,
 					len_fee: fixed_len_fee,
 					adjusted_weight_fee
 				}),
 				tip
-			}
+			};
+
+			warn!("total fee: {:#?}", final_fee.final_fee());
+
+			final_fee
 		} else {
 			FeeDetails {
 				inclusion_fee: None,
@@ -535,9 +533,11 @@ impl<T: Config> ChargeTransactionPayment<T> where
 		let max_block_length = *T::BlockLength::get().max.get(DispatchClass::Normal);
 		let len_saturation = max_block_length as u64 / (len as u64).max(1);
 		let coefficient: BalanceOf<T> = weight_saturation.min(len_saturation).saturated_into::<BalanceOf<T>>();
-		let base_priority = final_fee.saturating_mul(coefficient).saturated_into::<TransactionPriority>();
+		let base_priority = (final_fee.saturated_into::<BalanceOf<T>>().saturating_mul(coefficient).saturated_into::<u128>()/10000).saturated_into::<TransactionPriority>();
 		// This formular reduces the priority 10000 times. The default formular doesn't have the '/10000' part.
-		base_priority/10000
+		warn!("coefficient= {:#?}", coefficient);
+		warn!("final_fee= {:#?}", final_fee);
+		base_priority
 	}
 }
 
