@@ -256,12 +256,12 @@ impl<T: Config> frame_support::unsigned::ValidateUnsigned for Module<T> {
 				.priority(
 					{
 						let weight_from_gas_limit = T::GasWeightMapping::gas_to_weight(transaction.gas_limit.unique_saturated_into());
-						let gas_price_priority: u64 = EVM_PRIORITY_COEFFICIENT.saturating_mul(transaction.gas_price.unique_saturated_into());
+						let gas_price_priority: u64 = (EVM_PRIORITY_COEFFICIENT / 10000).saturating_mul(transaction.gas_price.unique_saturated_into());
 						// These formulars reduce the priority 10000 times. The default formulars don't have the '/10000' part.
 						if is_lower_priority {
-							(gas_price_priority / 2) / 10000 - weight_from_gas_limit
+							(gas_price_priority / 2) - weight_from_gas_limit
 						} else {
-							gas_price_priority / 10000 - weight_from_gas_limit
+							gas_price_priority - weight_from_gas_limit
 						}
 					}
 				);
