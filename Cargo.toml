@@ -10,7 +10,16 @@ members = [
     'pallets/pallet-fund',
     'modules/evm-accounts',
     'modules/traits',
-    'pallets/pallet-revenue-fund'
+    'pallets/pallet-revenue-fund',
+    'client/sc-chain-spec',
+    'client/sc-cli',
+    'client/sc-informant',
+    'client/sc-finality-grandpa',
+    'client/sc-finality-grandpa/rpc',
+    'client/sc-network',
+    'client/sc-offchain',
+    'client/sc-service',
+
 ]
 [profile.release]
 panic = 'unwind'
@@ -55,8 +64,8 @@ pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrat
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 # pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-basic-authorship = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-chain-spec = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-cli = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+# sc-chain-spec = { path = "client/sc-chain-spec"  }
+# sc-cli = { path = "client/sc-cli"  }
 sc-client-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-client-db = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-consensus = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
@@ -65,15 +74,15 @@ sc-consensus-babe-rpc = { git = "https://github.com/paritytech/substrate.git",  
 sc-consensus-slots = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-consensus-epochs = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-executor = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-finality-grandpa = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-finality-grandpa-rpc = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-informant = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+# sc-finality-grandpa = { path = "client/sc-finality-grandpa"  }
+# sc-finality-grandpa-rpc = { path = "client/sc-finality-grandpa/rpc"  }
+# sc-informant = { path = "client/sc-informant"  }
 sc-keystore = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-network = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-offchain = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+# sc-network = { path = "client/sc-network"  }
+# sc-offchain = { path = "client/sc-offchain"  }
 sc-rpc = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-rpc-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
-sc-service = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
+# sc-service = { path = "client/sc-service"  }
 sc-telemetry = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sc-transaction-pool = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
 sp-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0"  }
