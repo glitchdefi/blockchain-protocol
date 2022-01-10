@@ -61,7 +61,7 @@ mod blocks;
 mod extra_requests;
 
 /// Maximum blocks to request in a single packet.
-const MAX_BLOCKS_TO_REQUEST: usize = 128;
+const MAX_BLOCKS_TO_REQUEST: usize = 64;
 
 /// Maximum blocks to store in the import queue.
 const MAX_IMPORTING_BLOCKS: usize = 2048;
@@ -813,12 +813,9 @@ impl<B: BlockT> ChainSync<B> {
 				self.pending_requests.add(who);
 				if let Some(request) = request {
 					match &mut peer.state {
-						PeerSyncState::DownloadingNew(start_block) => {
+						PeerSyncState::DownloadingNew(_) => {
 							self.blocks.clear_peer_download(who);
-							let start_block = *start_block;
 							peer.state = PeerSyncState::Available;
-							validate_blocks::<B>(&blocks, who, Some(request))?;
-							self.blocks.insert(start_block, blocks, who.clone());
 							self.blocks
 								.drain(self.best_queued_number + One::one())
 								.into_iter()
@@ -1796,7 +1793,7 @@ fn validate_blocks<Block: BlockT>(
 	blocks: &Vec<message::BlockData<Block>>,
 	who: &PeerId,
 	request: Option<BlockRequest<Block>>,
-) -> Result<(), BadPeer> {
+) -> Result<Option<NumberFor<Block>>, BadPeer> {
 	if let Some(request) = request {
 		if Some(blocks.len() as _) > request.max {
 			debug!(
@@ -1889,7 +1886,7 @@ fn validate_blocks<Block: BlockT>(
 		}
 	}
 
-	Ok(())
+	Ok(blocks.first().and_then(|b| b.header.as_ref()).map(|h| *h.number()))
 }
 
 #[cfg(test)]

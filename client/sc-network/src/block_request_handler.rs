@@ -175,7 +175,8 @@ impl <B: BlockT> BlockRequestHandler<B> {
 				is_empty_justification,
 			};
 
-			total_size += block_data.body.len();
+			// total_size += block_data.body.len();
+			total_size += block_data.body.iter().map(|ex| ex.len()).sum::<usize>();
 			blocks.push(block_data);
 
 			if blocks.len() >= max_blocks as usize || total_size > MAX_BODY_BYTES {
