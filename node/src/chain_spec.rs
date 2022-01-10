@@ -335,7 +335,7 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
       "Glitch",
       //ID
       "glitch_mainnet",
-      ChainType::Custom(String::from("glitch_testnet")),
+      ChainType::Custom(String::from("glitch_mainnet")),
       move || glitch_genesis(
           wasm_binary,
           // Initial PoA authories
