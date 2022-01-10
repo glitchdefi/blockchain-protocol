@@ -2,7 +2,7 @@ use glitch_node_runtime::{
     AccountId, AuthorityDiscoveryConfig, BabeConfig, Balance, BalancesConfig, ContractsConfig,
     EVMConfig, EthereumConfig, GenesisConfig, GrandpaConfig, ImOnlineId, IndicesConfig,
     SessionConfig, SessionKeys, Signature, StakerStatus, StakingConfig, SudoConfig, SystemConfig,
-    DOLLARS, WASM_BINARY, RevenueConfig
+    DOLLARS,CENTS,MILLICENTS, WASM_BINARY, RevenueConfig
 };
 use pallet_evm::GenesisAccount;
 use primitive_types::H160;
@@ -235,8 +235,7 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
           wasm_binary,
           // Initial PoA authories
           vec![
-        // SECRET="release shoulder canyon agree mule snack genre scare furnace coffee fragile sun"
-        // 5CmEYEyMpoyKHWde8gZcPUo39dzzhD6y5jp9TxC23opLUzq4
+        // SECRET=""
         // subkey inspect "$SECRET//glitch//1//validator"
         // subkey inspect "$SECRET//glitch//1//babe"
         // subkey inspect --scheme ed25519 "$SECRET//glitch//1//grandpa"
@@ -250,7 +249,7 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
           hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
           hex!["1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b"].unchecked_into(), // discovery
         ),
-        // SECRET="pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote"
+        // SECRET=""
         // 5G6nMq5x8xm3PLxyKXkKEkzAjzQLGbuiDarjBWp6d5XHg3FM
         // subkey inspect "$SECRET//glitch//2//validator"
         // subkey inspect "$SECRET//glitch//2//babe"
@@ -265,8 +264,7 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
           hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
           hex!["98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328"].unchecked_into(), // discovery
         ),
-        // SECRET="light file noodle black twenty mixed gesture trip desk business reason rural"
-        // 5EcCtaankoR4eRuBFFbRKaydUWG7JFp7YPp9oVD7mSQpbhBV
+        // SECRET=""
         // subkey inspect "$SECRET//glitch//3//validator"
         // subkey inspect "$SECRET//glitch//3//babe"
         // subkey inspect --scheme ed25519 "$SECRET//glitch//3//grandpa"
@@ -281,13 +279,29 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
           hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
         ),
       ],
-          // SECRET="assume blanket feature indicate enhance lounge nation spray venture connect kidney dish"
-          // 5CFPN3erbXSA7KyE8kM66QZ7izgMba7aHQApvZeT4VeNZYbv
-          // subkey inspect "$SECRET//glitch//root"
-          hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
+          // 5D5MHV7hy6LTcRUSL3cVYhGecar59RAj1UwnLLEFikUySxsX
+          hex!["2cba3a171f0eac2c17fb96e1172de8bdfb5977d687be988c8c9c424e89ccf017"].into(),
           vec![
-        // 5CPQQYs3wf32fr5PhmmfFQEeVzD1Zy9Hdo8LFzQYuhP8XHW6
-        hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
+        // 5D5MHV7hy6LTcRUSL3cVYhGecar59RAj1UwnLLEFikUySxsX
+              hex!["2cba3a171f0eac2c17fb96e1172de8bdfb5977d687be988c8c9c424e89ccf017"].into(),
+              //5H6ji2UhbPKFmhHa66ETXHmpwGTNLtZEnoJBPcT1eBL2nf9A
+              hex!["deb9e399fc7a8dbfdb3afdded6d944001f06d34f2ee44f221214e5f651d72d0c"].into(),
+              //5F7hrtWMqodEtbEMCvdTWwRMW2iCPsp7vjmMkUqCMAZjew6k
+              hex!["86fe730862e66d0843fd26317cdc8982e964411c6b567ede64f5b75256e3ae02"].into(),
+              //5E77ca5cwnKBK4qhc2nQQSsSz5oUbvop84Y2yVW1TPDR7AZg
+              hex!["5a4eee4225fdfeea0affc8b3898b6473aa5da97acb5cb77eff87e85da9cd442a"].into(),
+              //5DRnNDpt5uVaVD8RsjAZCpZUWqx6nCZFRNaCKNR1qFEqggof
+              hex!["3c4f9141446d18bc60cde8b084fff57830de18e05657a113b7eb55a89cf1ba77"].into(),
+              //5EFiphQLB8sRtbYdE6vhf6Gs5yGeTUcPkkxsu7cehhn2mLBp
+              hex!["60df6b11a2d8d6460fd583e491a52f0518b515d29b63ae0fca6ad04dd99c9820"].into(),
+              //5EnkYVT7Dgr8gYzFPE4vJLdy9YCJt9qnccpYEREbedo9KSRw
+              hex!["7889d159ed22e156047c91c03c49d0fdb97db5aa121dd248fc9143ae58605a78"].into(),
+              //5GerXFwjqzasX2R8ND92dbCq7dscharx2TcMCWCFZQNkva46
+              hex!["cafc729c1e7c5d13065c41e39dba17f81f2c37ffa59d55a058bcc1eea3a7bd0d"].into(),
+              //5FxvMhxNswBFYyUw3Tu7d1NSnGnFHPEpSwsL9kKp6ZJyGGbP
+              hex!["ac878ad7a137e325872d74022e85fe976d26c5b51a172821b7a8ca6526a34928"].into(),
+              //5HWd37PNa5Vehsy4196fgA1uEG1o3CPySWC2urt35CMi9ipR
+              hex!["f0f15284b61f6ed6a3fc292395e0fa3195e79052b1ec8bca74298f5de5134754"].into(),
       ],
           true,
           endowed_evm_account()
@@ -321,13 +335,12 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
       "Glitch",
       //ID
       "glitch_mainnet",
-      ChainType::Custom(String::from("glitch_mainnet")),
+      ChainType::Custom(String::from("glitch_testnet")),
       move || glitch_genesis(
           wasm_binary,
           // Initial PoA authories
           vec![
-        // SECRET="release shoulder canyon agree mule snack genre scare furnace coffee fragile sun"
-        // 5CmEYEyMpoyKHWde8gZcPUo39dzzhD6y5jp9TxC23opLUzq4
+        // SECRET=""
         // subkey inspect "$SECRET//glitch//1//validator"
         // subkey inspect "$SECRET//glitch//1//babe"
         // subkey inspect --scheme ed25519 "$SECRET//glitch//1//grandpa"
@@ -341,7 +354,7 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
           hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
           hex!["1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b"].unchecked_into(), // discovery
         ),
-        // SECRET="pumpkin carpet nest snack yard eternal nation fame scare obvious toe promote"
+        // SECRET=""
         // 5G6nMq5x8xm3PLxyKXkKEkzAjzQLGbuiDarjBWp6d5XHg3FM
         // subkey inspect "$SECRET//glitch//2//validator"
         // subkey inspect "$SECRET//glitch//2//babe"
@@ -356,8 +369,7 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
           hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
           hex!["98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328"].unchecked_into(), // discovery
         ),
-        // SECRET="light file noodle black twenty mixed gesture trip desk business reason rural"
-        // 5EcCtaankoR4eRuBFFbRKaydUWG7JFp7YPp9oVD7mSQpbhBV
+        // SECRET=""
         // subkey inspect "$SECRET//glitch//3//validator"
         // subkey inspect "$SECRET//glitch//3//babe"
         // subkey inspect --scheme ed25519 "$SECRET//glitch//3//grandpa"
@@ -372,13 +384,29 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
           hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
         ),
       ],
-          // SECRET="assume blanket feature indicate enhance lounge nation spray venture connect kidney dish"
-          // 5CFPN3erbXSA7KyE8kM66QZ7izgMba7aHQApvZeT4VeNZYbv
-          // subkey inspect "$SECRET//glitch//root"
-          hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
+          // 5D5MHV7hy6LTcRUSL3cVYhGecar59RAj1UwnLLEFikUySxsX
+          hex!["2cba3a171f0eac2c17fb96e1172de8bdfb5977d687be988c8c9c424e89ccf017"].into(),
           vec![
-        // 5CPQQYs3wf32fr5PhmmfFQEeVzD1Zy9Hdo8LFzQYuhP8XHW6
-        hex!["9c6418d848434a5eefcd9c7640e9518850ac4f268b985d73e94d94bede19eb4c"].into(),
+        // 5D5MHV7hy6LTcRUSL3cVYhGecar59RAj1UwnLLEFikUySxsX
+              hex!["2cba3a171f0eac2c17fb96e1172de8bdfb5977d687be988c8c9c424e89ccf017"].into(),
+              //5H6ji2UhbPKFmhHa66ETXHmpwGTNLtZEnoJBPcT1eBL2nf9A
+              hex!["deb9e399fc7a8dbfdb3afdded6d944001f06d34f2ee44f221214e5f651d72d0c"].into(),
+              //5F7hrtWMqodEtbEMCvdTWwRMW2iCPsp7vjmMkUqCMAZjew6k
+              hex!["86fe730862e66d0843fd26317cdc8982e964411c6b567ede64f5b75256e3ae02"].into(),
+              //5E77ca5cwnKBK4qhc2nQQSsSz5oUbvop84Y2yVW1TPDR7AZg
+              hex!["5a4eee4225fdfeea0affc8b3898b6473aa5da97acb5cb77eff87e85da9cd442a"].into(),
+              //5DRnNDpt5uVaVD8RsjAZCpZUWqx6nCZFRNaCKNR1qFEqggof
+              hex!["3c4f9141446d18bc60cde8b084fff57830de18e05657a113b7eb55a89cf1ba77"].into(),
+              //5EFiphQLB8sRtbYdE6vhf6Gs5yGeTUcPkkxsu7cehhn2mLBp
+              hex!["60df6b11a2d8d6460fd583e491a52f0518b515d29b63ae0fca6ad04dd99c9820"].into(),
+              //5EnkYVT7Dgr8gYzFPE4vJLdy9YCJt9qnccpYEREbedo9KSRw
+              hex!["7889d159ed22e156047c91c03c49d0fdb97db5aa121dd248fc9143ae58605a78"].into(),
+              //5GerXFwjqzasX2R8ND92dbCq7dscharx2TcMCWCFZQNkva46
+              hex!["cafc729c1e7c5d13065c41e39dba17f81f2c37ffa59d55a058bcc1eea3a7bd0d"].into(),
+              //5FxvMhxNswBFYyUw3Tu7d1NSnGnFHPEpSwsL9kKp6ZJyGGbP
+              hex!["ac878ad7a137e325872d74022e85fe976d26c5b51a172821b7a8ca6526a34928"].into(),
+              //5HWd37PNa5Vehsy4196fgA1uEG1o3CPySWC2urt35CMi9ipR
+              hex!["f0f15284b61f6ed6a3fc292395e0fa3195e79052b1ec8bca74298f5de5134754"].into(),
       ],
           true,
           endowed_evm_account()
@@ -386,7 +414,7 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
       // Bootnodes
       // node-key=0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
       vec![
-          "/dns/glitch-bootnode.sotatek.works/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+           "/dns/glitch-bootnode.sotatek.works/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
         .parse()
         .unwrap(),
           "/ip4/10.2.15.53/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
@@ -428,9 +456,9 @@ fn glitch_genesis(
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
     let enable_println = true;
-    const ENDOWMENT: Balance = 58_888_588 * DOLLARS;
-    const STASH: Balance = 100 * DOLLARS;
-    const AUTHOR_BALANCE: Balance = 10_000_000 * DOLLARS;
+    const ENDOWMENT: Balance = (88_888_884 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ) / 10;
+    const STASH: Balance = 1 * DOLLARS;
+    const AUTHOR_BALANCE: Balance = 1 * DOLLARS;
 
     GenesisConfig {
         frame_system: Some(SystemConfig {
@@ -481,7 +509,7 @@ fn glitch_genesis(
                 .iter()
                 .map(|x| (x.0.clone(), x.1.clone(), STASH, StakerStatus::Validator))
                 .collect(),
-            invulnerables: initial_authorities.iter().map(|x| x.0.clone()).collect(),
+            invulnerables: vec![],
             slash_reward_fraction: Perbill::from_percent(10),
             ..Default::default()
         }),
