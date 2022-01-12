@@ -1,0 +1,25 @@
+[package]
+name = "pallet-transaction-payment-rpc"
+version = "3.0.0"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+license = "Apache-2.0"
+homepage = "https://substrate.dev"
+repository = "https://github.com/paritytech/substrate/"
+description = "RPC interface for the transaction payment module."
+readme = "README.md"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+codec = { package = "parity-scale-codec", version = "2.0.0" }
+jsonrpc-core = "15.1.0"
+jsonrpc-core-client = "15.1.0"
+jsonrpc-derive = "15.1.0"
+sp-core = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
+sp-rpc = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
+sp-runtime = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
+sp-api = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
+sp-blockchain = { default-features = false, git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0" }
+pallet-transaction-payment-rpc-runtime-api = { default-features = false, path = "./runtime-api" }

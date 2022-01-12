@@ -833,7 +833,7 @@ impl evm_accounts::Config for Runtime {
 parameter_types! {
   // session: 10 minutes
   pub const SessionsPerEra: sp_staking::SessionIndex = 6;  // 6 sessions in an era, (6 hours)
-  pub const BondingDuration: pallet_staking::EraIndex = 24; // 24 era for unbouding (24 * 6 hours)
+  pub const BondingDuration: pallet_staking::EraIndex = 1; // 24 era for unbouding (24 * 6 hours)
   pub const SlashDeferDuration: pallet_staking::EraIndex = 12; // 1/2 bonding duration
   pub const ElectionLookahead: BlockNumber = EPOCH_DURATION_IN_BLOCKS / 4;
   pub const MaxNominatorRewardedPerValidator: u32 = 64;

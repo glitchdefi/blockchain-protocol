@@ -35,7 +35,7 @@ jsonrpc-pubsub = "15.1.0"
 log = "0.4.8"
 pallet-contracts = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0", default-features = false }
 pallet-contracts-rpc = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
-pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
+# pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
 primitives = { package = 'glitch-primitives', path = '../primitives', version = '3.0.0'}
 sc-authority-discovery = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
 sc-basic-authorship = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
@@ -80,6 +80,7 @@ primitive-types = { version = "0.9", default-features = false, features = ["rlp"
 # local dependencies
 fc-rpc = { path = "../client/fc-rpc", features = ["rpc_binary_search_estimate"] }
 pallet-ethereum = { path = "../pallets/pallet-ethereum"}
+pallet-transaction-payment-rpc = { path = "../pallets/pallet-transaction-payment/rpc" }
 
 [build-dependencies]
 substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", tag = "v3.0.0" }
