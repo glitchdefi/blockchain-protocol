@@ -196,6 +196,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "assert_matches"
+version = "1.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9b34d609dfbaf33d6889b2b7106d3ca345eacad44200913df5ba02bfd31d2ba9"
+
+[[package]]
 name = "async-channel"
 version = "1.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1352,6 +1358,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "env_logger"
+version = "0.8.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a19187fea3ac7e84da7dacf48de0c45d63c6a76f9490dae389aead16c243fce3"
+dependencies = [
+ "log",
+ "regex",
+]
+
+[[package]]
 name = "environmental"
 version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1669,7 +1685,7 @@ dependencies = [
  "rlp",
  "rustc-hex",
  "sc-client-api",
- "sc-network",
+ "sc-network 0.9.0",
  "sc-rpc",
  "sc-service",
  "sha3 0.8.2",
@@ -1711,7 +1727,7 @@ version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4fdbe0d94371f9ce939b555dd342d0686cc4c0cadbcd4b61d70af5ff97eb4126"
 dependencies = [
- "env_logger",
+ "env_logger 0.7.1",
  "log",
 ]
 
@@ -1728,6 +1744,7 @@ dependencies = [
  "num-traits",
  "parity-scale-codec",
  "parking_lot 0.11.1",
+ "rand 0.8.4",
 ]
 
 [[package]]
@@ -2301,11 +2318,11 @@ dependencies = [
  "sc-consensus-epochs",
  "sc-consensus-slots",
  "sc-executor",
- "sc-finality-grandpa",
+ "sc-finality-grandpa 0.9.0",
  "sc-finality-grandpa-rpc",
  "sc-finality-grandpa-warp-sync",
  "sc-keystore",
- "sc-network",
+ "sc-network 0.9.0",
  "sc-rpc",
  "sc-rpc-api",
  "sc-service",
@@ -5527,6 +5544,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
 
 [[package]]
+name = "quickcheck"
+version = "1.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "588f6378e4dd99458b60ec275b4477add41ce4fa9f64dcba6f15adccb19b50d6"
+dependencies = [
+ "env_logger 0.8.4",
+ "log",
+ "rand 0.8.4",
+]
+
+[[package]]
 name = "quicksink"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6048,7 +6076,6 @@ dependencies = [
 [[package]]
 name = "sc-authority-discovery"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "async-trait",
  "derive_more",
@@ -6060,9 +6087,11 @@ dependencies = [
  "parity-scale-codec",
  "prost",
  "prost-build",
+ "quickcheck",
  "rand 0.7.3",
  "sc-client-api",
- "sc-network",
+ "sc-network 0.9.0",
+ "sc-peerset",
  "serde_json",
  "sp-api",
  "sp-authority-discovery",
@@ -6070,7 +6099,9 @@ dependencies = [
  "sp-core",
  "sp-keystore",
  "sp-runtime",
+ "sp-tracing",
  "substrate-prometheus-endpoint",
+ "substrate-test-runtime-client",
 ]
 
 [[package]]
@@ -6116,15 +6147,14 @@ dependencies = [
 [[package]]
 name = "sc-chain-spec"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
  "sc-chain-spec-derive",
  "sc-consensus-babe",
  "sc-consensus-epochs",
- "sc-finality-grandpa",
- "sc-network",
+ "sc-finality-grandpa 0.9.0",
+ "sc-network 0.9.0",
  "sc-telemetry",
  "serde",
  "serde_json",
@@ -6137,7 +6167,6 @@ dependencies = [
 [[package]]
 name = "sc-chain-spec-derive"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "proc-macro-crate 0.1.5",
  "proc-macro2 1.0.27",
@@ -6148,7 +6177,6 @@ dependencies = [
 [[package]]
 name = "sc-cli"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "chrono",
  "fdlimit",
@@ -6163,7 +6191,7 @@ dependencies = [
  "rpassword",
  "sc-client-api",
  "sc-keystore",
- "sc-network",
+ "sc-network 0.9.0",
  "sc-service",
  "sc-telemetry",
  "sc-tracing",
@@ -6178,6 +6206,7 @@ dependencies = [
  "sp-utils",
  "sp-version",
  "structopt",
+ "tempfile",
  "thiserror",
  "tiny-bip39",
  "tokio 0.2.25",
@@ -6462,6 +6491,52 @@ dependencies = [
 [[package]]
 name = "sc-finality-grandpa"
 version = "0.9.0"
+dependencies = [
+ "assert_matches",
+ "derive_more",
+ "finality-grandpa",
+ "fork-tree",
+ "futures 0.3.15",
+ "futures-timer 3.0.2",
+ "linked-hash-map",
+ "log",
+ "parity-scale-codec",
+ "parking_lot 0.11.1",
+ "pin-project 1.0.7",
+ "rand 0.7.3",
+ "sc-block-builder",
+ "sc-client-api",
+ "sc-consensus",
+ "sc-keystore",
+ "sc-network 0.9.0",
+ "sc-network-gossip 0.9.0",
+ "sc-network-test",
+ "sc-telemetry",
+ "serde_json",
+ "sp-api",
+ "sp-application-crypto",
+ "sp-arithmetic",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-consensus-babe",
+ "sp-core",
+ "sp-finality-grandpa",
+ "sp-inherents",
+ "sp-keyring",
+ "sp-keystore",
+ "sp-runtime",
+ "sp-state-machine",
+ "sp-tracing",
+ "sp-utils",
+ "substrate-prometheus-endpoint",
+ "substrate-test-runtime-client",
+ "tempfile",
+ "tokio 0.2.25",
+]
+
+[[package]]
+name = "sc-finality-grandpa"
+version = "0.9.0"
 source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "derive_more",
@@ -6479,8 +6554,8 @@ dependencies = [
  "sc-client-api",
  "sc-consensus",
  "sc-keystore",
- "sc-network",
- "sc-network-gossip",
+ "sc-network 0.9.0 (git+https://github.com/paritytech/substrate.git?tag=v3.0.0)",
+ "sc-network-gossip 0.9.0 (git+https://github.com/paritytech/substrate.git?tag=v3.0.0)",
  "sc-telemetry",
  "serde_json",
  "sp-api",
@@ -6500,7 +6575,6 @@ dependencies = [
 [[package]]
 name = "sc-finality-grandpa-rpc"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "derive_more",
  "finality-grandpa",
@@ -6509,22 +6583,28 @@ dependencies = [
  "jsonrpc-core-client 15.1.0",
  "jsonrpc-derive 15.1.0",
  "jsonrpc-pubsub 15.1.0",
+ "lazy_static",
  "log",
  "parity-scale-codec",
+ "sc-block-builder",
  "sc-client-api",
- "sc-finality-grandpa",
+ "sc-finality-grandpa 0.9.0",
+ "sc-network-test",
  "sc-rpc",
  "serde",
  "serde_json",
  "sp-blockchain",
+ "sp-consensus",
  "sp-core",
+ "sp-finality-grandpa",
+ "sp-keyring",
  "sp-runtime",
+ "substrate-test-runtime-client",
 ]
 
 [[package]]
 name = "sc-finality-grandpa-warp-sync"
 version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "derive_more",
  "futures 0.3.15",
@@ -6534,8 +6614,8 @@ dependencies = [
  "parking_lot 0.11.1",
  "prost",
  "sc-client-api",
- "sc-finality-grandpa",
- "sc-network",
+ "sc-finality-grandpa 0.9.0",
+ "sc-network 0.9.0",
  "sc-service",
  "sp-blockchain",
  "sp-runtime",
@@ -6544,14 +6624,13 @@ dependencies = [
 [[package]]
 name = "sc-informant"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "ansi_term 0.12.1",
  "futures 0.3.15",
  "log",
  "parity-util-mem",
  "sc-client-api",
- "sc-network",
+ "sc-network 0.9.0",
  "sp-blockchain",
  "sp-runtime",
  "sp-transaction-pool",
@@ -6596,6 +6675,66 @@ dependencies = [
  "sp-externalities",
  "sp-runtime",
  "sp-state-machine",
+]
+
+[[package]]
+name = "sc-network"
+version = "0.9.0"
+dependencies = [
+ "assert_matches",
+ "async-std",
+ "async-trait",
+ "asynchronous-codec 0.5.0",
+ "bitflags",
+ "bs58",
+ "bytes 1.0.1",
+ "cid",
+ "derive_more",
+ "either",
+ "erased-serde",
+ "fnv",
+ "fork-tree",
+ "futures 0.3.15",
+ "futures-timer 3.0.2",
+ "hex",
+ "ip_network",
+ "libp2p",
+ "linked-hash-map",
+ "linked_hash_set",
+ "log",
+ "lru",
+ "nohash-hasher",
+ "parity-scale-codec",
+ "parking_lot 0.11.1",
+ "pin-project 1.0.7",
+ "prost",
+ "prost-build",
+ "quickcheck",
+ "rand 0.7.3",
+ "sc-block-builder",
+ "sc-client-api",
+ "sc-peerset",
+ "serde",
+ "serde_json",
+ "smallvec 1.6.1",
+ "sp-arithmetic",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-core",
+ "sp-keyring",
+ "sp-runtime",
+ "sp-test-primitives",
+ "sp-tracing",
+ "sp-utils",
+ "substrate-prometheus-endpoint",
+ "substrate-test-runtime",
+ "substrate-test-runtime-client",
+ "tempfile",
+ "thiserror",
+ "unsigned-varint 0.6.0",
+ "void",
+ "wasm-timer",
+ "zeroize",
 ]
 
 [[package]]
@@ -6654,6 +6793,25 @@ dependencies = [
 [[package]]
 name = "sc-network-gossip"
 version = "0.9.0"
+dependencies = [
+ "async-std",
+ "futures 0.3.15",
+ "futures-timer 3.0.2",
+ "libp2p",
+ "log",
+ "lru",
+ "quickcheck",
+ "rand 0.7.3",
+ "sc-network 0.9.0",
+ "sp-runtime",
+ "substrate-prometheus-endpoint",
+ "substrate-test-runtime-client",
+ "wasm-timer",
+]
+
+[[package]]
+name = "sc-network-gossip"
+version = "0.9.0"
 source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "futures 0.3.15",
@@ -6661,16 +6819,42 @@ dependencies = [
  "libp2p",
  "log",
  "lru",
- "sc-network",
+ "sc-network 0.9.0 (git+https://github.com/paritytech/substrate.git?tag=v3.0.0)",
  "sp-runtime",
  "substrate-prometheus-endpoint",
  "wasm-timer",
 ]
 
 [[package]]
+name = "sc-network-test"
+version = "0.8.0"
+dependencies = [
+ "async-std",
+ "futures 0.3.15",
+ "futures-timer 3.0.2",
+ "libp2p",
+ "log",
+ "parking_lot 0.11.1",
+ "rand 0.7.3",
+ "sc-block-builder",
+ "sc-client-api",
+ "sc-consensus",
+ "sc-network 0.9.0",
+ "sc-service",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-consensus-babe",
+ "sp-core",
+ "sp-runtime",
+ "sp-tracing",
+ "substrate-test-runtime",
+ "substrate-test-runtime-client",
+ "tempfile",
+]
+
+[[package]]
 name = "sc-offchain"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "bytes 0.5.6",
  "fnv",
@@ -6678,20 +6862,29 @@ dependencies = [
  "futures-timer 3.0.2",
  "hyper 0.13.10",
  "hyper-rustls",
+ "lazy_static",
  "log",
  "num_cpus",
  "parity-scale-codec",
  "parking_lot 0.11.1",
  "rand 0.7.3",
+ "sc-block-builder",
  "sc-client-api",
+ "sc-client-db",
  "sc-keystore",
- "sc-network",
+ "sc-network 0.9.0",
+ "sc-transaction-pool",
  "sp-api",
+ "sp-consensus",
  "sp-core",
  "sp-offchain",
  "sp-runtime",
+ "sp-tracing",
+ "sp-transaction-pool",
  "sp-utils",
+ "substrate-test-runtime-client",
  "threadpool",
+ "tokio 0.2.25",
 ]
 
 [[package]]
@@ -6725,6 +6918,7 @@ dependencies = [
  "hash-db",
  "jsonrpc-core 15.1.0",
  "jsonrpc-pubsub 15.1.0",
+ "lazy_static",
  "log",
  "parity-scale-codec",
  "parking_lot 0.11.1",
@@ -6795,8 +6989,8 @@ dependencies = [
 [[package]]
 name = "sc-service"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
+ "async-std",
  "directories",
  "exit-future",
  "futures 0.1.31",
@@ -6817,10 +7011,11 @@ dependencies = [
  "sc-client-api",
  "sc-client-db",
  "sc-executor",
+ "sc-finality-grandpa 0.9.0 (git+https://github.com/paritytech/substrate.git?tag=v3.0.0)",
  "sc-informant",
  "sc-keystore",
  "sc-light",
- "sc-network",
+ "sc-network 0.9.0",
  "sc-offchain",
  "sc-rpc",
  "sc-rpc-server",
@@ -6834,8 +7029,10 @@ dependencies = [
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
+ "sp-consensus-babe",
  "sp-core",
  "sp-externalities",
+ "sp-finality-grandpa",
  "sp-inherents",
  "sp-io",
  "sp-keystore",
@@ -6848,10 +7045,14 @@ dependencies = [
  "sp-utils",
  "sp-version",
  "substrate-prometheus-endpoint",
+ "substrate-test-runtime",
+ "substrate-test-runtime-client",
  "tempfile",
  "thiserror",
+ "tokio 0.2.25",
  "tracing",
  "tracing-futures",
+ "tracing-subscriber",
  "wasm-timer",
 ]
 
@@ -6873,7 +7074,6 @@ dependencies = [
 [[package]]
 name = "sc-sync-state-rpc"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
 dependencies = [
  "jsonrpc-core 15.1.0",
  "jsonrpc-core-client 15.1.0",
@@ -6882,7 +7082,7 @@ dependencies = [
  "sc-client-api",
  "sc-consensus-babe",
  "sc-consensus-epochs",
- "sc-finality-grandpa",
+ "sc-finality-grandpa 0.9.0",
  "sc-rpc-api",
  "serde_json",
  "sp-blockchain",
@@ -7533,6 +7733,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "sp-consensus-aura"
+version = "0.9.0"
+source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
+dependencies = [
+ "parity-scale-codec",
+ "sp-api",
+ "sp-application-crypto",
+ "sp-consensus-slots",
+ "sp-inherents",
+ "sp-runtime",
+ "sp-std",
+ "sp-timestamp",
+]
+
+[[package]]
 name = "sp-consensus-babe"
 version = "0.9.0"
 source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
@@ -7929,6 +8144,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "sp-test-primitives"
+version = "2.0.0"
+source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
+dependencies = [
+ "parity-scale-codec",
+ "parity-util-mem",
+ "serde",
+ "sp-application-crypto",
+ "sp-core",
+ "sp-runtime",
+]
+
+[[package]]
 name = "sp-timestamp"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate.git?tag=v3.0.0#49a4103f4bfef55be20a5c6d26e18ff3003c3353"
@@ -8195,6 +8423,96 @@ dependencies = [
  "log",
  "prometheus",
  "tokio 0.2.25",
+]
+
+[[package]]
+name = "substrate-test-client"
+version = "2.0.1"
+dependencies = [
+ "futures 0.1.31",
+ "futures 0.3.15",
+ "hash-db",
+ "hex",
+ "parity-scale-codec",
+ "sc-client-api",
+ "sc-client-db",
+ "sc-consensus",
+ "sc-executor",
+ "sc-light",
+ "sc-service",
+ "serde",
+ "serde_json",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-core",
+ "sp-keyring",
+ "sp-keystore",
+ "sp-runtime",
+ "sp-state-machine",
+]
+
+[[package]]
+name = "substrate-test-runtime"
+version = "2.0.0"
+dependencies = [
+ "cfg-if 1.0.0",
+ "frame-executive",
+ "frame-support",
+ "frame-system",
+ "frame-system-rpc-runtime-api",
+ "log",
+ "memory-db",
+ "pallet-babe",
+ "pallet-timestamp",
+ "parity-scale-codec",
+ "parity-util-mem",
+ "sc-block-builder",
+ "sc-executor",
+ "sc-service",
+ "serde",
+ "sp-api",
+ "sp-application-crypto",
+ "sp-block-builder",
+ "sp-consensus-aura",
+ "sp-consensus-babe",
+ "sp-core",
+ "sp-externalities",
+ "sp-finality-grandpa",
+ "sp-inherents",
+ "sp-io",
+ "sp-keyring",
+ "sp-offchain",
+ "sp-runtime",
+ "sp-runtime-interface",
+ "sp-session",
+ "sp-state-machine",
+ "sp-std",
+ "sp-transaction-pool",
+ "sp-trie",
+ "sp-version",
+ "substrate-test-runtime-client",
+ "substrate-wasm-builder",
+ "trie-db",
+]
+
+[[package]]
+name = "substrate-test-runtime-client"
+version = "2.0.0"
+dependencies = [
+ "futures 0.3.15",
+ "parity-scale-codec",
+ "sc-block-builder",
+ "sc-client-api",
+ "sc-consensus",
+ "sc-light",
+ "sc-service",
+ "sp-api",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-core",
+ "sp-runtime",
+ "substrate-test-client",
+ "substrate-test-runtime",
 ]
 
 [[package]]
