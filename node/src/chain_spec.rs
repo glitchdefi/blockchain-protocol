@@ -414,12 +414,9 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
       // Bootnodes
       // node-key=0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
       vec![
-           "/dns/fullnodes-testnet-1.glitch.finance/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+           "/dns/fullnodes-mainnet-1.glitch.finance/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
         .parse()
-        .unwrap(),
-          "/dns/fullnodes-testnet-2.glitch.finance/tcp/30333/p2p/12D3KooWPRSGH3LnwG5Uhj9Nm7qY7hkdrhd4vg4znb49ix9ADZwD"
-        .parse()
-        .unwrap(),
+        .unwrap()
       ],
       //Telemetry
       None,
