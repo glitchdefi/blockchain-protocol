@@ -816,6 +816,10 @@ impl<B: BlockT> ChainSync<B> {
 						PeerSyncState::DownloadingNew(_) => {
 							self.blocks.clear_peer_download(who);
 							peer.state = PeerSyncState::Available;
+							if let Some(start_block) = validate_blocks::<B>(&blocks, who, Some(request))?
+							{
+								self.blocks.insert(start_block, blocks, who.clone());
+							}
 							self.blocks
 								.drain(self.best_queued_number + One::one())
 								.into_iter()
