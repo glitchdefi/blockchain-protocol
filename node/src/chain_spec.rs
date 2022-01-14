@@ -453,7 +453,7 @@ fn glitch_genesis(
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
     let enable_println = true;
-    const ENDOWMENT: Balance = (87_898_884 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ) / 10;
+    const ENDOWMENT: Balance = (87_898_887 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ) / 10;
     const STASH: Balance = 330_000 * DOLLARS;
     const AUTHOR_BALANCE: Balance = 330_000 * DOLLARS;
 
