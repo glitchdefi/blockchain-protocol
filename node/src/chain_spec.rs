@@ -416,7 +416,19 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
       vec![
            "/dns/fullnodes-mainnet-1.glitch.finance/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
         .parse()
-        .unwrap()
+        .unwrap(),
+          "/dns/validatornodes-mainnet-1.glitch.finance/tcp/30333/p2p/12D3KooWPRSGH3LnwG5Uhj9Nm7qY7hkdrhd4vg4znb49ix9ADZwD"
+        .parse()
+        .unwrap(),
+          "/dns/validatornodes-mainnet-2.glitch.finance/tcp/30333/p2p/12D3KooWBEyY6ySQqjniaqVHH1JtiMVU5KmSPvoPgqkpp6XhBjEt"
+        .parse()
+        .unwrap(),
+          "/dns/validatornodes-mainnet-3.glitch.finance/tcp/30333/p2p/12D3KooWKwDVXckeQ86PrNFCyrbaA4sEkg9hPY9a5fe2yZ3gSRX1"
+        .parse()
+        .unwrap(),
+          "/dns/validatornodes-mainnet-4.glitch.finance/tcp/30333/p2p/12D3KooWRYMq2fD7cRikXXc9doocmBNw37tfQTKSnPfEfqeaMyG3"
+        .parse()
+        .unwrap(),
       ],
       //Telemetry
       None,
