@@ -438,7 +438,7 @@ fn glitch_genesis(
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
     let enable_println = true;
-    const ENDOWMENT: Balance = (87_898_887 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ) / 10;
+    const ENDOWMENT: Balance = 87_898_887 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ;
     const STASH: Balance = 330_000 * DOLLARS;
     const AUTHOR_BALANCE: Balance = 330_000 * DOLLARS;
 
@@ -517,7 +517,7 @@ fn glitch_genesis(
         pallet_membership_Instance1: Some(Default::default()),
         pallet_revenue: Some(RevenueConfig {
             // admin_genesis: get_account_id_from_seed::<sr25519::Public>("Alice")
-            admin_genesis: AccountId::from_str("bcf72049354cff42bccd20e5d490fc4460675f9f0281d9fea953a04c9936bc4e").unwrap()
+            admin_genesis: AccountId::from_str("5e861499a2830a5aa5f88fc22a18b71b16cc9f1d1545cf036e33f265f8fce527").unwrap()
         })
     }
 }
