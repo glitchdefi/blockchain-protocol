@@ -12,10 +12,7 @@ use sp_authority_discovery::AuthorityId as AuthorityDiscoveryId;
 use sp_consensus_babe::AuthorityId as BabeId;
 use sp_core::{sr25519, Pair, Public, U256};
 use sp_finality_grandpa::AuthorityId as GrandpaId;
-use sp_runtime::{
-    traits::{IdentifyAccount, Verify},
-    Perbill,
-};
+use sp_runtime::{traits::{IdentifyAccount, Verify}, Perbill, AccountId32};
 use std::collections::BTreeMap;
 use std::str::FromStr;
 use sc_telemetry::TelemetryEndpoints;
@@ -154,6 +151,7 @@ pub fn development_config() -> Result<ChainSpec, String> {
                     //get_account_id_from_seed::<sr25519::Public>("Alice//stash"),
                     get_account_id_from_seed::<sr25519::Public>("Bob//stash"),
                 ],
+                get_account_id_from_seed::<sr25519::Public>("Alice"),
                 true,
                 dev_endowed_evm_accounts(),
             )
@@ -205,6 +203,7 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
                     get_account_id_from_seed::<sr25519::Public>("Eve//stash"),
                     get_account_id_from_seed::<sr25519::Public>("Ferdie//stash"),
                 ],
+                get_account_id_from_seed::<sr25519::Public>("Alice"),
                 true,
                 endowed_evm_account(),
             )
@@ -303,6 +302,7 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
               //5HWd37PNa5Vehsy4196fgA1uEG1o3CPySWC2urt35CMi9ipR
               hex!["f0f15284b61f6ed6a3fc292395e0fa3195e79052b1ec8bca74298f5de5134754"].into(),
       ],
+          hex!["5e861499a2830a5aa5f88fc22a18b71b16cc9f1d1545cf036e33f265f8fce527"].into(),
           true,
           endowed_evm_account()
       ),
@@ -390,6 +390,7 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
         // 5Fey4oxxmKPNR2iMfNp8uuTzuxdtFL28A1eapRa5UqySEgZD
               hex!["5e861499a2830a5aa5f88fc22a18b71b16cc9f1d1545cf036e33f265f8fce527"].into(),
       ],
+          hex!["5e861499a2830a5aa5f88fc22a18b71b16cc9f1d1545cf036e33f265f8fce527"].into(),
           true,
           endowed_evm_account()
       ),
@@ -434,6 +435,7 @@ fn glitch_genesis(
     )>,
     root_key: AccountId,
     endowed_accounts: Vec<AccountId>,
+    admin_revenue: AccountId,
     _enable_println: bool,
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
@@ -517,7 +519,7 @@ fn glitch_genesis(
         pallet_membership_Instance1: Some(Default::default()),
         pallet_revenue: Some(RevenueConfig {
             // admin_genesis: get_account_id_from_seed::<sr25519::Public>("Alice")
-            admin_genesis: AccountId::from_str("5e861499a2830a5aa5f88fc22a18b71b16cc9f1d1545cf036e33f265f8fce527").unwrap()
+            admin_genesis: admin_revenue
         })
     }
 }
