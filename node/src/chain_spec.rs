@@ -222,6 +222,101 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
     ))
 }
 
+//Glitch UAT
+pub fn glitch_uat_config() -> Result<ChainSpec, String> {
+  let wasm_binary = WASM_BINARY.ok_or("Development wasm binary not available".to_string())?;
+  Ok(ChainSpec::from_genesis(
+      //Name
+      "Glitch UAT",
+      //ID
+      "glitch_uat",
+      ChainType::Custom(String::from("glitch_uat")),
+      move || glitch_genesis(
+          wasm_binary,
+          // Initial PoA authories
+          vec![
+        // SECRET=""
+        // subkey inspect "$SECRET//glitch//1//validator"
+        // subkey inspect "$SECRET//glitch//1//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//1//grandpa"
+        // subkey inspect "$SECRET//glitch//1//imonline"
+        // subkey inspect "$SECRET//glitch//1//discovery"
+        (
+          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          hex!["2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44"].unchecked_into(), // babe key
+          hex!["04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80"].unchecked_into(), // grandpa
+          hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
+          hex!["1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b"].unchecked_into(), // discovery
+        ),
+        // SECRET=""
+        // 5G6nMq5x8xm3PLxyKXkKEkzAjzQLGbuiDarjBWp6d5XHg3FM
+        // subkey inspect "$SECRET//glitch//2//validator"
+        // subkey inspect "$SECRET//glitch//2//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//2//grandpa"
+        // subkey inspect "$SECRET//glitch//2//imonline"
+        // subkey inspect "$SECRET//glitch//2//discovery"
+        (
+          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          hex!["381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566"].unchecked_into(), // babe
+          hex!["72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d"].unchecked_into(), // grandpa
+          hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
+          hex!["98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328"].unchecked_into(), // discovery
+        ),
+        // SECRET=""
+        // subkey inspect "$SECRET//glitch//3//validator"
+        // subkey inspect "$SECRET//glitch//3//babe"
+        // subkey inspect --scheme ed25519 "$SECRET//glitch//3//grandpa"
+        // subkey inspect "$SECRET//glitch//3//imonline"
+        // subkey inspect "$SECRET//glitch//3//discovery"
+        (
+          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          hex!["6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c"].unchecked_into(), // babe
+          hex!["0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3"].unchecked_into(), // grandpa
+          hex!["1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d"].unchecked_into(), // imonline
+          hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
+        ),
+      ],
+          //5F9x8hevHtJDQ64sXJQkaYt9W5bWfB37qFg7fFvbPRG4XHDb
+          hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
+          vec![
+              hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
+      ],
+          true,
+          endowed_evm_account()
+      ),
+      // Bootnodes
+      // node-key=0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
+      vec![
+           "/ip4/13.212.197.46/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+        .parse()
+        .unwrap(),
+          "/ip4/54.151.164.200/tcp/30333/p2p/12D3KooWPRSGH3LnwG5Uhj9Nm7qY7hkdrhd4vg4znb49ix9ADZwD"
+        .parse()
+        .unwrap(),
+          "/ip4/13.212.8.146/tcp/30333/p2p/12D3KooWBEyY6ySQqjniaqVHH1JtiMVU5KmSPvoPgqkpp6XhBjEt"
+        .parse()
+        .unwrap(),
+          "/ip4/13.229.207.100/tcp/30333/p2p/12D3KooWKwDVXckeQ86PrNFCyrbaA4sEkg9hPY9a5fe2yZ3gSRX1"
+        .parse()
+        .unwrap(),
+          "/ip4/3.1.64.153/tcp/30333/p2p/12D3KooWRYMq2fD7cRikXXc9doocmBNw37tfQTKSnPfEfqeaMyG3"
+        .parse()
+        .unwrap(),
+      ],
+      //Telemetry
+      None,
+      // Protocol ID
+      Some("glitch_uat"),
+      // Properties
+      Some(json::from_str(DEFAULT_PROPERTIES_TESTNET).unwrap()),
+      // Extension
+      None,
+  ))
+}
+
 //Glitch testnet
 pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
   let wasm_binary = WASM_BINARY.ok_or("Development wasm binary not available".to_string())?;
@@ -534,8 +629,7 @@ fn glitch_genesis(
         pallet_elections_phragmen: Some(Default::default()),
         pallet_membership_Instance1: Some(Default::default()),
         pallet_revenue: Some(RevenueConfig {
-            admin_genesis: get_account_id_from_seed::<sr25519::Public>("Alice")
-            // admin_genesis: AccountId::from_str("0x1a93011e1af13b6f83ac556c15561b100d06ecaad3c75e37bc77229aa182f92a").unwrap()
+            admin_genesis: AccountId::from_str("0x88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567").unwrap()
         })
     }
 }
