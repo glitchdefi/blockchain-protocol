@@ -56,6 +56,7 @@ pub mod pallet {
     #[pallet::getter(fn admin_address)]
     pub(super) type AdminAccountID<T: Config> = StorageValue<_, T::AccountId, ValueQuery>;
 
+
     #[pallet::genesis_config]
     pub struct GenesisConfig<T: Config> {
         pub admin_genesis: T::AccountId,
@@ -89,8 +90,10 @@ pub mod pallet {
             origin: OriginFor<T>,
             addresses: Vec<H160>
         ) -> DispatchResultWithPostInfo {
-            let who = ensure_signed(origin)?;
-            ensure!(who == Self::admin_address(), Error::<T>::NoPermission);
+            // get account root
+            ensure_root(origin)?;
+            // let who = ensure_signed(origin)?;
+            // ensure!(admin, Error::<T>::NoPermission);
             for address in addresses.into_iter() {
                 if Whitelist::<T>::contains_key(&address) {
                     Self::deposit_event(Event::AddressExisted(address));
@@ -107,8 +110,9 @@ pub mod pallet {
             origin: OriginFor<T>,
             addresses: Vec<H160>
         ) -> DispatchResultWithPostInfo {
-            let who = ensure_signed(origin)?;
-            ensure!(who == Self::admin_address(), Error::<T>::NoPermission);
+            ensure_root(origin)?;
+            // let who = ensure_signed(origin)?;
+            // ensure!(who == Self::admin_address(), Error::<T>::NoPermission);
             for address in addresses.into_iter() {
                 if !Whitelist::<T>::contains_key(&address) {
                     Self::deposit_event(Event::AddressNotExisted(address));
