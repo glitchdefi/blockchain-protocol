@@ -279,29 +279,11 @@ pub fn glitch_testnet_config() -> Result<ChainSpec, String> {
           hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
         ),
       ],
-          // 5D5MHV7hy6LTcRUSL3cVYhGecar59RAj1UwnLLEFikUySxsX
-          hex!["2cba3a171f0eac2c17fb96e1172de8bdfb5977d687be988c8c9c424e89ccf017"].into(),
+          // 5F9x8hevHtJDQ64sXJQkaYt9W5bWfB37qFg7fFvbPRG4XHDb
+          hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
           vec![
-        // 5D5MHV7hy6LTcRUSL3cVYhGecar59RAj1UwnLLEFikUySxsX
-              hex!["2cba3a171f0eac2c17fb96e1172de8bdfb5977d687be988c8c9c424e89ccf017"].into(),
-              //5H6ji2UhbPKFmhHa66ETXHmpwGTNLtZEnoJBPcT1eBL2nf9A
-              hex!["deb9e399fc7a8dbfdb3afdded6d944001f06d34f2ee44f221214e5f651d72d0c"].into(),
-              //5F7hrtWMqodEtbEMCvdTWwRMW2iCPsp7vjmMkUqCMAZjew6k
-              hex!["86fe730862e66d0843fd26317cdc8982e964411c6b567ede64f5b75256e3ae02"].into(),
-              //5E77ca5cwnKBK4qhc2nQQSsSz5oUbvop84Y2yVW1TPDR7AZg
-              hex!["5a4eee4225fdfeea0affc8b3898b6473aa5da97acb5cb77eff87e85da9cd442a"].into(),
-              //5DRnNDpt5uVaVD8RsjAZCpZUWqx6nCZFRNaCKNR1qFEqggof
-              hex!["3c4f9141446d18bc60cde8b084fff57830de18e05657a113b7eb55a89cf1ba77"].into(),
-              //5EFiphQLB8sRtbYdE6vhf6Gs5yGeTUcPkkxsu7cehhn2mLBp
-              hex!["60df6b11a2d8d6460fd583e491a52f0518b515d29b63ae0fca6ad04dd99c9820"].into(),
-              //5EnkYVT7Dgr8gYzFPE4vJLdy9YCJt9qnccpYEREbedo9KSRw
-              hex!["7889d159ed22e156047c91c03c49d0fdb97db5aa121dd248fc9143ae58605a78"].into(),
-              //5GerXFwjqzasX2R8ND92dbCq7dscharx2TcMCWCFZQNkva46
-              hex!["cafc729c1e7c5d13065c41e39dba17f81f2c37ffa59d55a058bcc1eea3a7bd0d"].into(),
-              //5FxvMhxNswBFYyUw3Tu7d1NSnGnFHPEpSwsL9kKp6ZJyGGbP
-              hex!["ac878ad7a137e325872d74022e85fe976d26c5b51a172821b7a8ca6526a34928"].into(),
-              //5HWd37PNa5Vehsy4196fgA1uEG1o3CPySWC2urt35CMi9ipR
-              hex!["f0f15284b61f6ed6a3fc292395e0fa3195e79052b1ec8bca74298f5de5134754"].into(),
+        // 5F9x8hevHtJDQ64sXJQkaYt9W5bWfB37qFg7fFvbPRG4XHDb
+              hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
       ],
           true,
           endowed_evm_account()
@@ -465,7 +447,7 @@ fn glitch_genesis(
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
     let enable_println = true;
-    const ENDOWMENT: Balance = (87_898_887 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ) / 10;
+    const ENDOWMENT: Balance = 87_898_887 * DOLLARS + 999 * CENTS - 500 * MILLICENTS;
     const STASH: Balance = 330_000 * DOLLARS;
     const AUTHOR_BALANCE: Balance = 330_000 * DOLLARS;
 
