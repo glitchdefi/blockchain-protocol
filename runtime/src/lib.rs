@@ -1151,7 +1151,9 @@ construct_runtime!(
         Authorship: pallet_authorship::{Module, Call, Storage},
         Babe: pallet_babe::{Module, Call, Storage, Config, Inherent, ValidateUnsigned},
         Grandpa: pallet_grandpa::{Module, Call, Storage, Config, Event},
-        Staking: pallet_staking::{Module, Call, Config<T>, Storage, Event<T>},
+        //Staking: pallet_staking::{Module, Call, Config<T>, Storage, Event<T>},
+        Staking: pallet_staking::{Module, Call, Config<T>, Storage, Event<T>, ValidateUnsigned},
+
         Session: pallet_session::{Module, Call, Storage, Event, Config<T>},
         Historical: pallet_session_historical::{Module},
 
