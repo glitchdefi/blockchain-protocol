@@ -21,6 +21,7 @@ use std::str::FromStr;
 use sc_telemetry::TelemetryEndpoints;
 use hex_literal::hex;
 use sp_core::crypto::UncheckedInto;
+use log::warn;
 
 // The URL for the telemetry server.
 // const TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
@@ -501,28 +502,34 @@ pub fn glitch_uat_config() -> Result<ChainSpec, String> {
           hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
           vec![
               hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
-      ],
+              //5FBv5TwPVmj9AcpgKQYBkt77oeAQBBkz7x6FeXtMqwm4HHtq
+              hex!["8a348e767a4c7c33db99e1df8b7dd02aed54734257b9c84c0f9a7ed40cbd6417"].into(),
+              //5EeHjfgARtEAMEMc1hBZyNkdiaCPYLUh1tbyuSnWparYgmTW
+              hex!["72159cf4c37f5b23b965398691c7e0055e6b63d3eb9b128240de3a5205c8695b"].into(),
+              //5GWxgLaoUHsdX4iE88oH9SY6sJnH8AcoaqVU4CtNa5hftpQE
+              hex!["c4f73592050e81c4678aaa0de398e1cfca7aed103bc7bc956990a587eb86ac26"].into(),
+              //5C5cjVTUgKBSF3vFpsHma7qh6UDXgxWt8q1sjGLTYsUESHZc
+              hex!["00b1ff51634b064cc95cdf13ca7355bf9f6079c6417da2b25663418441e67817"].into(),
+              //5DLDckv5RHvpK7q2YNNEkuyGxkg6Ark8AbeaxbA7BhFwzmyy
+              hex!["3811189ce2b243f09901f3a12d9677780095685784e07bf9a34606e06d8c4468"].into(),
+              //5D59pXauFxc8jmAWVFuCn4fA6SFCiMiBRYgmX48Mdx9ZcS3k
+              hex!["2c93a20d39dc907933333a01a57ae7f0134329ec06c506c854fc433c039ff560"].into(),
+              //5CoA3DrwftEzStkF1hA82MEvhekzM3fKqxszkzcixWpCqgDm
+              hex!["2060717db73ea71d89d142f28f7996cd74b8af314d19317cfa32f6a8ad00bc37"].into(),
+              //5DD1RWp2qeUuD7SFJ9CH2fH3dMrMZEQcavUHUZ6Zp9F9tQWD
+              hex!["329154858560cd93da760a7a98d94a861600d0f4612bb5c0f4334e78311b7827"].into(),
+              //5F1LfMUN6wfjmA87DZRaMK9Ncyscn5KQmaczDRscWFYAaYmW
+              hex!["82239d78f88fd92bd3544519ad910c443a44c982aa82ce61e7699b50eb87173a"].into(),
+          ],
           true,
           endowed_evm_account()
       ),
       // Bootnodes
       // node-key=0decb1a3d303a8849a06e9c258698929ee1dfdc524fddc7be1771becd7236e29
       vec![
-           "/ip4/13.212.197.46/tcp/30333/p2p/12D3KooWFKSEVZGNrS6THQ6J2vSgLDePdXXz9HYE6TtgopZV22T1"
+           "/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWE9d5iYYuom8HZnPVcBcWZ9vdJQrM8pSjJJuGBJywcWDx"
         .parse()
-        .unwrap(),
-          "/ip4/54.151.164.200/tcp/30333/p2p/12D3KooWPRSGH3LnwG5Uhj9Nm7qY7hkdrhd4vg4znb49ix9ADZwD"
-        .parse()
-        .unwrap(),
-          "/ip4/13.212.8.146/tcp/30333/p2p/12D3KooWBEyY6ySQqjniaqVHH1JtiMVU5KmSPvoPgqkpp6XhBjEt"
-        .parse()
-        .unwrap(),
-          "/ip4/13.229.207.100/tcp/30333/p2p/12D3KooWKwDVXckeQ86PrNFCyrbaA4sEkg9hPY9a5fe2yZ3gSRX1"
-        .parse()
-        .unwrap(),
-          "/ip4/3.1.64.153/tcp/30333/p2p/12D3KooWRYMq2fD7cRikXXc9doocmBNw37tfQTKSnPfEfqeaMyG3"
-        .parse()
-        .unwrap(),
+        .unwrap() , 
       ],
       //Telemetry
       None,
@@ -565,6 +572,14 @@ fn glitch_genesis(
     const ENDOWMENT: Balance = (87_898_887 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ) / 10;
     const STASH: Balance = 330_000 * DOLLARS;
     const AUTHOR_BALANCE: Balance = 330_000 * DOLLARS;
+
+    warn!(
+        "--------------------------------------------------------\n \
+        ENDOWMENT: {:?}, STASH: {:?}, AUTHOR_BALANCE: {:?} . \n     \
+        ---------------------------------------------------------\n",
+        ENDOWMENT, STASH, AUTHOR_BALANCE
+    );
+
 
     GenesisConfig {
         frame_system: Some(SystemConfig {
