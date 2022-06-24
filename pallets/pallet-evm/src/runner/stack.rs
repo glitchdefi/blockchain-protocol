@@ -533,7 +533,7 @@ impl<'vicinity, 'config, T: Config> StackStateT<'config> for SubstrateStackState
 			&target,
 			transfer.value.low_u128().unique_saturated_into(),
 			ExistenceRequirement::AllowDeath,
-		).map_err(|_| ExitError::OutOfFund)
+		).map_err(|_| ExitError::Other("Out of fund or the value is smaller than ExistentialDeposit".into()))
 	}
 
 	fn reset_balance(&mut self, _address: H160) {

@@ -44,8 +44,8 @@ pallet-multisig = { git = "https://github.com/paritytech/substrate.git",  tag = 
 pallet-scheduler = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-sudo = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-timestamp = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
-pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
-pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
+# pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
+# pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 pallet-collective = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 #pallet-bounties = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
 #pallet-treasury = { git = "https://github.com/paritytech/substrate.git",  tag = "v3.0.0", default-features = false }
@@ -87,12 +87,15 @@ glitch-traits = { path = "../modules/traits", default-features = false }
 
 # custom
 pallet-revenue = { path = '../pallets/pallet-revenue', default-features = false, version = '3.0.0' }
+pallet-revenue-fund = {path = '../pallets/pallet-revenue-fund', default-features = false, version = '1.0.0'}
 
 # Local
 pallet-staking = { path = "../pallets/pallet-staking", default-features = false }
 pallet-treasury = { path = "../pallets/pallet-treasury", default-features = false }
 pallet-bounties = { path = "../pallets/pallet-bounties", default-features = false }
 pallet-fund = {path = "../pallets/pallet-fund", default-features = false}
+pallet-transaction-payment = { path = "../pallets/pallet-transaction-payment", default-features = false }
+pallet-transaction-payment-rpc-runtime-api = { path = "../pallets/pallet-transaction-payment/rpc/runtime-api/", default-features = false }
 
 [build-dependencies]
 substrate-wasm-builder = '4.0.0'

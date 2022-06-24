@@ -44,7 +44,7 @@ use pallet_evm::{
 };
 
 use fp_rpc::TransactionStatus;
-use pallet_transaction_payment::{Multiplier, TargetedFeeAdjustment};
+use pallet_transaction_payment::{Multiplier, TargetedFeeAdjustment, MultiplierUpdate};
 
 // A few exports that help ease life for downstream crates.
 #[cfg(any(feature = "std", test))]
@@ -282,7 +282,7 @@ impl pallet_timestamp::Config for Runtime {
 }
 
 parameter_types! {
-    pub const ExistentialDeposit: u128 = 0;
+    pub const ExistentialDeposit: u128 = 500 * MILLICENTS;
     pub const MaxLocks: u32 = 50;
 }
 
@@ -292,7 +292,7 @@ impl pallet_balances::Config for Runtime {
     type Balance = Balance;
     /// The ubiquitous event type.
     type Event = Event;
-    type DustRemoval = ();
+    type DustRemoval = FundBalance;
     type ExistentialDeposit = ExistentialDeposit;
     type AccountStore = System;
     type WeightInfo = ();
@@ -386,6 +386,23 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
         }
     }
 }
+pub struct ConstantFeeUpdate;
+impl MultiplierUpdate for ConstantFeeUpdate {
+    fn min() -> Multiplier {
+        1.into()
+    }
+    fn target() -> Perquintill {
+        Perquintill::one()
+    }
+    fn variability() -> Multiplier {
+        1.into()
+    }
+}
+impl Convert<Multiplier, Multiplier> for ConstantFeeUpdate{
+    fn convert(previous: Multiplier) -> Multiplier {
+        previous
+    }
+}
 
 parameter_types! {
   pub const TransactionByteFee: Balance = MILLICENTS;
@@ -398,8 +415,7 @@ impl pallet_transaction_payment::Config for Runtime {
     type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, DealWithFees>;
     type TransactionByteFee = TransactionByteFee;
     type WeightToFee = WeightToFee<Balance>;
-    type FeeMultiplierUpdate =
-        TargetedFeeAdjustment<Self, TargetBlockFullness, AdjustmentVariable, MinimumMultiplier>;
+    type FeeMultiplierUpdate = ConstantFeeUpdate;
 }
 
 impl pallet_sudo::Config for Runtime {
@@ -658,7 +674,7 @@ pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
 
 parameter_types! {
-    pub const CouncilMotionDuration: BlockNumber = 5 * DAYS;
+    pub const CouncilMotionDuration: BlockNumber =  24 * MINUTES;
     pub const CouncilMaxProposals: u32 = 100;
     pub const CouncilMaxMembers: u32 = 100;
 }
@@ -677,7 +693,7 @@ impl pallet_collective::Config<CouncilCollective> for Runtime {
 }
 
 parameter_types! {
-    pub const TechnicalMotionDuration: BlockNumber = 5 * DAYS;
+    pub const TechnicalMotionDuration: BlockNumber = 24 * MINUTES;
     pub const TechnicalMaxProposals: u32 = 100;
     pub const TechnicalMaxMembers: u32 = 100;
 }
@@ -709,16 +725,16 @@ impl pallet_membership::Config<pallet_membership::Instance1> for Runtime {
 parameter_types! {
     pub const ProposalBond: Permill = Permill::from_percent(5);
     pub const ProposalBondMinimum: Balance = 1 * DOLLARS;
-    pub const SpendPeriod: BlockNumber = 1 * DAYS;
+    pub const SpendPeriod: BlockNumber = 6 * MINUTES;
     pub const Burn: Permill = Permill::from_percent(1);
-    pub const TipCountdown: BlockNumber = 1 * DAYS;
+    pub const TipCountdown: BlockNumber = 6 * MINUTES;
     pub const TipFindersFee: Percent = Percent::from_percent(20);
     pub const TipReportDepositBase: Balance = 1 * DOLLARS;
     pub const DataDepositPerByte: Balance = 1 * CENTS;
     pub const BountyDepositBase: Balance = 1 * DOLLARS;
-    pub const BountyDepositPayoutDelay: BlockNumber = 1 * DAYS;
+    pub const BountyDepositPayoutDelay: BlockNumber = 6 * MINUTES;
     pub const TreasuryModuleId: ModuleId = ModuleId(*b"py/trsry");
-    pub const BountyUpdatePeriod: BlockNumber = 14 * DAYS;
+    pub const BountyUpdatePeriod: BlockNumber = 1 * HOURS;
     pub const MaximumReasonLength: u32 = 16384;
     pub const BountyCuratorDeposit: Permill = Permill::from_percent(50);
     pub const BountyValueMinimum: Balance = 5 * DOLLARS;
@@ -817,7 +833,7 @@ impl evm_accounts::Config for Runtime {
 parameter_types! {
   // session: 10 minutes
   pub const SessionsPerEra: sp_staking::SessionIndex = 6;  // 6 sessions in an era, (6 hours)
-  pub const BondingDuration: pallet_staking::EraIndex = 24; // 24 era for unbouding (24 * 6 hours)
+  pub const BondingDuration: pallet_staking::EraIndex = 1; // 24 era for unbouding (24 * 6 hours)
   pub const SlashDeferDuration: pallet_staking::EraIndex = 12; // 1/2 bonding duration
   pub const ElectionLookahead: BlockNumber = EPOCH_DURATION_IN_BLOCKS / 4;
   pub const MaxNominatorRewardedPerValidator: u32 = 64;
@@ -878,7 +894,7 @@ parameter_types! {
   // additional data per vote is 32 bytes (account id).
   pub const VotingBondFactor: Balance = deposit(0, 32);
   /// Daily council elections.
-  pub const TermDuration: BlockNumber = 3 * DAYS;
+  pub const TermDuration: BlockNumber = 18 * MINUTES;
   pub const DesiredMembers: u32 = 7;
   pub const DesiredRunnersUp: u32 = 30;
   pub const ElectionsPhragmenModuleId: LockIdentifier = *b"phrelect";
@@ -970,15 +986,16 @@ impl pallet_staking::Config for Runtime {
     type UnsignedPriority = StakingUnsignedPriority;
     type WeightInfo = pallet_staking::weights::SubstrateWeight<Runtime>;
     type OffchainSolutionWeightLimit = OffchainSolutionWeightLimit;
+    type RevenueFund = RevenueFund;
 }
 
 parameter_types! {
-  pub const LaunchPeriod: BlockNumber = 7 * DAYS;
-  pub const VotingPeriod: BlockNumber = 7 * DAYS;
-  pub const FastTrackVotingPeriod: BlockNumber = 1 * DAYS;
+  pub const LaunchPeriod: BlockNumber = 36 * MINUTES;
+  pub const VotingPeriod: BlockNumber = 36 * MINUTES;
+  pub const FastTrackVotingPeriod: BlockNumber = 6 * MINUTES;
   pub const MinimumDeposit: Balance = 100 * DOLLARS;
-  pub const EnactmentPeriod: BlockNumber = 8 * DAYS;
-  pub const CooloffPeriod: BlockNumber = 7 * DAYS;
+  pub const EnactmentPeriod: BlockNumber = 42 * MINUTES;
+  pub const CooloffPeriod: BlockNumber = 42 * MINUTES;
   // One cent: $10,000 / MB
   pub const PreimageByteDeposit: Balance = 10 * MILLICENTS;
   pub const InstantAllowed: bool = false;
@@ -1049,7 +1066,7 @@ parameter_types! {
   pub const DepositPerContract: Balance = TombstoneDeposit::get();
   pub const DepositPerStorageByte: Balance = deposit(0, 1);
   pub const DepositPerStorageItem: Balance = deposit(1, 0);
-  pub RentFraction: Perbill = Perbill::from_rational_approximation(1u32, 30 * DAYS);
+  pub RentFraction: Perbill = Perbill::from_rational_approximation(1u32, 2 * HOURS);
   // The lazy deletion runs inside on_initialize.
   pub DeletionWeightLimit: Weight = AVERAGE_ON_INITIALIZE_RATIO *
     BlockWeights::get().max_block;
@@ -1099,6 +1116,12 @@ impl pallet_fund::Config for Runtime {
     type Event = Event;
 }
 
+// Config wallet revenue
+
+impl pallet_revenue_fund::Config for Runtime {
+    type Currency = Balances;
+    type Event = Event;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
     pub enum Runtime where
@@ -1128,7 +1151,9 @@ construct_runtime!(
         Authorship: pallet_authorship::{Module, Call, Storage},
         Babe: pallet_babe::{Module, Call, Storage, Config, Inherent, ValidateUnsigned},
         Grandpa: pallet_grandpa::{Module, Call, Storage, Config, Event},
-        Staking: pallet_staking::{Module, Call, Config<T>, Storage, Event<T>},
+        //Staking: pallet_staking::{Module, Call, Config<T>, Storage, Event<T>},
+        Staking: pallet_staking::{Module, Call, Config<T>, Storage, Event<T>, ValidateUnsigned},
+
         Session: pallet_session::{Module, Call, Storage, Event, Config<T>},
         Historical: pallet_session_historical::{Module},
 
@@ -1158,7 +1183,8 @@ construct_runtime!(
 
         // Custom
         Revenue: pallet_revenue::{Module, Call, Storage, Config<T>, Event<T>},
-        Fund: pallet_fund::{Module, Call, Storage, Event<T>, Config}
+        Fund: pallet_fund::{Module, Call, Storage, Event<T>, Config},
+        RevenueFund: pallet_revenue_fund::{Module, Call, Storage, Event<T>, Config}
     }
 );
 

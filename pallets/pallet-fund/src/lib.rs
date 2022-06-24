@@ -52,11 +52,8 @@ decl_storage! {
 decl_event!(
 	pub enum Event<T>
 	where
-		Balance = BalanceOf<T>,
-		<T as frame_system::Config>::AccountId,
+		Balance = BalanceOf<T>
 	{
-		/// Donor has made a charitable donation to the charity
-		DonationReceived(AccountId, Balance, Balance),
 		/// Spend fund
 		SpendFund(Balance),
 	}
@@ -65,26 +62,11 @@ decl_event!(
 decl_module! {
 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
 		fn deposit_event() = default;
-
-		/// Donate some funds to the charity
-		#[weight = (10, Pays::No)]
-		fn donate(
-			origin,
-			amount: BalanceOf<T>
-		) -> DispatchResult {
-			let donor = ensure_signed(origin)?;
-
-			T::Currency::transfer(&donor, &Self::account_id(), amount, ExistenceRequirement::AllowDeath)
-				.map_err(|_| DispatchError::Other("Can't make donation"))?;
-
-			Self::deposit_event(RawEvent::DonationReceived(donor, amount, Self::pot()));
-			Ok(())
-		}
 	}
 }
 
 impl<T: Config> Module<T> {
-	/// The account ID that holds the Charity's funds
+	/// The account ID that holds the Reward's funds
 	pub fn account_id() -> T::AccountId {
 		PALLET_ID.into_account()
 	}
@@ -93,6 +75,7 @@ impl<T: Config> Module<T> {
 	fn pot() -> BalanceOf<T> {
 		T::Currency::free_balance(&Self::account_id())
 	}
+
 }
 
 // This implementation allows the charity to be the recipient of funds that are burned elsewhere in

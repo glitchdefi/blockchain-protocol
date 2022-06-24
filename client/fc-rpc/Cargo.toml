@@ -26,10 +26,10 @@ sp-api = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
 sp-transaction-pool = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
 sp-storage = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" } 
 sp-blockchain = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" } 
-sc-service = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sc-service = { path = "../sc-service" }
 sc-client-api = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
 sc-rpc = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
-sc-network = { git = "https://github.com/paritytech/substrate.git", tag = "v3.0.0" }
+sc-network = { path = "../sc-network" }
 pallet-evm = { path = "../../pallets/pallet-evm" }
 fp-evm = { git = "https://github.com/clover-network/frontier.git", tag = "v2.0.1-clover" }
 pallet-ethereum = { path = "../../pallets/pallet-ethereum" }
