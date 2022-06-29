@@ -917,6 +917,9 @@ decl_storage! {
 		/// The ideal number of staking participants.
 		pub ValidatorCount get(fn validator_count) config(): u32;
 
+		/// The ideal number of staking participants.
+		pub MinimumBondBalance get(fn minimum_bond_balance) config(): Option<BalanceOf<T>> = None;
+
 		/// Minimum number of staking participants before emergency conditions are imposed.
 		pub MinimumValidatorCount get(fn minimum_validator_count) config(): u32;
 
@@ -1458,8 +1461,12 @@ decl_module! {
 				Err(Error::<T>::AlreadyPaired)?
 			}
 
+			let mbb = match <MinimumBondBalance<T>>::get(){
+				Some(x) => x,
+				None    => T::Currency::minimum_balance(),
+			};
 			// reject a bond which is considered to be _dust_.
-			if value < T::Currency::minimum_balance() {
+			if value < mbb {
 				Err(Error::<T>::InsufficientValue)?
 			}
 
@@ -2249,6 +2256,21 @@ decl_module! {
 
 			Ok(())
 		}
+
+		/// Sets the minimum bond balance.
+		///
+		/// The dispatch origin must be Root.
+		///
+		/// # <weight>
+		/// Weight: O(1)
+		/// Write: Bond balance
+		/// # </weight>
+		#[weight = T::WeightInfo::set_minimum_bond_balance()]
+		fn set_minimum_bond_balance(origin, new: BalanceOf<T>){
+			ensure_root(origin)?;
+			<MinimumBondBalance<T>>::put(new);
+		}
+
 	}
 }
 
