@@ -1255,6 +1255,8 @@ decl_error! {
 		TooManyTargets,
 		/// A nomination target was supplied that was blocked or otherwise not a validator.
 		BadTarget,
+		/// Unbonding would drop the balance below the MBB but above zero.
+		BalanceBelowMinimumBondBalance,
 	}
 }
 
@@ -1583,11 +1585,16 @@ decl_module! {
 			if !value.is_zero() {
 				ledger.active -= value;
 
+				let mbb = match <MinimumBondBalance<T>>::get(){
+					Some(x) => x,
+					None    => T::Currency::minimum_balance(),
+				};
+
 				// Avoid there being a dust balance left in the staking system.
-				if ledger.active < T::Currency::minimum_balance() {
-					value += ledger.active;
-					ledger.active = Zero::zero();
-				}
+				ensure!(
+					ledger.active.is_zero() || ledger.active >= mbb,
+					Error::<T>::BalanceBelowMinimumBondBalance,
+				);
 
 				// Note: in case there is no current era it is fine to bond one era more.
 				let era = Self::current_era().unwrap_or(0) + T::BondingDuration::get();
