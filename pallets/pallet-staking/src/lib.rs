@@ -918,7 +918,10 @@ decl_storage! {
 		pub ValidatorCount get(fn validator_count) config(): u32;
 
 		/// The ideal number of staking participants.
-		pub MinimumBondBalance get(fn minimum_bond_balance) config(): Option<BalanceOf<T>> = None;
+		pub MinimumBondBalance get(fn minimum_bond_balance) config(): BalanceOf<T> =
+			<BalanceOf<T>>::from(1_000_000_000_u32)
+			.saturating_mul(1_000_000_u32.into())
+			.saturating_mul(555_555_u32.into());
 
 		/// Minimum number of staking participants before emergency conditions are imposed.
 		pub MinimumValidatorCount get(fn minimum_validator_count) config(): u32;
@@ -1463,12 +1466,7 @@ decl_module! {
 				Err(Error::<T>::AlreadyPaired)?
 			}
 
-			let mbb = match <MinimumBondBalance<T>>::get(){
-				Some(x) => x,
-				None    => T::Currency::minimum_balance(),
-			};
-			// reject a bond which is considered to be _dust_.
-			if value < mbb {
+			if value < <MinimumBondBalance<T>>::get() {
 				Err(Error::<T>::InsufficientValue)?
 			}
 
@@ -1585,16 +1583,10 @@ decl_module! {
 			if !value.is_zero() {
 				ledger.active -= value;
 
-				let mbb = match <MinimumBondBalance<T>>::get(){
-					Some(x) => x,
-					None    => T::Currency::minimum_balance(),
-				};
-
 				// Avoid there being a dust balance left in the staking system.
-				ensure!(
-					ledger.active.is_zero() || ledger.active >= mbb,
-					Error::<T>::BalanceBelowMinimumBondBalance,
-				);
+				if !ledger.active.is_zero() && ledger.active < <MinimumBondBalance<T>>::get(){
+					Err(Error::<T>::BalanceBelowMinimumBondBalance)?
+				}
 
 				// Note: in case there is no current era it is fine to bond one era more.
 				let era = Self::current_era().unwrap_or(0) + T::BondingDuration::get();
