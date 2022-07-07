@@ -270,6 +270,8 @@ pub mod offchain_election;
 pub mod inflation;
 pub mod weights;
 
+const absolute_minimum_bond_balance: u32 = 555_555; //mGLCH
+
 use sp_std::{
 	result,
 	prelude::*,
@@ -921,7 +923,7 @@ decl_storage! {
 		pub MinimumBondBalance get(fn minimum_bond_balance) config(): BalanceOf<T> =
 			<BalanceOf<T>>::from(1_000_000_000_u32)
 			.saturating_mul(1_000_000_u32.into())
-			.saturating_mul(555_555_u32.into());
+			.saturating_mul(absolute_minimum_bond_balance.into());
 
 		/// Minimum number of staking participants before emergency conditions are imposed.
 		pub MinimumValidatorCount get(fn minimum_validator_count) config(): u32;
@@ -1260,6 +1262,8 @@ decl_error! {
 		BadTarget,
 		/// Unbonding would drop the balance below the MBB but above zero.
 		BalanceBelowMinimumBondBalance,
+		/// Minimum bond balance being set is below the absolute minimum of 555.555 GLCH.
+		MinimumBondBalanceIsTooLow,
 	}
 }
 
@@ -2267,6 +2271,17 @@ decl_module! {
 		#[weight = T::WeightInfo::set_minimum_bond_balance()]
 		fn set_minimum_bond_balance(origin, new: BalanceOf<T>){
 			ensure_root(origin)?;
+			let absolute = new
+				.saturating_mul(0_u32.into())
+				.saturating_add(absolute_minimum_bond_balance.into())
+				.saturating_mul(1_000_000_000_u32.into())
+				.saturating_mul(1_000_000_u32.into());
+			/*<BalanceOf<T>>::from(1_000_000_000_u32)
+				.saturating_mul(1_000_000_u32.into())
+				.saturating_mul(absolute_minimum_bond_balance.into());*/
+			if new < absolute{
+				Err(Error::<T>::MinimumBondBalanceIsTooLow)?
+			}
 			<MinimumBondBalance<T>>::put(new);
 		}
 
