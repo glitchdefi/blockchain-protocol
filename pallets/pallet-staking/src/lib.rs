@@ -581,6 +581,7 @@ impl<AccountId, Balance> StakingLedger<AccountId, Balance> where
 
 				*total_remaining = total_remaining.saturating_sub(slash_from_target);
 				*value -= slash_from_target;
+
 			}
 		};
 
@@ -596,6 +597,13 @@ impl<AccountId, Balance> StakingLedger<AccountId, Balance> where
 
 		// kill all drained chunks.
 		let _ = self.unlocking.drain(..i);
+
+
+		/*if !active.is_zero() && *active < <MinimumBondBalance<T>>::get(){
+			*total = total.saturating_sub(*active);
+			*active = active.saturating_sub(*active);
+		}*/
+
 
 		pre_total.saturating_sub(*total)
 	}
@@ -946,6 +954,10 @@ decl_storage! {
 
 		/// The map from (wannabe) validator stash key to the preferences of that validator.
 		pub Validators get(fn validators):
+			map hasher(twox_64_concat) T::AccountId => ValidatorPrefs;
+
+		/// The map from (wannabe) validator stash key to the preferences of that validator.
+		pub ChilledValidators get(fn chilled_validators):
 			map hasher(twox_64_concat) T::AccountId => ValidatorPrefs;
 
 		/// The map from nominator stash key to the set of stash keys of all validators to nominate.
@@ -1535,6 +1547,12 @@ decl_module! {
 				// last check: the new active amount of ledger must be more than ED.
 				ensure!(ledger.active >= T::Currency::minimum_balance(), Error::<T>::InsufficientValue);
 
+				if <ChilledValidators<T>>::contains_key(&stash) && ledger.active >= <MinimumBondBalance<T>>::get(){
+					let prefs = Self::chilled_validators(&stash);
+					<ChilledValidators<T>>::remove(&stash);
+					<Validators<T>>::insert(stash.clone(), prefs);
+				}
+
 				Self::deposit_event(RawEvent::Bonded(stash, extra));
 				Self::update_ledger(&controller, &ledger);
 			}
@@ -1588,8 +1606,9 @@ decl_module! {
 				ledger.active -= value;
 
 				// Avoid there being a dust balance left in the staking system.
-				if !ledger.active.is_zero() && ledger.active < <MinimumBondBalance<T>>::get(){
-					Err(Error::<T>::BalanceBelowMinimumBondBalance)?
+				if ledger.active < T::Currency::minimum_balance() {
+					value += ledger.active;
+					ledger.active = Zero::zero();
 				}
 
 				// Note: in case there is no current era it is fine to bond one era more.
@@ -1597,6 +1616,19 @@ decl_module! {
 				ledger.unlocking.push(UnlockChunk { value, era });
 				Self::update_ledger(&controller, &ledger);
 				Self::deposit_event(RawEvent::Unbonded(ledger.stash, value));
+
+				if <Ledger<T>>::contains_key(&controller){
+					let ledger = Self::ledger(&controller).ok_or(Error::<T>::BadState)?;
+					let stash = &ledger.stash;
+					let prefs = Self::validators(&stash);
+					if ledger.active < <MinimumBondBalance<T>>::get(){
+						Self::chill_stash(stash);
+						<ChilledValidators<T>>::insert(stash, prefs);
+					}else if <ChilledValidators<T>>::contains_key(&stash){
+						<ChilledValidators<T>>::remove(&stash);
+						<Validators<T>>::insert(stash, prefs);
+					}
+				}
 			}
 		}
 
@@ -1692,8 +1724,13 @@ decl_module! {
 			let controller = ensure_signed(origin)?;
 			let ledger = Self::ledger(&controller).ok_or(Error::<T>::NotController)?;
 			let stash = &ledger.stash;
-			<Nominators<T>>::remove(stash);
-			<Validators<T>>::insert(stash, prefs);
+			if <ChilledValidators<T>>::contains_key(&stash){
+				<ChilledValidators<T>>::remove(&stash);
+				<ChilledValidators<T>>::insert(stash, prefs);
+			}else{
+				<Nominators<T>>::remove(stash);
+				<Validators<T>>::insert(stash, prefs);
+			}
 		}
 
 		/// Declare the desire to nominate `targets` for the origin controller.
@@ -2276,13 +2313,28 @@ decl_module! {
 				.saturating_add(absolute_minimum_bond_balance.into())
 				.saturating_mul(1_000_000_000_u32.into())
 				.saturating_mul(1_000_000_u32.into());
-			/*<BalanceOf<T>>::from(1_000_000_000_u32)
-				.saturating_mul(1_000_000_u32.into())
-				.saturating_mul(absolute_minimum_bond_balance.into());*/
 			if new < absolute{
 				Err(Error::<T>::MinimumBondBalanceIsTooLow)?
 			}
 			<MinimumBondBalance<T>>::put(new);
+			for (validator, prefs) in <Validators<T>>::iter() {
+				//This shouldn't fail.
+				let ledger = Self::ledger(&validator).ok_or(Error::<T>::BadState)?;
+				if ledger.active < new{
+					let stash = &ledger.stash;
+					Self::chill_stash(stash);
+					<ChilledValidators<T>>::insert(stash, prefs);
+				}
+			}
+			for (chilled_validator, prefs) in <ChilledValidators<T>>::iter() {
+				//This shouldn't fail.
+				let ledger = <Ledger<T>>::get(&chilled_validator).ok_or(Error::<T>::BadState)?;
+				if ledger.active >= new{
+					let stash = &ledger.stash;
+					<ChilledValidators<T>>::remove(&stash);
+					<Validators<T>>::insert(stash, prefs);
+				}
+			}
 		}
 
 	}
