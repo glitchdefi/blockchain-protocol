@@ -1483,7 +1483,8 @@ decl_module! {
 				Err(Error::<T>::AlreadyPaired)?
 			}
 
-			if value < <MinimumBondBalance<T>>::get() {
+			// reject a bond which is considered to be _dust_.
+			if value < T::Currency::minimum_balance() {
 				Err(Error::<T>::InsufficientValue)?
 			}
 
@@ -1727,6 +1728,9 @@ decl_module! {
 			let stash = &ledger.stash;
 			if <ChilledValidators<T>>::contains_key(&stash){
 				<ChilledValidators<T>>::remove(&stash);
+			}
+			
+			if ledger.active < <MinimumBondBalance<T>>::get(){
 				<ChilledValidators<T>>::insert(stash, prefs);
 			}else{
 				<Nominators<T>>::remove(stash);
