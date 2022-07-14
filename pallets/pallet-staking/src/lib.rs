@@ -1622,11 +1622,14 @@ decl_module! {
 				if <Ledger<T>>::contains_key(&controller){
 					let ledger = Self::ledger(&controller).ok_or(Error::<T>::BadState)?;
 					let stash = &ledger.stash;
-					let prefs = Self::validators(&stash);
 					if ledger.active < <MinimumBondBalance<T>>::get(){
-						Self::chill_stash(stash);
-						<ChilledValidators<T>>::insert(stash, prefs);
+						if <Validators<T>>::contains_key(&stash){
+							let prefs = Self::validators(&stash);
+							Self::chill_stash(stash);
+							<ChilledValidators<T>>::insert(stash, prefs);
+						}
 					}else if <ChilledValidators<T>>::contains_key(&stash){
+						let prefs = Self::chilled_validators(&stash);
 						<ChilledValidators<T>>::remove(&stash);
 						<Validators<T>>::insert(stash, prefs);
 					}
@@ -1729,7 +1732,7 @@ decl_module! {
 			if <ChilledValidators<T>>::contains_key(&stash){
 				<ChilledValidators<T>>::remove(&stash);
 			}
-			
+
 			if ledger.active < <MinimumBondBalance<T>>::get(){
 				<ChilledValidators<T>>::insert(stash, prefs);
 			}else{
