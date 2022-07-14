@@ -270,7 +270,8 @@ pub mod offchain_election;
 pub mod inflation;
 pub mod weights;
 
-const absolute_minimum_bond_balance: u32 = 555_555; //mGLCH
+const absolute_minimum_bond_balance: u32 = 555_555; //mGLCH (i.e. 555.555 GLCH)
+const default_minimum_bond_balance: u32 = 50_000_000; //mGLCH (i.e. 50,000 GLCH)
 
 use sp_std::{
 	result,
@@ -931,7 +932,7 @@ decl_storage! {
 		pub MinimumBondBalance get(fn minimum_bond_balance) config(): BalanceOf<T> =
 			<BalanceOf<T>>::from(1_000_000_000_u32)
 			.saturating_mul(1_000_000_u32.into())
-			.saturating_mul(absolute_minimum_bond_balance.into());
+			.saturating_mul(default_minimum_bond_balance.into());
 
 		/// Minimum number of staking participants before emergency conditions are imposed.
 		pub MinimumValidatorCount get(fn minimum_validator_count) config(): u32;
