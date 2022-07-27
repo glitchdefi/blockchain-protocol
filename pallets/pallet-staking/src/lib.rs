@@ -2558,6 +2558,17 @@ impl<T: Config> Module<T> {
 		Ok(())
 	}
 
+	fn check_balance_after_slash(
+		stash: &T::AccountId,
+		ledger: StakingLedger<T::AccountId, BalanceOf<T>>,
+	){
+		if ledger.active < <MinimumBondBalance<T>>::get() && <Validators<T>>::contains_key(&stash){
+            let prefs = Self::validators(&stash);
+            Self::chill_stash(stash);
+            <ChilledValidators<T>>::insert(stash.clone(), prefs);
+        }
+	}
+
 	/// Update the ledger for a controller.
 	///
 	/// This will also update the stash lock.
