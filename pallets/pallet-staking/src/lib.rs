@@ -2340,7 +2340,6 @@ decl_module! {
 				if ledger.active >= new{
 					let stash = &ledger.stash;
 					<ChilledValidators<T>>::remove(&stash);
-					<Validators<T>>::insert(stash, prefs);
 				}
 			}
 		}
