@@ -348,12 +348,12 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
         // subkey inspect "$SECRET//glitch//1//imonline"
         // subkey inspect "$SECRET//glitch//1//discovery"
         (
-          hex!["249e54ed27c88793f6ac203d0b899b28614bf0c376916ed331f432d39fd13d62"].into(),
-          hex!["249e54ed27c88793f6ac203d0b899b28614bf0c376916ed331f432d39fd13d62"].into(),
-          hex!["2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44"].unchecked_into(), // babe key
-          hex!["04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80"].unchecked_into(), // grandpa
-          hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
-          hex!["1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b"].unchecked_into(), // discovery
+          hex!["68f1d67412d6528992d391025dbc36a3261c1efaf22066dff692b2e4c1fb726a"].into(),
+          hex!["68f1d67412d6528992d391025dbc36a3261c1efaf22066dff692b2e4c1fb726a"].into(),
+          hex!["806587a7c970dcb5069562003054f365e2404388b843b3394df4f3ad288f7f6f"].unchecked_into(), // babe key
+          hex!["9a0dacea6d2916b30dc8c30397cf9ab9c7350066ab4604b924a091f81218fbb0"].unchecked_into(), // grandpa
+          hex!["66f29087e554440102789cb24170c0d77de218c70fb39b6fa926ab7060b2fc16"].unchecked_into(), // imonline
+          hex!["d6af83a0da5553ca99b2467dd04da5c216df6097256bf88ac3924666b5257e74"].unchecked_into(), // discovery
         ),
         // SECRET=""
         // 5G6nMq5x8xm3PLxyKXkKEkzAjzQLGbuiDarjBWp6d5XHg3FM
@@ -363,12 +363,12 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
         // subkey inspect "$SECRET//glitch//2//imonline"
         // subkey inspect "$SECRET//glitch//2//discovery"
         (
-          hex!["f84ecb71b9d60bd3404b7cbda1c25a15ef3838c2fed720274377764a0e2dce18"].into(),
-          hex!["f84ecb71b9d60bd3404b7cbda1c25a15ef3838c2fed720274377764a0e2dce18"].into(),
-          hex!["381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566"].unchecked_into(), // babe
-          hex!["72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d"].unchecked_into(), // grandpa
-          hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
-          hex!["98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328"].unchecked_into(), // discovery
+          hex!["2600c75f5fe2ddb65676361769e637069cb2041622979ba118a68993279deb0b"].into(),
+          hex!["2600c75f5fe2ddb65676361769e637069cb2041622979ba118a68993279deb0b"].into(),
+          hex!["b629a4b3e5ef42afd4047d920cf894c6a4df4304d7a097c04463677e88f1ea01"].unchecked_into(), // babe
+          hex!["c811793045a9db69c8f2b3f11fdee55ae6be68ca9496b0eb494b3f8e531b6dbc"].unchecked_into(), // grandpa
+          hex!["aa7127b42c4ebaa1af274ca4e7072cb21226628b638608d004b042d9d3c8ec2d"].unchecked_into(), // imonline
+          hex!["3277bf04e952ed4108477bb2d42999c2e46e1142e33e5000f10acd2ada84187d"].unchecked_into(), // discovery
         ),
         // SECRET=""
         // subkey inspect "$SECRET//glitch//3//validator"
@@ -377,38 +377,28 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
         // subkey inspect "$SECRET//glitch//3//imonline"
         // subkey inspect "$SECRET//glitch//3//discovery"
         (
-          hex!["ec25c280a1598b73d650fb8dc0a0757accfdc5fbabd0a78281208c5d1d87e56a"].into(),
-          hex!["ec25c280a1598b73d650fb8dc0a0757accfdc5fbabd0a78281208c5d1d87e56a"].into(),
-          hex!["6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c"].unchecked_into(), // babe
-          hex!["0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3"].unchecked_into(), // grandpa
-          hex!["1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d"].unchecked_into(), // imonline
-          hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
+          hex!["5c790cbdc11a4bf8934250eb27bf26f2ea05db67b4f5fa48a760bcfd9ef43b49"].into(),
+          hex!["5c790cbdc11a4bf8934250eb27bf26f2ea05db67b4f5fa48a760bcfd9ef43b49"].into(),
+          hex!["30b4b970cf550a774669a7ca9dd4a5c59927422e54ade315433f5542bc16b10b"].unchecked_into(), // babe
+          hex!["0ec9a9987e5c90c5b4935ef80521a1ce5ebf8afd84217685b9f448bc8c25d299"].unchecked_into(), // grandpa
+          hex!["be9075b50c09f21dc1201cf8c2ce7fa5a164c0e5bc6b9d6b7b790b3f837bde0a"].unchecked_into(), // imonline
+          hex!["eaa670a713a4a07c6dd8bed09af28171d1aa08e2506f9999e16f180857008009"].unchecked_into(), // discovery
         ),
       ],
-          // 5GLUGgpoSwDpCGRQNgpRNZXYr9P2DjGmM2RKTJLyXmQgUwVH
-          hex!["bcf72049354cff42bccd20e5d490fc4460675f9f0281d9fea953a04c9936bc4e"].into(),
+          // root
+          hex!["d8d222c44e7b678dc07a1136ca146c8cf71d46d7327b67ab3d6abe3b4f83cb3d"].into(),
           vec![
-        // 5Fey4oxxmKPNR2iMfNp8uuTzuxdtFL28A1eapRa5UqySEgZD
-              hex!["9ed63e49dbb0a04d742293068abd16be505a83396748e4d618ee9a6d0119ba35"].into(),
-              //5FBv5TwPVmj9AcpgKQYBkt77oeAQBBkz7x6FeXtMqwm4HHtq
-              hex!["8a348e767a4c7c33db99e1df8b7dd02aed54734257b9c84c0f9a7ed40cbd6417"].into(),
-              //5EeHjfgARtEAMEMc1hBZyNkdiaCPYLUh1tbyuSnWparYgmTW
-              hex!["72159cf4c37f5b23b965398691c7e0055e6b63d3eb9b128240de3a5205c8695b"].into(),
-              //5GWxgLaoUHsdX4iE88oH9SY6sJnH8AcoaqVU4CtNa5hftpQE
-              hex!["c4f73592050e81c4678aaa0de398e1cfca7aed103bc7bc956990a587eb86ac26"].into(),
-              //5C5cjVTUgKBSF3vFpsHma7qh6UDXgxWt8q1sjGLTYsUESHZc
-              hex!["00b1ff51634b064cc95cdf13ca7355bf9f6079c6417da2b25663418441e67817"].into(),
-              //5DLDckv5RHvpK7q2YNNEkuyGxkg6Ark8AbeaxbA7BhFwzmyy
-              hex!["3811189ce2b243f09901f3a12d9677780095685784e07bf9a34606e06d8c4468"].into(),
-              //5D59pXauFxc8jmAWVFuCn4fA6SFCiMiBRYgmX48Mdx9ZcS3k
-              hex!["2c93a20d39dc907933333a01a57ae7f0134329ec06c506c854fc433c039ff560"].into(),
-              //5CoA3DrwftEzStkF1hA82MEvhekzM3fKqxszkzcixWpCqgDm
-              hex!["2060717db73ea71d89d142f28f7996cd74b8af314d19317cfa32f6a8ad00bc37"].into(),
-              //5DD1RWp2qeUuD7SFJ9CH2fH3dMrMZEQcavUHUZ6Zp9F9tQWD
-              hex!["329154858560cd93da760a7a98d94a861600d0f4612bb5c0f4334e78311b7827"].into(),
-              //5F1LfMUN6wfjmA87DZRaMK9Ncyscn5KQmaczDRscWFYAaYmW
-              hex!["82239d78f88fd92bd3544519ad910c443a44c982aa82ce61e7699b50eb87173a"].into(),
-      ],
+              hex!["1608a5e4d16f4b694a164372e1fd5af8944514d7cec9263fec457bac96e25565"].into(),
+              hex!["9c5f9d91b99f8b1f25cf075ba57839734f3e249b72adcf04899a46c8cfd95b4e"].into(),
+              hex!["501934c8d7b257fbadd003bb4a29a5adb9fce7fa8d659e28d473002f5fffcf65"].into(),
+              hex!["c4a01a3a57602229e112de1449d83cfbbfbc6d423da7e0ab7baeacfcf83f1d2f"].into(),
+              hex!["d8412bac516c4c079016a8ae6eefb983837274d884868dc9528e6a2a27dfbb0d"].into(),
+              hex!["1c282c8b1e00a3b7ba2d7a4466a23420cb398aa6e53ca8a3ec75f92cfd93e97b"].into(),
+              hex!["1290c0fa454d01631a80f6b62dd080ed4e1a76c9cdef6045594dc7e2d226eb44"].into(),
+              hex!["4e5b90d22cb365beeed1a96ffea8175e30daacb628898998810f57ec65cf7969"].into(),
+              hex!["66b4c4464cfd187ae8206a29fe7079ec156d37af10d763e5171da19d66bca742"].into(),
+              hex!["004028fd0cf9675e2c1698c5c539f5b273e73c490cd3fb54f32923e630e66922"].into(),
+          ],
           true,
           endowed_evm_account()
       ),
@@ -502,24 +492,6 @@ pub fn glitch_uat_config() -> Result<ChainSpec, String> {
           hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
           vec![
               hex!["88b4fc7317577d1582969bbc2c3e179926e07c88a7507302fec5fd4f662a9567"].into(),
-              //5FBv5TwPVmj9AcpgKQYBkt77oeAQBBkz7x6FeXtMqwm4HHtq
-              hex!["8a348e767a4c7c33db99e1df8b7dd02aed54734257b9c84c0f9a7ed40cbd6417"].into(),
-              //5EeHjfgARtEAMEMc1hBZyNkdiaCPYLUh1tbyuSnWparYgmTW
-              hex!["72159cf4c37f5b23b965398691c7e0055e6b63d3eb9b128240de3a5205c8695b"].into(),
-              //5GWxgLaoUHsdX4iE88oH9SY6sJnH8AcoaqVU4CtNa5hftpQE
-              hex!["c4f73592050e81c4678aaa0de398e1cfca7aed103bc7bc956990a587eb86ac26"].into(),
-              //5C5cjVTUgKBSF3vFpsHma7qh6UDXgxWt8q1sjGLTYsUESHZc
-              hex!["00b1ff51634b064cc95cdf13ca7355bf9f6079c6417da2b25663418441e67817"].into(),
-              //5DLDckv5RHvpK7q2YNNEkuyGxkg6Ark8AbeaxbA7BhFwzmyy
-              hex!["3811189ce2b243f09901f3a12d9677780095685784e07bf9a34606e06d8c4468"].into(),
-              //5D59pXauFxc8jmAWVFuCn4fA6SFCiMiBRYgmX48Mdx9ZcS3k
-              hex!["2c93a20d39dc907933333a01a57ae7f0134329ec06c506c854fc433c039ff560"].into(),
-              //5CoA3DrwftEzStkF1hA82MEvhekzM3fKqxszkzcixWpCqgDm
-              hex!["2060717db73ea71d89d142f28f7996cd74b8af314d19317cfa32f6a8ad00bc37"].into(),
-              //5DD1RWp2qeUuD7SFJ9CH2fH3dMrMZEQcavUHUZ6Zp9F9tQWD
-              hex!["329154858560cd93da760a7a98d94a861600d0f4612bb5c0f4334e78311b7827"].into(),
-              //5F1LfMUN6wfjmA87DZRaMK9Ncyscn5KQmaczDRscWFYAaYmW
-              hex!["82239d78f88fd92bd3544519ad910c443a44c982aa82ce61e7699b50eb87173a"].into(),
           ],
           true,
           endowed_evm_account()
@@ -569,15 +541,29 @@ fn glitch_genesis(
     endowed_eth_accounts: BTreeMap<H160, GenesisAccount>,
 ) -> GenesisConfig {
     let enable_println = true;
-    const ENDOWMENT: Balance = (87_898_887 * DOLLARS + 999 * CENTS - 500 * MILLICENTS ) / 10;
-    const STASH: Balance = 330_000 * DOLLARS;
+    const TOTAL_SUPPLY: Balance = 88_888_888 * DOLLARS;
+    const STASH: Balance = 88_888 * DOLLARS;
     const AUTHOR_BALANCE: Balance = 330_000 * DOLLARS;
 
+    let validator_count = Balance::from(initial_authorities.len() as u32);
+    let total_endowment: Balance = TOTAL_SUPPLY - AUTHOR_BALANCE * validator_count;
+    let endowed_count = Balance::from(endowed_accounts.len() as u32);
+
+    let endowment: Balance =
+        if endowed_count != 0{
+            if total_endowment % endowed_count != 0{
+                panic!();
+            }
+            total_endowment / endowed_count
+        }else{
+            0
+        };
+    
     warn!(
         "--------------------------------------------------------\n \
-        ENDOWMENT: {:?}, STASH: {:?}, AUTHOR_BALANCE: {:?} . \n     \
+        endowment: {:?}, STASH: {:?}, AUTHOR_BALANCE: {:?} . \n     \
         ---------------------------------------------------------\n",
-        ENDOWMENT, STASH, AUTHOR_BALANCE
+        endowment, STASH, AUTHOR_BALANCE
     );
 
 
@@ -592,7 +578,7 @@ fn glitch_genesis(
             balances: endowed_accounts
                 .iter()
                 .cloned()
-                .map(|k| (k, ENDOWMENT))
+                .map(|k| (k, endowment))
                 .chain(
                     initial_authorities
                         .iter()
