@@ -513,16 +513,6 @@ pub fn glitch_uat_config() -> Result<ChainSpec, String> {
       None,
   ))
 }
-pub fn glitch_uat() -> Result<ChainSpec, String> {
-    ChainSpec::from_json_bytes(&include_bytes!("../../specs/uatRaw.json")[..])
-}
-
-pub fn glitch_testnet() -> Result<ChainSpec, String> {
-    ChainSpec::from_json_bytes(&include_bytes!("../../specs/testnetRaw.json")[..])
-}
-pub fn glitch_mainnet() -> Result<ChainSpec, String> {
-    ChainSpec::from_json_bytes(&include_bytes!("../../specs/mainnetRaw.json")[..])
-}
 
 /// Configure initial storage state for FRAME modules.
 fn glitch_genesis(

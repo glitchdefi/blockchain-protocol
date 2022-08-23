@@ -54,9 +54,9 @@ impl SubstrateCli for Cli {
             "glitch_testnet" => Box::new(chain_spec::glitch_testnet_config()?),
             "glitch_mainnet" => Box::new(chain_spec::glitch_mainnet_config()?),
             "glitch_uat" => Box::new(chain_spec::glitch_uat_config()?),
-            "" | "testnet" => Box::new(chain_spec::glitch_testnet()?),
-            "mainnet" => Box::new(chain_spec::glitch_mainnet()?),
-            "uat" => Box::new(chain_spec::glitch_uat()?),
+            "" | "testnet" => Box::new(chain_spec::glitch_testnet_config()?),
+            "mainnet" => Box::new(chain_spec::glitch_mainnet_config()?),
+            "uat" => Box::new(chain_spec::glitch_uat_config()?),
             path => Box::new(chain_spec::ChainSpec::from_json_file(
                 std::path::PathBuf::from(path),
             )?),
