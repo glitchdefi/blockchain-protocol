@@ -523,6 +523,9 @@ mod test {
         fn kick(w: u32) -> Weight {
             unimplemented!()
         }
+        fn set_validator_count(n: u32) -> Weight {
+            unimplemented!()
+        }
     }
 
     #[test]
