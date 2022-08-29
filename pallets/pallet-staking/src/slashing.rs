@@ -611,6 +611,8 @@ pub fn do_slash<T: Config>(
 
         // trigger the event
         <Module<T>>::deposit_event(super::RawEvent::Slash(stash.clone(), value));
+
+        <Module<T>>::check_balance_after_slash(stash, ledger);
     }
 }
 
