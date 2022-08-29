@@ -1,4 +1,4 @@
-use glitch_node_runtime::{
+ use glitch_node_runtime::{
     AccountId, AuthorityDiscoveryConfig, BabeConfig, Balance, BalancesConfig, ContractsConfig,
     EVMConfig, EthereumConfig, GenesisConfig, GrandpaConfig, ImOnlineId, IndicesConfig,
     SessionConfig, SessionKeys, Signature, StakerStatus, StakingConfig, SudoConfig, SystemConfig,
@@ -350,10 +350,10 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
         (
           hex!["68f1d67412d6528992d391025dbc36a3261c1efaf22066dff692b2e4c1fb726a"].into(),
           hex!["68f1d67412d6528992d391025dbc36a3261c1efaf22066dff692b2e4c1fb726a"].into(),
-          hex!["806587a7c970dcb5069562003054f365e2404388b843b3394df4f3ad288f7f6f"].unchecked_into(), // babe key
-          hex!["9a0dacea6d2916b30dc8c30397cf9ab9c7350066ab4604b924a091f81218fbb0"].unchecked_into(), // grandpa
-          hex!["66f29087e554440102789cb24170c0d77de218c70fb39b6fa926ab7060b2fc16"].unchecked_into(), // imonline
-          hex!["d6af83a0da5553ca99b2467dd04da5c216df6097256bf88ac3924666b5257e74"].unchecked_into(), // discovery
+          hex!["2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44"].unchecked_into(), // babe key
+          hex!["04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80"].unchecked_into(), // grandpa
+          hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
+          hex!["1eaa69cbee5e16337c52440455fbc97b839d01bdc4e6d158cf3061d44ba4fc7b"].unchecked_into(), // discovery
         ),
         // SECRET=""
         // 5G6nMq5x8xm3PLxyKXkKEkzAjzQLGbuiDarjBWp6d5XHg3FM
@@ -365,10 +365,10 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
         (
           hex!["2600c75f5fe2ddb65676361769e637069cb2041622979ba118a68993279deb0b"].into(),
           hex!["2600c75f5fe2ddb65676361769e637069cb2041622979ba118a68993279deb0b"].into(),
-          hex!["b629a4b3e5ef42afd4047d920cf894c6a4df4304d7a097c04463677e88f1ea01"].unchecked_into(), // babe
-          hex!["c811793045a9db69c8f2b3f11fdee55ae6be68ca9496b0eb494b3f8e531b6dbc"].unchecked_into(), // grandpa
-          hex!["aa7127b42c4ebaa1af274ca4e7072cb21226628b638608d004b042d9d3c8ec2d"].unchecked_into(), // imonline
-          hex!["3277bf04e952ed4108477bb2d42999c2e46e1142e33e5000f10acd2ada84187d"].unchecked_into(), // discovery
+          hex!["381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566"].unchecked_into(), // babe
+          hex!["72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d"].unchecked_into(), // grandpa
+          hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
+          hex!["98a818de9aa0ea6d376a8690bfebb24b1d5d7d9c6f36e1ab45983b0fa7f2e328"].unchecked_into(), // discovery
         ),
         // SECRET=""
         // subkey inspect "$SECRET//glitch//3//validator"
@@ -379,10 +379,10 @@ pub fn glitch_mainnet_config() -> Result<ChainSpec, String> {
         (
           hex!["5c790cbdc11a4bf8934250eb27bf26f2ea05db67b4f5fa48a760bcfd9ef43b49"].into(),
           hex!["5c790cbdc11a4bf8934250eb27bf26f2ea05db67b4f5fa48a760bcfd9ef43b49"].into(),
-          hex!["30b4b970cf550a774669a7ca9dd4a5c59927422e54ade315433f5542bc16b10b"].unchecked_into(), // babe
-          hex!["0ec9a9987e5c90c5b4935ef80521a1ce5ebf8afd84217685b9f448bc8c25d299"].unchecked_into(), // grandpa
-          hex!["be9075b50c09f21dc1201cf8c2ce7fa5a164c0e5bc6b9d6b7b790b3f837bde0a"].unchecked_into(), // imonline
-          hex!["eaa670a713a4a07c6dd8bed09af28171d1aa08e2506f9999e16f180857008009"].unchecked_into(), // discovery
+          hex!["6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c"].unchecked_into(), // babe
+          hex!["0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3"].unchecked_into(), // grandpa
+          hex!["1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d"].unchecked_into(), // imonline
+          hex!["82aba2132ab4ff2e7fcafeb4d4932f73413d08b7f3a54e18ea2c8d4cffa88e2b"].unchecked_into(), // discovery
         ),
       ],
           // root
@@ -452,8 +452,10 @@ pub fn glitch_uat_config() -> Result<ChainSpec, String> {
         // subkey inspect "$SECRET//glitch//1//imonline"
         // subkey inspect "$SECRET//glitch//1//discovery"
         (
-          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
-          hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          // hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          // hex!["aee0df231aed47a99beb26960d156de55751a48741b1cfcfa99e42a5f499e63f"].into(),
+          hex!["a25483fe9cca2461c83a00513f07377f34116fc35f5fefec53fca9e59d1d2f06"].into(),
+          hex!["a25483fe9cca2461c83a00513f07377f34116fc35f5fefec53fca9e59d1d2f06"].into(),
           hex!["2eed8720f0cc2697ef251da006980c0873cfc108f4c91a96744eedf1b59aff44"].unchecked_into(), // babe key
           hex!["04315411f66a58e838690017ac4102374e4f1dd3f429176ebaa15d55d61d9e80"].unchecked_into(), // grandpa
           hex!["a86ab6e2458078bc49f7277ba00642c1ba2336f8001dd7de6494fd0751a1c057"].unchecked_into(), // imonline
@@ -467,8 +469,10 @@ pub fn glitch_uat_config() -> Result<ChainSpec, String> {
         // subkey inspect "$SECRET//glitch//2//imonline"
         // subkey inspect "$SECRET//glitch//2//discovery"
         (
-          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
-          hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          // hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          // hex!["5a44973835f643d6d2c45c4490e1c0095755d469ae5db20d480c937588abd164"].into(),
+          hex!["1408fed1c2d32cf914326b1ec33edbeb4427fdaf411e27f9dd77b6bcaf280f54"].into(),
+          hex!["1408fed1c2d32cf914326b1ec33edbeb4427fdaf411e27f9dd77b6bcaf280f54"].into(),
           hex!["381bab65c6c3c0a9bfb06e7a6c8a3b109bed9e97303b22fcd0157ba0871a6566"].unchecked_into(), // babe
           hex!["72f22b083c995d0c4bf07a46f7ad326bcc25780483c8eb0523f53ed2a5b7915d"].unchecked_into(), // grandpa
           hex!["46bd8c5f164df0a6db9199a74376aea3cf8f0d4ecc8b4da5289ebf70c6d0496a"].unchecked_into(), // imonline
@@ -481,8 +485,10 @@ pub fn glitch_uat_config() -> Result<ChainSpec, String> {
         // subkey inspect "$SECRET//glitch//3//imonline"
         // subkey inspect "$SECRET//glitch//3//discovery"
         (
-          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
-          hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          // hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          // hex!["94f1d376734418cc137900c7ad4bb5a4911af24d00e4fd72803e3817a50c334d"].into(),
+          hex!["3443862d2ff8f750e46ff0424ad541b8a34896a3112babf96054362325c49977"].into(),
+          hex!["3443862d2ff8f750e46ff0424ad541b8a34896a3112babf96054362325c49977"].into(),
           hex!["6eb9b6f2680b69714d38d0d34108288c9498616589afa6ca453f7a71a88cc64c"].unchecked_into(), // babe
           hex!["0b9f59981f7b9a654f9819c7cb774f3fe39fc9e4c5ac22202f77be52677a5fd3"].unchecked_into(), // grandpa
           hex!["1efe62dcf7953227eb99413539b2d58c584f8568ab72d847310a17030882ef0d"].unchecked_into(), // imonline
