@@ -674,7 +674,7 @@ pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
 
 parameter_types! {
-    pub const CouncilMotionDuration: BlockNumber = 5 * DAYS;
+    pub const CouncilMotionDuration: BlockNumber = 7 * DAYS;
     pub const CouncilMaxProposals: u32 = 100;
     pub const CouncilMaxMembers: u32 = 100;
 }
@@ -693,7 +693,7 @@ impl pallet_collective::Config<CouncilCollective> for Runtime {
 }
 
 parameter_types! {
-    pub const TechnicalMotionDuration: BlockNumber = 5 * DAYS;
+    pub const TechnicalMotionDuration: BlockNumber = 7 * DAYS;
     pub const TechnicalMaxProposals: u32 = 100;
     pub const TechnicalMaxMembers: u32 = 100;
 }
@@ -725,16 +725,16 @@ impl pallet_membership::Config<pallet_membership::Instance1> for Runtime {
 parameter_types! {
     pub const ProposalBond: Permill = Permill::from_percent(5);
     pub const ProposalBondMinimum: Balance = 1 * DOLLARS;
-    pub const SpendPeriod: BlockNumber = 1 * DAYS;
+    pub const SpendPeriod: BlockNumber = 24 * DAYS;
     pub const Burn: Permill = Permill::from_percent(1);
     pub const TipCountdown: BlockNumber = 1 * DAYS;
     pub const TipFindersFee: Percent = Percent::from_percent(20);
     pub const TipReportDepositBase: Balance = 1 * DOLLARS;
     pub const DataDepositPerByte: Balance = 1 * CENTS;
     pub const BountyDepositBase: Balance = 1 * DOLLARS;
-    pub const BountyDepositPayoutDelay: BlockNumber = 1 * DAYS;
+    pub const BountyDepositPayoutDelay: BlockNumber = 8 * DAYS;
     pub const TreasuryModuleId: ModuleId = ModuleId(*b"py/trsry");
-    pub const BountyUpdatePeriod: BlockNumber = 14 * DAYS;
+    pub const BountyUpdatePeriod: BlockNumber = 90 * DAYS;
     pub const MaximumReasonLength: u32 = 16384;
     pub const BountyCuratorDeposit: Permill = Permill::from_percent(50);
     pub const BountyValueMinimum: Balance = 5 * DOLLARS;
@@ -833,7 +833,7 @@ impl evm_accounts::Config for Runtime {
 parameter_types! {
   // session: 10 minutes
   pub const SessionsPerEra: sp_staking::SessionIndex = 6;  // 6 sessions in an era, (6 hours)
-  pub const BondingDuration: pallet_staking::EraIndex = 24; // 24 era for unbouding (24 * 6 hours)
+  pub const BondingDuration: pallet_staking::EraIndex = 28; // 28 eras
   pub const SlashDeferDuration: pallet_staking::EraIndex = 12; // 1/2 bonding duration
   pub const ElectionLookahead: BlockNumber = EPOCH_DURATION_IN_BLOCKS / 4;
   pub const MaxNominatorRewardedPerValidator: u32 = 64;
@@ -894,7 +894,7 @@ parameter_types! {
   // additional data per vote is 32 bytes (account id).
   pub const VotingBondFactor: Balance = deposit(0, 32);
   /// Daily council elections.
-  pub const TermDuration: BlockNumber = 3 * DAYS;
+  pub const TermDuration: BlockNumber = 7 * DAYS;
   pub const DesiredMembers: u32 = 7;
   pub const DesiredRunnersUp: u32 = 30;
   pub const ElectionsPhragmenModuleId: LockIdentifier = *b"phrelect";
@@ -990,11 +990,11 @@ impl pallet_staking::Config for Runtime {
 }
 
 parameter_types! {
-  pub const LaunchPeriod: BlockNumber = 7 * DAYS;
-  pub const VotingPeriod: BlockNumber = 7 * DAYS;
-  pub const FastTrackVotingPeriod: BlockNumber = 1 * DAYS;
+  pub const LaunchPeriod: BlockNumber = 28 * DAYS;
+  pub const VotingPeriod: BlockNumber = 28 * DAYS;
+  pub const FastTrackVotingPeriod: BlockNumber = 3 * HOURS;
   pub const MinimumDeposit: Balance = 100 * DOLLARS;
-  pub const EnactmentPeriod: BlockNumber = 8 * DAYS;
+  pub const EnactmentPeriod: BlockNumber = 28 * DAYS;
   pub const CooloffPeriod: BlockNumber = 7 * DAYS;
   // One cent: $10,000 / MB
   pub const PreimageByteDeposit: Balance = 10 * MILLICENTS;
