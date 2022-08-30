@@ -282,7 +282,7 @@ impl pallet_timestamp::Config for Runtime {
 }
 
 parameter_types! {
-    pub const ExistentialDeposit: u128 = 500 * MILLICENTS;
+    pub const ExistentialDeposit: u128 = 100 * CENTS;
     pub const MaxLocks: u32 = 50;
 }
 
@@ -405,7 +405,7 @@ impl Convert<Multiplier, Multiplier> for ConstantFeeUpdate{
 }
 
 parameter_types! {
-  pub const TransactionByteFee: Balance = MILLICENTS;
+  pub const TransactionByteFee: Balance = 10 * MILLICENTS;
   pub const TargetBlockFullness: Perquintill = Perquintill::from_percent(25);
   pub AdjustmentVariable: Multiplier = Multiplier::saturating_from_rational(1, 100_000);
   pub MinimumMultiplier: Multiplier = Multiplier::saturating_from_rational(1, 1_000_000_000u128);
@@ -423,7 +423,7 @@ impl pallet_sudo::Config for Runtime {
     type Call = Call;
 }
 parameter_types! {
-  pub const IndexDeposit: Balance = 1 * DOLLARS;
+  pub const IndexDeposit: Balance = 10 * DOLLARS;
 }
 
 impl pallet_indices::Config for Runtime {
@@ -724,7 +724,7 @@ impl pallet_membership::Config<pallet_membership::Instance1> for Runtime {
 
 parameter_types! {
     pub const ProposalBond: Permill = Permill::from_percent(5);
-    pub const ProposalBondMinimum: Balance = 1 * DOLLARS;
+    pub const ProposalBondMinimum: Balance = 100 * DOLLARS;
     pub const SpendPeriod: BlockNumber = 24 * DAYS;
     pub const Burn: Permill = Permill::from_percent(1);
     pub const TipCountdown: BlockNumber = 1 * DAYS;
@@ -737,7 +737,7 @@ parameter_types! {
     pub const BountyUpdatePeriod: BlockNumber = 90 * DAYS;
     pub const MaximumReasonLength: u32 = 16384;
     pub const BountyCuratorDeposit: Permill = Permill::from_percent(50);
-    pub const BountyValueMinimum: Balance = 5 * DOLLARS;
+    pub const BountyValueMinimum: Balance = 10 * DOLLARS;
 }
 
 impl pallet_treasury::Config for Runtime {
@@ -788,7 +788,7 @@ impl pallet_tips::Config for Runtime {
 }
 
 parameter_types! {
-  pub const UncleGenerations: BlockNumber = 5;
+  pub const UncleGenerations: BlockNumber = 0;
 }
 
 impl pallet_authorship::Config for Runtime {
@@ -832,11 +832,11 @@ impl evm_accounts::Config for Runtime {
 
 parameter_types! {
   // session: 10 minutes
-  pub const SessionsPerEra: sp_staking::SessionIndex = 6;  // 6 sessions in an era, (6 hours)
-  pub const BondingDuration: pallet_staking::EraIndex = 28; // 28 eras
-  pub const SlashDeferDuration: pallet_staking::EraIndex = 12; // 1/2 bonding duration
+  pub const SessionsPerEra: sp_staking::SessionIndex = 6;  // Six sessions in an era (24 hours).
+  pub const BondingDuration: pallet_staking::EraIndex = 28; // 28 eras for unbonding (28 days).
+  pub const SlashDeferDuration: pallet_staking::EraIndex = 27;
   pub const ElectionLookahead: BlockNumber = EPOCH_DURATION_IN_BLOCKS / 4;
-  pub const MaxNominatorRewardedPerValidator: u32 = 64;
+  pub const MaxNominatorRewardedPerValidator: u32 = 256;
   pub const StakingUnsignedPriority: TransactionPriority = TransactionPriority::max_value() / 2;
   pub const RewardCurve: &'static PiecewiseLinear<'static> = &REWARD_CURVE;
   pub const MaxIterations: u32 = 10;
@@ -888,15 +888,15 @@ pub const fn deposit(items: u32, bytes: u32) -> Balance {
 }
 
 parameter_types! {
-  pub const CandidacyBond: Balance = 1 * DOLLARS;
+  pub const CandidacyBond: Balance = 100 * DOLLARS;
   // 1 storage item created, key size is 32 bytes, value size is 16+16.
   pub const VotingBondBase: Balance = deposit(1, 64);
   // additional data per vote is 32 bytes (account id).
   pub const VotingBondFactor: Balance = deposit(0, 32);
   /// Daily council elections.
   pub const TermDuration: BlockNumber = 7 * DAYS;
-  pub const DesiredMembers: u32 = 7;
-  pub const DesiredRunnersUp: u32 = 30;
+  pub const DesiredMembers: u32 = 13;
+  pub const DesiredRunnersUp: u32 = 20;
   pub const ElectionsPhragmenModuleId: LockIdentifier = *b"phrelect";
 }
 
@@ -947,14 +947,16 @@ impl Convert<u64, u128> for CurrencyToVoteHandler {
 }
 
 pallet_staking_reward_curve::build! {
-  const REWARD_CURVE: PiecewiseLinear<'static> = curve!(
-    min_inflation: 0_025_000,
-    max_inflation: 0_100_000,
-    ideal_stake: 0_500_000,
-    falloff: 0_050_000,
-    max_piece_count: 40,
-    test_precision: 0_005_000,
-  );
+    const REWARD_CURVE: PiecewiseLinear<'static> = curve!(
+        min_inflation: 0_025_000,
+        max_inflation: 0_100_000,
+        // 3:2:1 staked : parachains : float.
+        // while there's no parachains, then this is 75% staked : 25% float.
+        ideal_stake: 0_750_000,
+        falloff: 0_050_000,
+        max_piece_count: 40,
+        test_precision: 0_005_000,
+    );
 }
 
 impl pallet_staking::Config for Runtime {
@@ -998,7 +1000,7 @@ parameter_types! {
   pub const CooloffPeriod: BlockNumber = 7 * DAYS;
   // One cent: $10,000 / MB
   pub const PreimageByteDeposit: Balance = 10 * MILLICENTS;
-  pub const InstantAllowed: bool = false;
+  pub const InstantAllowed: bool = true;
   pub const MaxVotes: u32 = 100;
   pub const MaxProposals: u32 = 100;
 }
