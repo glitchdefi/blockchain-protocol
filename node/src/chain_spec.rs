@@ -542,7 +542,7 @@ fn glitch_genesis(
     const AUTHOR_BALANCE: Balance = 330_000 * DOLLARS;
 
     let validator_count = Balance::from(initial_authorities.len() as u32);
-    let total_endowment: Balance = TOTAL_SUPPLY - AUTHOR_BALANCE * validator_count;
+    let total_endowment: Balance = TOTAL_SUPPLY - AUTHOR_BALANCE * validator_count - 15 * DOLLARS / 10_000;
     let endowed_count = Balance::from(endowed_accounts.len() as u32);
 
     let endowment: Balance =
@@ -557,7 +557,7 @@ fn glitch_genesis(
     
     warn!(
         "--------------------------------------------------------\n \
-        endowment: {:?}, STASH: {:?}, AUTHOR_BALANCE: {:?} . \n     \
+        endowment: {:?}, STASH: {:?}, AUTHOR_BALANCE: {:?} .     \n \
         ---------------------------------------------------------\n",
         endowment, STASH, AUTHOR_BALANCE
     );
